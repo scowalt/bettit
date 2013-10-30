@@ -15,6 +15,7 @@ app.use(express.logger());
  */
 var REDDIT_CONSUMER_KEY = "jGlGPJP7pQnoUQ";
 var REDDIT_CONSUMER_SECRET = "vUztQ_CUKOKtLNNPCc5WiqTkBGU";
+var SERVER_URL = "http://scowalt.servehttp.com";
 
 // Passport session setup.
 // To support persistent login sessions, Passport needs to be able to
@@ -38,7 +39,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new RedditStrategy({
 	clientID : REDDIT_CONSUMER_KEY,
 	clientSecret : REDDIT_CONSUMER_SECRET,
-	callbackURL : "http://127.0.0.1:3000/auth/reddit/callback"
+	callbackURL : SERVER_URL + "/auth/reddit/callback"
 }, function(accessToken, refreshToken, profile, done) {
 	// asynchronous verification, for effect...
 	process.nextTick(function() {
