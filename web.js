@@ -102,7 +102,7 @@ app.get('/login', function(req, res) {
 app.get('/auth/reddit', function(req, res, next) {
 	req.session.state = crypto.randomBytes(32).toString('hex');
 	passport.authenticate('reddit', {
-		state : req.session.state,
+	state : req.session.state,
 	})(req, res, next);
 });
 
@@ -115,8 +115,8 @@ app.get('/auth/reddit/callback', function(req, res, next) {
 	// Check for origin via state token
 	if (req.query.state == req.session.state) {
 		passport.authenticate('reddit', {
-			successRedirect : '/',
-			failureRedirect : '/login'
+		successRedirect : '/',
+		failureRedirect : '/login'
 		})(req, res, next);
 	} else {
 		next(new Error(403));
@@ -126,6 +126,10 @@ app.get('/auth/reddit/callback', function(req, res, next) {
 app.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
+});
+
+app.get('/r/:subreddit/comments/:thread/:name/', function(req, res) {
+	res.send("Here's some info: <br/>" + "Subreddit: " + req.params.subreddit + "<br/>ThreadID: " + req.params.thread + "<br/>Name: " + req.params.name);
 });
 
 app.listen(8080);
