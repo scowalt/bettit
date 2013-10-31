@@ -128,9 +128,17 @@ app.get('/logout', function(req, res) {
 	res.redirect('/');
 });
 
-app.get('/r/:subreddit/comments/:thread/:name/', function(req, res) {
-	res.send("Here's some info: <br/>" + "Subreddit: " + req.params.subreddit + "<br/>ThreadID: " + req.params.thread + "<br/>Name: " + req.params.name);
+app.get('/r/:subreddit/comments/:thread/', function(req, res) {
+	threadFunction(req, res);
 });
+
+app.get('/r/:subreddit/comments/:thread/:name/', function(req, res) {
+	threadFunction(req, res);
+});
+
+function threadFunction(req, res) {
+	res.send("Here's some info: <br/>" + "Subreddit: " + req.params.subreddit + "<br/>ThreadID: " + req.params.thread);
+}
 
 app.listen(8080);
 
