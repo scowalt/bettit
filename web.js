@@ -15,7 +15,7 @@ app.use(express.logger());
  */
 var REDDIT_CONSUMER_KEY = "jGlGPJP7pQnoUQ";
 var REDDIT_CONSUMER_SECRET = "vUztQ_CUKOKtLNNPCc5WiqTkBGU";
-var SERVER_URL = "http://scowalt.servehttp.com";
+var SERVER_URL = "http://bettit.us";
 
 // Passport session setup.
 // To support persistent login sessions, Passport needs to be able to
@@ -101,6 +101,7 @@ app.get('/login', function(req, res) {
 // Note that the 'state' option is a Reddit-specific requirement.
 app.get('/auth/reddit', function(req, res, next) {
 	req.session.state = crypto.randomBytes(32).toString('hex');
+	console.log(req.redirect_to);
 	passport.authenticate('reddit', {
 	state : req.session.state,
 	})(req, res, next);
@@ -115,7 +116,7 @@ app.get('/auth/reddit/callback', function(req, res, next) {
 	// Check for origin via state token
 	if (req.query.state == req.session.state) {
 		passport.authenticate('reddit', {
-		successRedirect : '/',
+		successRedirect : req.session.redirect_to,
 		failureRedirect : '/login'
 		})(req, res, next);
 	} else {
@@ -128,11 +129,11 @@ app.get('/logout', function(req, res) {
 	res.redirect('/');
 });
 
-app.get('/r/:subreddit/comments/:thread/', function(req, res) {
+app.get('/r/:subreddit/comments/:thread/', ensureAuthenticated, function(req, res) {
 	threadFunction(req, res);
 });
 
-app.get('/r/:subreddit/comments/:thread/:name/', function(req, res) {
+app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated, function(req, res) {
 	threadFunction(req, res);
 });
 
@@ -151,5 +152,6 @@ function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
 	}
-	res.redirect('/login');
+	req.session.redirect_to = req.path;
+	res.redirect('/auth/reddit');
 }
