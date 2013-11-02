@@ -34,5 +34,4 @@ function addUser(username, money) {
 /**
  * Exports
  */
-exports.db = db;
 exports.addUser = addUser;
