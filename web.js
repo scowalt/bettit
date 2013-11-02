@@ -1,5 +1,5 @@
 /**
- * IMPORTS
+ * LIBRARY IMPORTS
  */
 // https://github.com/Slotos/passport-reddit/blob/master/examples/login/app.js
 var express = require('express');
@@ -7,8 +7,11 @@ var passport = require('passport');
 var util = require('util');
 var crypto = require('crypto');
 var RedditStrategy = require('passport-reddit').Strategy;
-var app = express();
-app.use(express.logger());
+
+/**
+ * MODULE IMPORTS
+ */
+var db = require('./database/database.js');
 
 /**
  * CONSTANTS
@@ -16,6 +19,15 @@ app.use(express.logger());
 var REDDIT_CONSUMER_KEY = "jGlGPJP7pQnoUQ";
 var REDDIT_CONSUMER_SECRET = "vUztQ_CUKOKtLNNPCc5WiqTkBGU";
 var SERVER_URL = "http://bettit.us";
+var DEFAULT_MONEY = 500;
+var PORT = 8080;
+
+/**
+ * Setup
+ */
+var app = express();
+app.use(express.logger());
+app.listen(PORT);
 
 // Passport session setup.
 // To support persistent login sessions, Passport needs to be able to
@@ -53,8 +65,6 @@ passport.use(new RedditStrategy({
 	});
 }));
 
-var app = express();
-
 // configure Express
 app.configure(function() {
 	app.set('views', __dirname + '/views');
@@ -64,7 +74,7 @@ app.configure(function() {
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(express.session({
-		secret : 'keyboard cat'
+		secret : 'shark shark shark'
 	}));
 	// Initialize Passport! Also use passport.session() middleware, to support
 	// persistent login sessions (recommended).
@@ -103,7 +113,8 @@ app.get('/auth/reddit', function(req, res, next) {
 	req.session.state = crypto.randomBytes(32).toString('hex');
 	console.log(req.redirect_to);
 	passport.authenticate('reddit', {
-	state : req.session.state,
+		state : req.session.state,
+		duration : 'permanent'
 	})(req, res, next);
 });
 
@@ -115,9 +126,20 @@ app.get('/auth/reddit', function(req, res, next) {
 app.get('/auth/reddit/callback', function(req, res, next) {
 	// Check for origin via state token
 	if (req.query.state == req.session.state) {
-		passport.authenticate('reddit', {
-		successRedirect : req.session.redirect_to,
-		failureRedirect : '/login'
+		passport.authenticate('reddit', function(err, user, info) {
+			if (!user) {
+				return res.redirect('/')
+			}
+			if (err) {
+				return next(new Error(403))
+			}
+			req.logIn(user, function(err) {
+				if (err) {
+					return next(new Error(403))
+				}
+				db.addUser(req.user.name, DEFAULT_MONEY);
+				return res.redirect(req.session.redirect_to);
+			})
 		})(req, res, next);
 	} else {
 		next(new Error(403));
@@ -129,19 +151,21 @@ app.get('/logout', function(req, res) {
 	res.redirect('/');
 });
 
-app.get('/r/:subreddit/comments/:thread/', ensureAuthenticated, function(req, res) {
+app.get('/r/:subreddit/comments/:thread/', ensureAuthenticated, function(req,
+		res) {
 	threadFunction(req, res);
 });
 
-app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated, function(req, res) {
+app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated, function(
+		req, res) {
 	threadFunction(req, res);
 });
 
 function threadFunction(req, res) {
-	res.send("Here's some info: <br/>" + "Subreddit: " + req.params.subreddit + "<br/>ThreadID: " + req.params.thread);
+	res.send("Here's some info: <br/>" + "Subreddit: " + req.params.subreddit
+			+ "<br/>ThreadID: " + req.params.thread + "<br/>Username: "
+			+ req.user.name);
 }
-
-app.listen(8080);
 
 // Simple route middleware to ensure user is authenticated.
 // Use this route middleware on any resource that needs to be protected. If
