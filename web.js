@@ -2,7 +2,7 @@
  * LIBRARY IMPORTS
  */
 // https://github.com/Slotos/passport-reddit/blob/master/examples/login/app.js
-var express = require('express');
+var express = require('express.io');
 var passport = require('passport');
 var util = require('util');
 var crypto = require('crypto');
@@ -25,9 +25,13 @@ var PORT = 8080;
 /**
  * Setup
  */
-var app = express();
+var app = express().http().io();
 app.use(express.logger());
 app.listen(PORT);
+
+app.io.route('route', function(req){
+	//respond
+});
 
 // Passport session setup.
 // To support persistent login sessions, Passport needs to be able to
@@ -84,24 +88,6 @@ app.configure(function() {
 	app.use(express.static(__dirname + '/public'));
 });
 
-app.get('/', function(req, res) {
-	res.render('index', {
-		user : req.user
-	});
-});
-
-app.get('/account', ensureAuthenticated, function(req, res) {
-	res.render('account', {
-		user : req.user
-	});
-});
-
-app.get('/login', function(req, res) {
-	res.render('login', {
-		user : req.user
-	});
-});
-
 // GET /auth/reddit
 // Use passport.authenticate() as route middleware to authenticate the
 // request. The first step in Reddit authentication will involve
@@ -144,6 +130,10 @@ app.get('/auth/reddit/callback', function(req, res, next) {
 	} else {
 		next(new Error(403));
 	}
+});
+
+app.get('/', function(req, res){
+	res.sendfile(__dirname + '/pages/index.html');
 });
 
 app.get('/logout', function(req, res) {
