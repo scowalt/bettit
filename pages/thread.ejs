@@ -4,14 +4,21 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
-		io.connect();
+		io = io.connect();
 
-		var user = "<%= user %>";
+		// Emit ready event with room name.
+		io.emit('money', "AgileCoke");
 
-		io.emit("money", user);
+		io.on('money_response', function(data) {
+			$("#money").append(data.money);
+		})
 	</script>
 </head>
 <body>
-	User = <%= user %><br />
-	Money = <br/>
+	User = <%= user %>
+	<br />
+	<div id="money">
+		Money =
+	</div>
+	<br/>
 </body>

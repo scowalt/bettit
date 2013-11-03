@@ -90,11 +90,11 @@ app.configure(function() {
 app.io.route('money', function(req) {
 	req.io.join(req.data)
 	var username = req.data;
-	db.getMoney(username, function(data){
-		req.io.emit('money_reponse', {
+	db.getMoney(username, function(data) {
+		req.io.emit('money_response', {
 			money : data
-		})
-	})
+		});
+	});
 });
 
 /**
@@ -109,7 +109,6 @@ app.io.route('money', function(req) {
 // Note that the 'state' option is a Reddit-specific requirement.
 app.get('/auth/reddit', function(req, res, next) {
 	req.session.state = crypto.randomBytes(32).toString('hex');
-	console.log(req.redirect_to);
 	passport.authenticate('reddit', {
 		state : req.session.state,
 		duration : 'permanent'
