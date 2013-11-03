@@ -29,10 +29,6 @@ var app = express().http().io();
 app.use(express.logger());
 app.listen(PORT);
 
-app.io.route('route', function(req){
-	//respond
-});
-
 // Passport session setup.
 // To support persistent login sessions, Passport needs to be able to
 // serialize users into and deserialize users out of the session. Typically,
@@ -71,7 +67,7 @@ passport.use(new RedditStrategy({
 
 // configure Express
 app.configure(function() {
-	app.set('views', __dirname + '/views');
+	app.set('views', __dirname + '/pages');
 	app.set('view engine', 'ejs');
 	app.use(express.logger());
 	app.use(express.cookieParser());
@@ -88,6 +84,21 @@ app.configure(function() {
 	app.use(express.static(__dirname + '/public'));
 });
 
+/**
+ * Socket.io routing
+ */
+app.io.route('username', function(req) {
+	var username = "no username";
+	if (req.user)
+		username = req.user.name;
+	req.io.emit('username_response', {
+		message : username
+	})
+});
+
+/**
+ * Express routing
+ */
 // GET /auth/reddit
 // Use passport.authenticate() as route middleware to authenticate the
 // request. The first step in Reddit authentication will involve
@@ -132,10 +143,6 @@ app.get('/auth/reddit/callback', function(req, res, next) {
 	}
 });
 
-app.get('/', function(req, res){
-	res.sendfile(__dirname + '/pages/index.html');
-});
-
 app.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
@@ -152,9 +159,10 @@ app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated, function(
 });
 
 function threadFunction(req, res) {
-	res.send("Here's some info: <br/>" + "Subreddit: " + req.params.subreddit
-			+ "<br/>ThreadID: " + req.params.thread + "<br/>Username: "
-			+ req.user.name);
+	res.render('thread', {
+		user : req.user.name,
+		title : req.params.thread
+	});
 }
 
 // Simple route middleware to ensure user is authenticated.
