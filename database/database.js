@@ -25,13 +25,22 @@ function addUser(username, money) {
 	db.getConnection(function(err, connection) {
 		safeName = connection.escape(username);
 		safeMoney = connection.escape(money);
-		connection.query('INSERT INTO bettit.users VALUES ("' + safeName
-				+ '", ' + safeMoney + ");");
+		connection.query('INSERT INTO bettit.users VALUES (' + safeName
+				+ ', ' + safeMoney + ");");
 		connection.release();
 	});
+}
+
+function getMoney(username, callback){
+	var money = 0;
+	db.getConnection(function(err, connection){
+		safeName = connection.escape(username);
+		connection.query()
+	})
 }
 
 /**
  * Exports
  */
+exports.getMoney = getMoney;
 exports.addUser = addUser;

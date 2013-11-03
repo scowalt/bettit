@@ -1,7 +1,17 @@
 <!DOCTYPE HTML>
 <head>
-	<title> <%= title %> </title>
+	<title>Bettit - <%= title %></title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		io.connect();
+
+		var user = "<%= user %>";
+
+		io.emit("money", user);
+	</script>
 </head>
 <body>
-	User = <%= user %>
+	User = <%= user %><br />
+	Money = <br/>
 </body>

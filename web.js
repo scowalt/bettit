@@ -87,12 +87,13 @@ app.configure(function() {
 /**
  * Socket.io routing
  */
-app.io.route('username', function(req) {
-	var username = "no username";
-	if (req.user)
-		username = req.user.name;
-	req.io.emit('username_response', {
-		message : username
+app.io.route('money', function(req) {
+	req.io.join(req.data)
+	var username = req.data;
+	db.getMoney(username, function(data){
+		req.io.emit('money_reponse', {
+			money : data
+		})
 	})
 });
 
