@@ -1,17 +1,37 @@
 <!DOCTYPE HTML>
 <head>
-	<title>Bettit - <%= title %></title>
+	<title>Bettit - </title>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
-		io = io.connect();
-
-		// Emit ready event with room name.
-		io.emit('money', "AgileCoke");
-
+		io=io.connect();
+		
+		/**
+		 * Emits
+		 */
+		io.emit('money',"<%= user %>");
+		io.emit('thread_title', {
+			subreddit:'<%= subreddit %>',
+			id:'<%= threadID %>'
+		});
+		io.emit('thread_content', {
+			subreddit:'<%= subreddit %>',
+			id:'<%= threadID %>'
+		});
+		
+		/**
+		 * Receivers
+		 */
 		io.on('money_response', function(data) {
 			$("#money").append(data.money);
-		})
+		});
+		io.on("thread_title_response", function(data) {
+			document.title = document.title + data.title;
+			$("#thread_title").append(data.title);
+		});
+		io.on("thread_content_response", function(data){
+			$("#thread_content").append(data.content);
+		});
 	</script>
 </head>
 <body>
@@ -19,6 +39,12 @@
 	<br />
 	<div id="money">
 		Money =
+	</div>
+	<div id="thread_title">
+		Title =
+	</div>
+	<div id="thread_content">
+		Content = 
 	</div>
 	<br/>
 </body>

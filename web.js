@@ -6,6 +6,8 @@ var express = require('express.io');
 var passport = require('passport');
 var util = require('util');
 var crypto = require('crypto');
+var request = require('request');
+var SnuOwnd = require('snuownd');
 var RedditStrategy = require('passport-reddit').Strategy;
 
 /**
@@ -97,6 +99,42 @@ app.io.route('money', function(req) {
 	});
 });
 
+app.io.route('thread_title', function(req) {
+	req.io.join(req.data);
+
+	var path = 'http://www.reddit.com/r/' + req.data.subreddit + '/comments/ '
+			+ req.data.id + '/.json';
+
+	request({
+		uri : path
+	}, function(error, response, body) {
+		var json = JSON.parse(body);
+		var post = json[0]['data']['children'][0]['data'];
+		var title = post['title'];
+		req.io.emit('thread_title_response', {
+			title : title
+		})
+	});
+});
+
+app.io.route('thread_content', function(req) {
+	req.io.join(req.data);
+	var path = 'http://www.reddit.com/r/' + req.data.subreddit + '/comments/ '
+			+ req.data.id + '/.json';
+
+	request({
+		uri : path
+	}, function(error, response, body) {
+		var json = JSON.parse(body);
+		var post = json[0]['data']['children'][0]['data'];
+		var content = post['is_self'] ? SnuOwnd.getParser().render(
+				post['selftext']) : post['url'];
+		req.io.emit('thread_content_response', {
+			content : content
+		})
+	});
+});
+
 /**
  * Express routing
  */
@@ -161,7 +199,8 @@ app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated, function(
 function threadFunction(req, res) {
 	res.render('thread', {
 		user : req.user.name,
-		title : req.params.thread
+		threadID : req.params.thread,
+		subreddit : req.params.subreddit
 	});
 }
 
