@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <head>
-	<title>Bettit - </title>
+	<title>Bettit -</title>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
@@ -26,7 +26,7 @@
 			$("#money").append(data.money);
 		});
 		io.on("thread_title_response", function(data) {
-			document.title = document.title + data.title;
+			document.title = document.title + " " + data.title;
 			$("#thread_title").append(data.title);
 		});
 		io.on("thread_content_response", function(data){
