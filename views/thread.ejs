@@ -54,20 +54,36 @@
 		</script>
 	</head>
 	<body>
-		<div class="container">
-			<!-- Content -->
-			User = <%= user %>
-			<br />
-			<div id="money">
-				Money =
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span8"></div>
+				<div class="span4">
+					<div class="hero-unit">
+						User = <%= user %>
+						<br />
+						<div id="money">
+							Money =
+						</div>
+					</div>
+				</div>
 			</div>
-			<div id="thread_title">
-				Title =
+
+			<div class="row-fluid">
+				<div class="span8">
+					Events
+				</div>
+				<div class="span4">
+					<div class="hero-unit">
+						<div id="thread_title">
+							Title =
+						</div>
+						<div id="thread_content">
+							Content =
+						</div>
+						<br/>
+					</div>
+				</div>
 			</div>
-			<div id="thread_content">
-				Content =
-			</div>
-			<br/>
 		</div>
 		<!-- /container -->
 
