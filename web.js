@@ -25,7 +25,7 @@ var DEFAULT_MONEY = 500;
 var PORT = 8080;
 
 /**
- * Setup
+ * SETUP
  */
 var app = express().http().io();
 app.use(express.logger());
@@ -87,10 +87,11 @@ app.configure(function() {
 });
 
 /**
- * Socket.io routing
+ * SOCKET.IO ROUTING
  */
 app.io.route('money', function(req) {
-	req.io.join(req.data)
+	console.log("route('money')");
+	req.io.join(req.data);
 	var username = req.data;
 	db.getMoney(username, function(data) {
 		req.io.emit('money_response', {
@@ -100,10 +101,10 @@ app.io.route('money', function(req) {
 });
 
 app.io.route('thread_title', function(req) {
+	console.log("route('thread_title')");
 	req.io.join(req.data);
 
-	var path = 'http://www.reddit.com/r/' + req.data.subreddit + '/comments/ '
-			+ req.data.id + '/.json';
+	var path = 'http://www.reddit.com/r/' + req.data.subreddit + '/comments/ ' + req.data.id + '/.json';
 
 	request({
 		uri : path
@@ -113,30 +114,29 @@ app.io.route('thread_title', function(req) {
 		var title = post['title'];
 		req.io.emit('thread_title_response', {
 			title : title
-		})
+		});
 	});
 });
 
 app.io.route('thread_content', function(req) {
+	console.log("route('thread_content')");
 	req.io.join(req.data);
-	var path = 'http://www.reddit.com/r/' + req.data.subreddit + '/comments/ '
-			+ req.data.id + '/.json';
+	var path = 'http://www.reddit.com/r/' + req.data.subreddit + '/comments/ ' + req.data.id + '/.json';
 
 	request({
 		uri : path
 	}, function(error, response, body) {
 		var json = JSON.parse(body);
 		var post = json[0]['data']['children'][0]['data'];
-		var content = post['is_self'] ? SnuOwnd.getParser().render(
-				post['selftext']) : post['url'];
+		var content = post['is_self'] ? SnuOwnd.getParser().render(post['selftext']) : post['url'];
 		req.io.emit('thread_content_response', {
 			content : content
-		})
+		});
 	});
 });
 
 /**
- * Express routing
+ * EXPRESS ROUTING
  */
 // GET /auth/reddit
 // Use passport.authenticate() as route middleware to authenticate the
@@ -148,8 +148,8 @@ app.io.route('thread_content', function(req) {
 app.get('/auth/reddit', function(req, res, next) {
 	req.session.state = crypto.randomBytes(32).toString('hex');
 	passport.authenticate('reddit', {
-		state : req.session.state,
-		duration : 'permanent'
+	state : req.session.state,
+	duration : 'permanent'
 	})(req, res, next);
 });
 
@@ -159,22 +159,23 @@ app.get('/auth/reddit', function(req, res, next) {
 // login page. Otherwise, the primary route function function will be called,
 // which, in this example, will redirect the user to the home page.
 app.get('/auth/reddit/callback', function(req, res, next) {
+	console.log("app.get('/auth/reddit/callback')");
 	// Check for origin via state token
 	if (req.query.state == req.session.state) {
 		passport.authenticate('reddit', function(err, user, info) {
-			if (!user) {
-				return res.redirect('/')
-			}
-			if (err) {
-				return next(new Error(403))
-			}
-			req.logIn(user, function(err) {
-				if (err) {
-					return next(new Error(403))
-				}
-				db.addUser(req.user.name, DEFAULT_MONEY);
-				return res.redirect(req.session.redirect_to);
-			})
+		if (!user) {
+		return res.redirect('/');
+		}
+		if (err) {
+		return next(new Error(403));
+		}
+		req.logIn(user, function(err) {
+		if (err) {
+		return next(new Error(403));
+		}
+		db.addUser(req.user.name, DEFAULT_MONEY);
+		return res.redirect(req.session.redirect_to);
+		});
 		})(req, res, next);
 	} else {
 		next(new Error(403));
@@ -186,13 +187,11 @@ app.get('/logout', function(req, res) {
 	res.redirect('/');
 });
 
-app.get('/r/:subreddit/comments/:thread/', ensureAuthenticated, function(req,
-		res) {
+app.get('/r/:subreddit/comments/:thread/', ensureAuthenticated, function(req, res) {
 	threadFunction(req, res);
 });
 
-app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated, function(
-		req, res) {
+app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated, function(req, res) {
 	threadFunction(req, res);
 });
 
