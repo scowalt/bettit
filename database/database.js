@@ -160,6 +160,7 @@ function addOutcome(name, event_id, thread_id, callback) {
 			if (callback)
 				callback(result.insertId);
 		});
+		connection.release();
 	});
 }
 
@@ -185,6 +186,36 @@ function addBet(username, outcome_id, event_id, thread_id, amount) {
 		query += safeEvent + ', ';
 		query += safeThread + ', ';
 		query += safeAmount + ');';
+		connection.query(query);
+		connection.release();
+	});
+}
+
+/**
+ *
+ * @param callback
+ * @return void
+ */
+function isModerator(username, thread_id, callback) {
+	if (!username || !thread_id)
+		return;
+
+	db.getConnection(function(err, connection) {
+		if (err)
+			throw err;
+		safeUser = connection.escape(username);
+		safeThreadID = connection.escape(thread_id);
+		query = 'SELECT * from bettit.users_moderate_threads where ';
+		query += 'username = ' + safeUser + ' AND ';
+		query += 'thread_id = ' + safeThreadID + ';';
+		connection.query(query, function(err, result) {
+			if (err)
+				throw err;
+			var b = result[0] ? true : false;
+			if (callback)
+				callback(b);
+		});
+		connection.release();
 	});
 }
 
