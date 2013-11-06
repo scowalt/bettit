@@ -131,7 +131,7 @@ app.io.route('is_mod', function(req) {
 	console.log(thread_id);
 	db.isModerator(username, thread_id, function(bool) {
 		if (bool) {
-			app.io.route('add_event_form', {
+			req.io.emit('add_event_form', {
 				/** empty **/
 			});
 		}
@@ -209,7 +209,8 @@ function threadFunction(req, res) {
 
 function parseThreadID(link) {
 	var idx = link.indexOf('/comments/');
-	return link.substring(idx + 10, idx + 16);
+	var ss = link.substring(idx + 10);
+	return ss.substring(0, ss.indexOf('/'));
 }
 
 function parseSubreddit(link) {
