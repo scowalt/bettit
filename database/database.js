@@ -17,6 +17,7 @@ var db = mysql.createPool({
 	host : 'localhost',
 	user : MYSQL_USER,
 	password : MYSQL_PASS,
+	supportBigNumbers : true,
 });
 
 /**
@@ -41,7 +42,8 @@ function addUser(username, money) {
 
 /**
  * Get how much money a user has
- * @return int
+ * @param callback Function to call on the money amount
+ * @return void
  */
 function getMoney(username, callback) {
 	var money = 0;
@@ -105,9 +107,94 @@ function addThreadMod(username, thread_id) {
 }
 
 /**
+ *
+ * @param callback Function to call on the event ID
+ * @return void
+ */
+function addEvent(name, thread_id, status, creator, callback) {
+	if (!name || !thread_id || !status || !creator)
+		return;
+	db.getConnection(function(err, connection) {
+		if (err)
+			throw err;
+		safeName = connection.escape(name);
+		safeThreadID = connection.escape(thread_id);
+		safeStatus = connection.escape(status);
+		safeCreator = connection.escape(creator);
+		query = 'INSERT INTO bettit.events(name, thread_id, status, creator) VALUES(';
+		query += safeName + ', ';
+		query += safeThreadID + ', ';
+		query += safeStatus + ', ';
+		query += safeCreator + ');';
+		connection.query(query, function(err, result) {
+			if (err)
+				throw err;
+			if (callback)
+				callback(result.insertId);
+		});
+		connection.release();
+	});
+}
+
+/**
+ *
+ * @param callback Function to call on the outcome_id
+ * @return void
+ */
+function addOutcome(name, event_id, thread_id, callback) {
+	if (!name || !event_id || !thread_id)
+		return;
+	db.getConnection(function(err, connection) {
+		if (err)
+			throw err;
+		safeName = connection.escape(name);
+		safeEventID = connection.escape(event_id);
+		safeThreadID = connection.escape(thread_id);
+		query = 'INSERT INTO bettit.outcomes(name, event_id, thread_id) VALUES (';
+		query += safeName + ', ';
+		query += safeEventID + ', ';
+		query += safeThreadID + ');';
+		connection.query(query, function(err, result) {
+			if (err)
+				throw err;
+			if (callback)
+				callback(result.insertId);
+		});
+	});
+}
+
+/**
+ *
+ * @return void
+ */
+function addBet(username, outcome_id, event_id, thread_id, amount) {
+	if (!username || !outcome_id || !event_id || !thread_id || !amount)
+		return;
+
+	db.getConnection(function(err, connection) {
+		if (err)
+			throw err;
+		safeUser = connection.escape(username);
+		safeOutcome = connection.escape(outcome_id);
+		safeEvent = connection.escape(event_id);
+		safeThread = connection.escape(thread_id);
+		safeAmount = connection.escape(amount);
+		query = 'INSERT INTO bettit.bets(username, outcome_id, event_id, thread_id, amount) VALUES (';
+		query += safeUser + ', ';
+		query += safeOutcome + ', ';
+		query += safeEvent + ', ';
+		query += safeThread + ', ';
+		query += safeAmount + ');';
+	});
+}
+
+/**
  * EXPORTS
  */
 exports.getMoney = getMoney;
 exports.addUser = addUser;
 exports.addThread = addThread;
 exports.addThreadMod = addThreadMod;
+exports.addEvent = addEvent;
+exports.addOutcome = addOutcome;
+exports.addBet = addBet;
