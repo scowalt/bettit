@@ -115,6 +115,7 @@ app.io.route('thread_info', function(req) {
 		var author = post['author'];
 		db.addUser(author);
 		db.addThread(req.data.id, title, content, author, req.data.subreddit);
+		db.addThreadMod(author, req.data.id);
 		req.io.emit('thread_info_response', {
 			title : title,
 			content : content

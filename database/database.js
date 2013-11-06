@@ -85,8 +85,29 @@ function addThread(id, title, content, author, subreddit) {
 }
 
 /**
+ *
+ * @return void
+ */
+function addThreadMod(username, thread_id) {
+	if (!thread_id || !username)
+		return;
+	db.getConnection(function(err, connection) {
+		if (err)
+			throw err;
+		safeUsername = connection.escape(username);
+		safeThreadID = connection.escape(thread_id);
+		query = 'INSERT INTO bettit.users_moderate_threads(username, thread_id) VALUES (';
+		query += safeUsername + ', ';
+		query += safeThreadID + ');';
+		connection.query(query);
+		connection.release();
+	});
+}
+
+/**
  * EXPORTS
  */
 exports.getMoney = getMoney;
 exports.addUser = addUser;
 exports.addThread = addThread;
+exports.addThreadMod = addThreadMod;
