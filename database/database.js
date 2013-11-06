@@ -229,3 +229,4 @@ exports.addThreadMod = addThreadMod;
 exports.addEvent = addEvent;
 exports.addOutcome = addOutcome;
 exports.addBet = addBet;
+exports.isModerator = isModerator;
