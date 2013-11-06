@@ -21,7 +21,6 @@ var db = require('./database/database.js');
 var REDDIT_CONSUMER_KEY = "jGlGPJP7pQnoUQ";
 var REDDIT_CONSUMER_SECRET = "vUztQ_CUKOKtLNNPCc5WiqTkBGU";
 var SERVER_URL = "http://bettit.us";
-var DEFAULT_MONEY = 500;
 var PORT = 8080;
 
 /**
@@ -100,7 +99,7 @@ app.io.route('money', function(req) {
 	});
 });
 
-app.io.route('thread_title', function(req) {
+app.io.route('thread_info', function(req) {
 	console.log("route('thread_title')");
 	req.io.join(req.data);
 
@@ -112,24 +111,12 @@ app.io.route('thread_title', function(req) {
 		var json = JSON.parse(body);
 		var post = json[0]['data']['children'][0]['data'];
 		var title = post['title'];
-		req.io.emit('thread_title_response', {
-			title : title
-		});
-	});
-});
-
-app.io.route('thread_content', function(req) {
-	console.log("route('thread_content')");
-	req.io.join(req.data);
-	var path = 'http://www.reddit.com/r/' + req.data.subreddit + '/comments/ ' + req.data.id + '/.json';
-
-	request({
-		uri : path
-	}, function(error, response, body) {
-		var json = JSON.parse(body);
-		var post = json[0]['data']['children'][0]['data'];
 		var content = post['is_self'] ? SnuOwnd.getParser().render(post['selftext']) : post['url'];
-		req.io.emit('thread_content_response', {
+		var author = post['author'];
+		db.addUser(author);
+		db.addThread(req.data.id, title, content, author, req.data.subreddit);
+		req.io.emit('thread_info_response', {
+			title : title,
 			content : content
 		});
 	});
@@ -173,7 +160,7 @@ app.get('/auth/reddit/callback', function(req, res, next) {
 		if (err) {
 		return next(new Error(403));
 		}
-		db.addUser(req.user.name, DEFAULT_MONEY);
+		db.addUser(req.user.name);
 		return res.redirect(req.session.redirect_to);
 		});
 		})(req, res, next);

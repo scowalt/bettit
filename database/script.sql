@@ -23,8 +23,16 @@ CREATE TABLE IF NOT EXISTS `bettit`.`threads` (
   `thread_id` CHAR(6) NOT NULL,
   `name` VARCHAR(300) NOT NULL,
   `content` VARCHAR(10000) NOT NULL,
+  `original_poster` VARCHAR(20) NOT NULL,
+  `subreddit` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`thread_id`),
-  UNIQUE INDEX `thread_id_UNIQUE` (`thread_id` ASC))
+  UNIQUE INDEX `thread_id_UNIQUE` (`thread_id` ASC),
+  INDEX `fk_threads_users1_idx` (`original_poster` ASC),
+  CONSTRAINT `fk_threads_users1`
+    FOREIGN KEY (`original_poster`)
+    REFERENCES `bettit`.`users` (`username`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -120,9 +128,6 @@ CREATE TABLE IF NOT EXISTS `bettit`.`users_moderate_threads` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE USER 'bettit' IDENTIFIED BY 'phAwupe9hA2RaWeb';
-
-GRANT ALTER, DELETE, INSERT, SELECT, UPDATE, LOCK TABLES ON TABLE bettit.* TO 'bettit';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
