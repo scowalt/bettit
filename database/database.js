@@ -22,6 +22,10 @@ var db = mysql.createPool({
 /**
  * METHODS
  */
+/**
+ * Adds user to the user table
+ * @return void
+ */
 function addUser(username, money) {
 	if (!money)
 		money = DEFAULT_MONEY;
@@ -35,6 +39,10 @@ function addUser(username, money) {
 	});
 }
 
+/**
+ * Get how much money a user has
+ * @return int
+ */
 function getMoney(username, callback) {
 	var money = 0;
 	db.getConnection(function(err, connection) {
@@ -50,6 +58,10 @@ function getMoney(username, callback) {
 	});
 }
 
+/**
+ * Add a thread to the threads table
+ * @return void
+ */
 function addThread(id, title, content, author, subreddit) {
 	if (!id || !title || !content || !author || !subreddit)
 		return;
