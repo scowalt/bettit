@@ -26,6 +26,8 @@ function addUser(username, money) {
 	if (!money)
 		money = DEFAULT_MONEY;
 	db.getConnection(function(err, connection) {
+		if (err)
+			throw err;
 		safeName = connection.escape(username);
 		safeMoney = connection.escape(money);
 		connection.query('INSERT INTO bettit.users(username, money) VALUES (' + safeName + ', ' + safeMoney + ");");
@@ -36,17 +38,38 @@ function addUser(username, money) {
 function getMoney(username, callback) {
 	var money = 0;
 	db.getConnection(function(err, connection) {
+		if (err)
+			throw err;
 		safeName = connection.escape(username);
 		connection.query('SELECT money FROM bettit.users WHERE username = ' + safeName, function(err, results) {
 			if (err)
 				throw err;
 			callback(results[0]['money']);
 		});
+		connection.release();
 	});
 }
-function addThread(id, title, content, author, subreddit){
-	if(!id || !title || !content || !author || !subreddit)
+
+function addThread(id, title, content, author, subreddit) {
+	if (!id || !title || !content || !author || !subreddit)
 		return;
+	db.getConnection(function(err, connection) {
+		if (err)
+			throw err;
+		safeId = connection.escape(id);
+		safeTitle = connection.escape(title);
+		safeContent = connection.escape(content);
+		safeAuthor = connection.escape(author);
+		safeSubreddit = connection.escape(subreddit);
+		query = 'INSERT INTO bettit.threads(thread_id, title, content, original_poster, subreddit) VALUES (';
+		query += safeId + ', ';
+		query += safeTitle + ', ';
+		query += safeContent + ', ';
+		query += safeAuthor + ', ';
+		query += safeSubreddit + ');';
+		connection.query(query);
+		connection.release();
+	});
 }
 
 /**
@@ -54,3 +77,4 @@ function addThread(id, title, content, author, subreddit){
  */
 exports.getMoney = getMoney;
 exports.addUser = addUser;
+exports.addThread = addThread;
