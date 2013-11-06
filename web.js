@@ -90,6 +90,7 @@ app.configure(function() {
  */
 app.io.route('money', function(req) {
 	console.log("route('money')");
+	console.log(req.session.passport.user.name);
 	req.io.join(req.data);
 	var username = req.data;
 	db.getMoney(username, function(data) {
