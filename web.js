@@ -100,9 +100,10 @@ app.io.route('money', function(req) {
 
 app.io.route('thread_info', function(req) {
 	console.log("route('thread_title')");
-	req.io.join(req.data);
-
-	var path = 'http://www.reddit.com/r/' + req.data.subreddit + '/comments/ ' + req.data.id + '/.json';
+	var referer = req.headers.referer;
+	var subreddit = parseSubreddit(referer);
+	var thread_id = parseThreadID(referer);
+	var path = 'http://www.reddit.com/r/' + subreddit + '/comments/ ' + thread_id + '/.json';
 
 	request({
 		uri : path
@@ -113,12 +114,27 @@ app.io.route('thread_info', function(req) {
 		var content = post['is_self'] ? SnuOwnd.getParser().render(post['selftext']) : post['url'];
 		var author = post['author'];
 		db.addUser(author);
-		db.addThread(req.data.id, title, content, author, req.data.subreddit);
-		db.addThreadMod(author, req.data.id);
+		db.addThread(thread_id, title, content, author, subreddit);
+		db.addThreadMod(author, thread_id);
 		req.io.emit('thread_info_response', {
 			title : title,
 			content : content
 		});
+	});
+});
+
+app.io.route('is_mod', function(req) {
+	console.log("route('is_mod')");
+	var username = req.session.passport.user.name;
+	var referer = req.headers.referer;
+	var thread_id = parseThreadID(referer);
+	console.log(thread_id);
+	db.isModerator(username, thread_id, function(bool) {
+		if (bool) {
+			app.io.route('add_event_form', {
+				/** empty **/
+			});
+		}
 	});
 });
 
@@ -182,12 +198,22 @@ app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated, function(r
 	threadFunction(req, res);
 });
 
+/**
+ * PRIVATE HELPERS
+ */
 function threadFunction(req, res) {
 	res.render('thread', {
-		user : req.user.name,
-		threadID : req.params.thread,
-		subreddit : req.params.subreddit
+		user : req.user.name
 	});
+}
+
+function parseThreadID(link) {
+	var idx = link.indexOf('/comments/');
+	return link.substring(idx + 10, idx + 16);
+}
+
+function parseSubreddit(link) {
+	return link.substring(link.indexOf('/r/') + 3, link.indexOf('/comments/'));
 }
 
 // Simple route middleware to ensure user is authenticated.

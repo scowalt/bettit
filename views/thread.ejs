@@ -56,10 +56,7 @@
 			 * Emits
 			 */
 			io.emit('money');
-			io.emit('thread_info', {
-				subreddit : '<%= subreddit %>',
-				id : '<%= threadID %>'
-			});
+			io.emit('thread_info');
 
 			/**
 			 * Receivers
