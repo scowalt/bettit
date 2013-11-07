@@ -47,34 +47,6 @@
 		<!--[if lt IE 9]>
 		<script src="/js/html5shiv.js"></script>
 		<![endif]-->
-
-		<script src="/socket.io/socket.io.js"></script>
-		<script>
-			io = io.connect();
-
-			/**
-			 * Emits
-			 */
-			io.emit('money');
-			io.emit('thread_info');
-			io.emit('is_mod');
-
-			/**
-			 * Receivers
-			 */
-			io.on('money_response', function(data) {
-				$("#user_info").append(data.money);
-			});
-			io.on("thread_info_response", function(data) {
-				document.title = document.title + " " + data.title;
-				$("#thread_title").append(data.title);
-				$("#thread_content").append(data.content);
-			});
-			io.on('add_event_form', function(data) {
-				console.log("Received add_event_form");
-				$('#events').prepend('<button type="button">Add event</button><br/>');
-			});
-		</script>
 	</head>
 	<body>
 		<!-- NAV BAR -->
@@ -105,7 +77,7 @@
 		<div class="container">
 			<div class="row-fluid">
 				<div class="span12">
-					<b><div id="thread_title"></div></b>
+					<b><span id="thread_title"></span></b>
 				</div>
 			</div>
 			<div class="row-fluid">
@@ -127,9 +99,7 @@
 			</div>
 		</div>
 
-		<!-- Le javascript
-		================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
+		<!-- BOOTSTRAP JAVASCRIPT -->
 		<script src="/js/jquery.js"></script>
 		<script src="/js/bootstrap-transition.js"></script>
 		<script src="/js/bootstrap-alert.js"></script>
@@ -143,6 +113,37 @@
 		<script src="/js/bootstrap-collapse.js"></script>
 		<script src="/js/bootstrap-carousel.js"></script>
 		<script src="/js/bootstrap-typeahead.js"></script>
+
+		<!-- BETTIT JAVASCRIPT -->
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			$(document).ready(function() {
+				io = io.connect();
+
+				/**
+				 * IO Emits
+				 */
+				io.emit('money');
+				io.emit('thread_info');
+				io.emit('is_mod');
+
+				/**
+				 * IO Receivers
+				 */
+				io.on('money_response', function(data) {
+					$("#user_info").append(data.money);
+				});
+				io.on("thread_info_response", function(data) {
+					document.title = document.title + " " + data.title;
+					$("#thread_title").append(data.title);
+					$("#thread_content").append(data.content);
+				});
+				io.on('add_event_form', function(data) {
+					console.log("Received add_event_form");
+					$('#events').prepend('<button type="button">Add event</button><br/>');
+				});
+			});
+		</script>
 
 		<!-- Google Analytics Code -->
 		<script>
