@@ -20,14 +20,24 @@ var db = mysql.createPool({
 	supportBigNumbers : true,
 });
 
+var database_name = 'bettit';
+
 /**
  * METHODS
  */
+/**
+ * Changes the database 
+ */
+function changeDatabase(database){
+	database_name = database;
+}
+
 /**
  * Adds user to the user table
  * @return void
  */
 function addUser(username, money) {
+	console.log("database = " + database_name);
 	if (!money)
 		money = DEFAULT_MONEY;
 	db.getConnection(function(err, connection) {
@@ -35,7 +45,7 @@ function addUser(username, money) {
 			throw err;
 		safeName = connection.escape(username);
 		safeMoney = connection.escape(money);
-		connection.query('INSERT INTO bettit.users(username, money) VALUES (' + safeName + ', ' + safeMoney + ");");
+		connection.query('INSERT INTO ' + database_name + '.users(username, money) VALUES (' + safeName + ', ' + safeMoney + ");");
 		connection.release();
 	});
 }
@@ -51,7 +61,7 @@ function getMoney(username, callback) {
 		if (err)
 			throw err;
 		safeName = connection.escape(username);
-		connection.query('SELECT money FROM bettit.users WHERE username = ' + safeName, function(err, results) {
+		connection.query('SELECT money FROM ' + database_name + '.users WHERE username = ' + safeName, function(err, results) {
 			if (err)
 				throw err;
 			callback(results[0]['money']);
@@ -75,7 +85,7 @@ function addThread(id, title, content, author, subreddit) {
 		safeContent = connection.escape(content);
 		safeAuthor = connection.escape(author);
 		safeSubreddit = connection.escape(subreddit);
-		query = 'INSERT INTO bettit.threads(thread_id, title, content, original_poster, subreddit) VALUES (';
+		query = 'INSERT INTO ' + database_name + '.threads(thread_id, title, content, original_poster, subreddit) VALUES (';
 		query += safeId + ', ';
 		query += safeTitle + ', ';
 		query += safeContent + ', ';
@@ -98,7 +108,7 @@ function addThreadMod(username, thread_id) {
 			throw err;
 		safeUsername = connection.escape(username);
 		safeThreadID = connection.escape(thread_id);
-		query = 'INSERT INTO bettit.users_moderate_threads(username, thread_id) VALUES (';
+		query = 'INSERT INTO ' + database_name + '.users_moderate_threads(username, thread_id) VALUES (';
 		query += safeUsername + ', ';
 		query += safeThreadID + ');';
 		connection.query(query);
@@ -121,7 +131,7 @@ function addEvent(name, thread_id, status, creator, callback) {
 		safeThreadID = connection.escape(thread_id);
 		safeStatus = connection.escape(status);
 		safeCreator = connection.escape(creator);
-		query = 'INSERT INTO bettit.events(name, thread_id, status, creator, created_at) VALUES(';
+		query = 'INSERT INTO ' + database_name + '.events(name, thread_id, status, creator, created_at) VALUES(';
 		query += safeName + ', ';
 		query += safeThreadID + ', ';
 		query += safeStatus + ', ';
@@ -150,7 +160,7 @@ function addOutcome(name, event_id, thread_id, callback) {
 		safeName = connection.escape(name);
 		safeEventID = connection.escape(event_id);
 		safeThreadID = connection.escape(thread_id);
-		query = 'INSERT INTO bettit.outcomes(name, event_id, thread_id) VALUES (';
+		query = 'INSERT INTO ' + database_name + '.outcomes(name, event_id, thread_id) VALUES (';
 		query += safeName + ', ';
 		query += safeEventID + ', ';
 		query += safeThreadID + ');';
@@ -180,7 +190,7 @@ function addBet(username, outcome_id, event_id, thread_id, amount) {
 		safeEvent = connection.escape(event_id);
 		safeThread = connection.escape(thread_id);
 		safeAmount = connection.escape(amount);
-		query = 'INSERT INTO bettit.bets(username, outcome_id, event_id, thread_id, amount) VALUES (';
+		query = 'INSERT INTO ' + database_name + '.bets(username, outcome_id, event_id, thread_id, amount) VALUES (';
 		query += safeUser + ', ';
 		query += safeOutcome + ', ';
 		query += safeEvent + ', ';
@@ -205,7 +215,7 @@ function isModerator(username, thread_id, callback) {
 			throw err;
 		safeUser = connection.escape(username);
 		safeThreadID = connection.escape(thread_id);
-		query = 'SELECT * from bettit.users_moderate_threads where ';
+		query = 'SELECT * from ' + database_name + '.users_moderate_threads where ';
 		query += 'username = ' + safeUser + ' AND ';
 		query += 'thread_id = ' + safeThreadID + ';';
 		connection.query(query, function(err, result) {
@@ -223,7 +233,7 @@ function isModerator(username, thread_id, callback) {
  * EXPORTS
  */
 // for testing
-exports.db = db;
+exports.changeDatabase = changeDatabase;
 
 exports.getMoney = getMoney;
 exports.addUser = addUser;

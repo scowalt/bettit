@@ -139,7 +139,6 @@
 					$("#thread_content").append(data.content);
 				});
 				io.on('add_event_form', function(data) {
-					console.log("Received add_event_form");
 					$('#events').prepend('<button type="button">Add event</button><br/>');
 				});
 			});
