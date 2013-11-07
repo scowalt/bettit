@@ -20,8 +20,8 @@ ENGINE = InnoDB;
 -- Table `bettit`.`threads`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `bettit`.`threads` (
-  `thread_id` CHAR(6) NOT NULL,
-  `name` VARCHAR(300) NOT NULL,
+  `thread_id` VARCHAR(10) NOT NULL,
+  `title` VARCHAR(300) NOT NULL,
   `content` VARCHAR(10000) NOT NULL,
   `original_poster` VARCHAR(20) NOT NULL,
   `subreddit` VARCHAR(20) NOT NULL,
@@ -42,9 +42,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `bettit`.`events` (
   `event_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(200) NOT NULL,
-  `thread_id` CHAR(6) NOT NULL,
+  `thread_id` VARCHAR(10) NOT NULL,
   `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0,
   `creator` VARCHAR(20) NOT NULL,
+  `created_at` DATETIME NOT NULL,
   PRIMARY KEY (`event_id`, `thread_id`, `creator`),
   UNIQUE INDEX `event_id_UNIQUE` (`event_id` ASC),
   INDEX `fk_events_threads1_idx` (`thread_id` ASC),
@@ -69,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `bettit`.`outcomes` (
   `outcome_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(300) NOT NULL,
   `event_id` BIGINT UNSIGNED NOT NULL,
-  `thread_id` CHAR(6) NOT NULL,
+  `thread_id` VARCHAR(10) NOT NULL,
   `winner` TINYINT(1) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`outcome_id`, `event_id`, `thread_id`),
   UNIQUE INDEX `outcome_id_UNIQUE` (`outcome_id` ASC),
@@ -89,8 +90,9 @@ CREATE TABLE IF NOT EXISTS `bettit`.`bets` (
   `username` VARCHAR(20) NOT NULL,
   `outcome_id` BIGINT UNSIGNED NOT NULL,
   `event_id` BIGINT UNSIGNED NOT NULL,
-  `thread_id` CHAR(6) NOT NULL,
+  `thread_id` VARCHAR(10) NOT NULL,
   `amount` BIGINT UNSIGNED NOT NULL DEFAULT 20,
+  `created_at` DATETIME NOT NULL,
   PRIMARY KEY (`username`, `outcome_id`, `event_id`, `thread_id`),
   INDEX `fk_users_has_outcomes_outcomes1_idx` (`outcome_id` ASC, `event_id` ASC, `thread_id` ASC),
   INDEX `fk_users_has_outcomes_users1_idx` (`username` ASC),
@@ -112,7 +114,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `bettit`.`users_moderate_threads` (
   `username` VARCHAR(20) NOT NULL,
-  `thread_id` CHAR(6) NOT NULL,
+  `thread_id` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`username`, `thread_id`),
   INDEX `fk_users_has_threads_threads1_idx` (`thread_id` ASC),
   INDEX `fk_users_has_threads_users1_idx` (`username` ASC),
@@ -128,6 +130,12 @@ CREATE TABLE IF NOT EXISTS `bettit`.`users_moderate_threads` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
+CREATE USER 'bettit' IDENTIFIED BY 'phAwupe9hA2RaWeb';
+
+GRANT ALTER, DELETE, INSERT, SELECT, UPDATE, LOCK TABLES ON TABLE bettit.* TO 'bettit';
+CREATE USER 'root' IDENTIFIED BY 'yertorpseryish';
+
+GRANT ALL ON `bettit`.* TO 'root';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
