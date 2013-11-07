@@ -89,6 +89,7 @@ app.configure(function() {
  * SOCKET.IO ROUTING
  */
 app.io.route('money', function(req) {
+	console.log(new Date());
 	console.log("route('money')");
 	var username = req.session.passport.user.name;
 	db.getMoney(username, function(data) {

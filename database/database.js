@@ -121,7 +121,7 @@ function addEvent(name, thread_id, status, creator, callback) {
 		safeThreadID = connection.escape(thread_id);
 		safeStatus = connection.escape(status);
 		safeCreator = connection.escape(creator);
-		query = 'INSERT INTO bettit.events(name, thread_id, status, creator) VALUES(';
+		query = 'INSERT INTO bettit.events(name, thread_id, status, creator, created_at) VALUES(';
 		query += safeName + ', ';
 		query += safeThreadID + ', ';
 		query += safeStatus + ', ';
