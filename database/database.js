@@ -222,6 +222,9 @@ function isModerator(username, thread_id, callback) {
 /**
  * EXPORTS
  */
+// for testing
+exports.db = db;
+
 exports.getMoney = getMoney;
 exports.addUser = addUser;
 exports.addThread = addThread;
