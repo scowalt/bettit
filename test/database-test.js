@@ -19,6 +19,10 @@ vows.describe('Database tests').addBatch({
 				db.getMoney(topic.username, function(money) {
 					assert.equal(money, topic.money);
 				});
+			},
+
+			teardown : function(topic) {
+				db.removeUser(topic.username);
 			}
 		}
 	}

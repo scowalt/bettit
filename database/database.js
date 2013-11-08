@@ -215,6 +215,22 @@ function addBet(username, outcome_id, event_id, thread_id, amount) {
 	});
 }
 
+function removeUser(username) {
+	if (!username)
+		return;
+
+	db.getConnection(function(err, connection) {
+		safeUser = connection.escape(username);
+		query = 'DELETE FROM ' + database_name;
+		query += ' WHERE username = ' + safeUser;
+		connection.query(query, function(err, result) {
+			if (err)
+				console.log(err);
+		});
+		conneciton.release();
+	});
+}
+
 /**
  *
  * @param callback
@@ -260,3 +276,4 @@ exports.addEvent = addEvent;
 exports.addOutcome = addOutcome;
 exports.addBet = addBet;
 exports.isModerator = isModerator;
+exports.removeUser = removeUser;
