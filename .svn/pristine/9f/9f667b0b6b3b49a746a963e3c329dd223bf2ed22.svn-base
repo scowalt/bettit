@@ -1,0 +1,17 @@
+{
+	"name": "bettit",
+	"version": "0.0.0",
+	"dependencies": {
+		"crypto": ">= 0.0.0",
+		"express": ">= 0.0.0",
+		"ejs": ">= 0.0.0",
+		"passport": ">= 0.0.0",
+		"passport-reddit": ">= 0.0.0",
+		"express.io": ">= 0.0.0",
+		"mysql": "2.0.0-alpha9",
+		"request": ">= 0.0.0",
+		"snuownd": ">= 0.0.0",
+		"zombie": ">= 0.0.0",
+		"vows": ">= 0.0.0"
+	}
+}
