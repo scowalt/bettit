@@ -110,6 +110,29 @@ function addThread(id, title, content, author, subreddit) {
 }
 
 /**
+ * Get thread information from the database
+ * @param callback What to do with the info
+ */
+function getThread(id, callback) {
+	if (!id || !callback) {
+		return;
+	}
+	db.getConnection(function(err, connection) {
+		if (err)
+			throw err;
+		query = 'SELECT * FROM ' + database_name;
+		query += '.threads WHERE thread_id = ';
+		query += connection.escape(id);
+		connection.query(query, function(err, result) {
+			if (err)
+				throw err;
+			callback(result[0]);
+		});
+		connection.release();
+	});
+}
+
+/**
  *
  * @return void
  */
@@ -277,5 +300,6 @@ exports.addThreadMod = addThreadMod;
 exports.addEvent = addEvent;
 exports.addOutcome = addOutcome;
 exports.addBet = addBet;
+exports.getThread = getThread;
 exports.isModerator = isModerator;
 exports.removeUser = removeUser;

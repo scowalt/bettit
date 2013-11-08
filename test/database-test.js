@@ -53,7 +53,7 @@ vows.describe('Database tests').addBatch({
 				}
 			}
 		},
-		'with an invalid name' : {
+		'with a null name' : {
 			topic : {
 				username : null
 			},
@@ -73,6 +73,28 @@ vows.describe('Database tests').addBatch({
 				teardown : function(topic) {
 					db.removeUser(topic.username);
 				}
+			}
+		}
+	},
+	'A thread' : {
+		topic : {
+			thread_id : '123456',
+			title : 'thread title',
+			content : 'thread content',
+			author : 'testuser22',
+			subreddit : 'politics'
+		},
+
+		'when added to the database' : {
+			topic : function(t) {
+				db.addThread(t.thread_id, t.title, t.content, t.author, t.subreddit);
+				return t;
+			},
+
+			'will appear in the database with the correct thread_id' : function(t) {
+				db.getThread(t.thread_id, function(info) {
+					assert.equal(info['thread_id'], t.thread_id);
+				});
 			}
 		}
 	}
