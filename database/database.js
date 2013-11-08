@@ -26,10 +26,17 @@ var database_name = 'bettit';
  * METHODS
  */
 /**
- * Changes the database 
+ * Changes the database (useful for testing)
  */
-function changeDatabase(database){
+function changeDatabase(database) {
 	database_name = database;
+}
+
+/**
+ * Destroys all connections (useful for testing)
+ */
+function end() {
+	db.end();
 }
 
 /**
@@ -37,15 +44,18 @@ function changeDatabase(database){
  * @return void
  */
 function addUser(username, money) {
-	console.log("database = " + database_name);
 	if (!money)
 		money = DEFAULT_MONEY;
 	db.getConnection(function(err, connection) {
 		if (err)
 			throw err;
-		safeName = connection.escape(username);
-		safeMoney = connection.escape(money);
-		connection.query('INSERT INTO ' + database_name + '.users(username, money) VALUES (' + safeName + ', ' + safeMoney + ");");
+		var safeName = connection.escape(username);
+		var safeMoney = connection.escape(money);
+		var query = 'INSERT INTO ' + database_name + '.users(username, money) VALUES (' + safeName + ', ' + safeMoney + ");";
+		connection.query(query, function(err, results) {
+			if (err)
+				console.log(err);
+		});
 		connection.release();
 	});
 }
@@ -64,6 +74,10 @@ function getMoney(username, callback) {
 		connection.query('SELECT money FROM ' + database_name + '.users WHERE username = ' + safeName, function(err, results) {
 			if (err)
 				throw err;
+			if (!callback)
+				return;
+			if (!results[0])
+				return callback(null);
 			callback(results[0]['money']);
 		});
 		connection.release();
@@ -233,7 +247,10 @@ function isModerator(username, thread_id, callback) {
  * EXPORTS
  */
 // for testing
-exports.changeDatabase = changeDatabase;
+exports.test = {};
+exports.test.changeDatabase = changeDatabase;
+exports.test.db = db;
+exports.test.end = end;
 
 exports.getMoney = getMoney;
 exports.addUser = addUser;
