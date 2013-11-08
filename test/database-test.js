@@ -7,29 +7,79 @@ var db = require('../database/database.js');
 db.test.changeDatabase('test');
 
 vows.describe('Database tests').addBatch({
-	'Adding a user' : {
+	'A user' : {
 		'with a valid name and money amount' : {
 			topic : {
 				username : 'testuser',
 				money : 400
 			},
 
-			'is added to the database with the correct money amount' : function(topic) {
-				db.addUser(topic.username, 400);
-				db.getMoney(topic.username, function(money) {
-					assert.equal(money, topic.money);
-				});
+			'when added to the database' : {
+				topic : function(info) {
+					db.addUser(info.username, 400);
+					return info;
+				},
+
+				'appears in the database' : function(info) {
+					db.getMoney(info.username, function(money) {
+						assert.equal(money, info.money);
+					});
+				},
+
+				teardown : function(info) {
+					db.removeUser(info.username);
+				}
+			}
+		},
+		'with a valid name and no money amount' : {
+			topic : {
+				username : 'testuser',
 			},
 
-			teardown : function(topic) {
-				db.removeUser(topic.username);
+			'when added to the database' : {
+				topic : function(info) {
+					db.addUser(info.username);
+					return info;
+				},
+
+				'appears in the database with 500 money' : function(info) {
+					db.getMoney(info.username, function(money) {
+						assert.equal(money, 500);
+					});
+				},
+
+				teardown : function(topic) {
+					db.removeUser(topic.username);
+				}
+			}
+		},
+		'with an invalid name' : {
+			topic : {
+				username : null
+			},
+
+			"when added to the database" : {
+				topic : function(info) {
+					db.addUser(info.username);
+					return info;
+				},
+
+				"doesn't appear in the database" : function(info) {
+					db.getMoney(info.username, function(money) {
+						assert.equal(money, null);
+					});
+				},
+
+				teardown : function(topic) {
+					db.removeUser(topic.username);
+				}
 			}
 		}
 	}
 }).addBatch({
-	'Cleanup' : {
-		'destroy connections' : function() {
+	'(cleanup)' : {
+		'(destroy connections)' : function() {
 			db.test.end();
 		}
 	}
-}).run();
+}).export(module);

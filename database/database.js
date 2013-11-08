@@ -265,7 +265,6 @@ function isModerator(username, thread_id, callback) {
 // for testing
 exports.test = {};
 exports.test.changeDatabase = changeDatabase;
-exports.test.db = db;
 exports.test.end = end;
 
 exports.getMoney = getMoney;
