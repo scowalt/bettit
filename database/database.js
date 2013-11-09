@@ -2,12 +2,13 @@
  * IMPORTS
  */
 var mysql = require('mysql');
+var secrets = require('../secrets.js');
 
 /**
  * CONSTANTS
  */
-var MYSQL_USER = 'bettit';
-var MYSQL_PASS = 'phAwupe9hA2RaWeb';
+var MYSQL_USER = secrets.mysql.username;
+var MYSQL_PASS = secrets.mysql.password;
 var DEFAULT_MONEY = 500;
 
 /**

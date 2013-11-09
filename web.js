@@ -14,12 +14,13 @@ var RedditStrategy = require('passport-reddit').Strategy;
  * MODULE IMPORTS
  */
 var db = require('./database/database.js');
+var secrets = require('./secrets.js');
 
 /**
  * CONSTANTS
  */
-var REDDIT_CONSUMER_KEY = "jGlGPJP7pQnoUQ";
-var REDDIT_CONSUMER_SECRET = "vUztQ_CUKOKtLNNPCc5WiqTkBGU";
+var REDDIT_CONSUMER_KEY = secrets.reddit.consumer.key;
+var REDDIT_CONSUMER_SECRET = secrets.reddit.consumer.secret;
 var SERVER_URL = "http://bettit.us";
 var PORT = 8080;
 
@@ -75,10 +76,8 @@ app.configure(function() {
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(express.session({
-		secret : 'shark shark shark'
+		secret : secrets.secret
 	}));
-	// Initialize Passport! Also use passport.session() middleware, to support
-	// persistent login sessions (recommended).
 	app.use(passport.initialize());
 	app.use(passport.session());
 	app.use(app.router);
