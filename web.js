@@ -13,8 +13,8 @@ var RedditStrategy = require('passport-reddit').Strategy;
 /**
  * MODULE IMPORTS
  */
-var db = require('./database/database.js');
-var secrets = require('./secrets.js');
+var db = require('./models');
+var secrets = require('./config/secrets.js');
 
 /**
  * CONSTANTS
@@ -29,7 +29,6 @@ var PORT = 8080;
  */
 var app = express().http().io();
 app.use(express.logger());
-app.listen(PORT);
 
 // Passport session setup.
 // To support persistent login sessions, Passport needs to be able to
@@ -74,6 +73,7 @@ app.configure(function() {
 	app.use(express.logger());
 	app.use(express.cookieParser());
 	app.use(express.bodyParser());
+	app.use(express.favicon());
 	app.use(express.methodOverride());
 	app.use(express.session({
 		secret : secrets.secret
@@ -91,11 +91,13 @@ app.io.route('money', function(req) {
 	console.log(new Date());
 	console.log("route('money')");
 	var username = req.session.passport.user.name;
-	db.getMoney(username, function(data) {
-		req.io.emit('money_response', {
-			money : data
-		});
-	});
+	/*
+	 db.getMoney(username, function(data) {
+	 req.io.emit('money_response', {
+	 money : data
+	 });
+	 });*/
+
 });
 
 app.io.route('thread_info', function(req) {
@@ -113,9 +115,11 @@ app.io.route('thread_info', function(req) {
 		var title = post['title'];
 		var content = post['is_self'] ? SnuOwnd.getParser().render(post['selftext']) : post['url'];
 		var author = post['author'];
-		db.addUser(author);
-		db.addThread(thread_id, title, content, author, subreddit);
-		db.addThreadMod(author, thread_id);
+		/*
+		 db.addUser(author);
+		 db.addThread(thread_id, title, content, author, subreddit);
+		 db.addThreadMod(author, thread_id);*/
+
 		req.io.emit('thread_info_response', {
 			title : title,
 			content : content
@@ -129,25 +133,20 @@ app.io.route('is_mod', function(req) {
 	var referer = req.headers.referer;
 	var thread_id = parseThreadID(referer);
 	console.log(thread_id);
-	db.isModerator(username, thread_id, function(bool) {
-		if (bool) {
-			req.io.emit('add_event_form', {
-				/** empty **/
-			});
-		}
-	});
+	/*
+	 db.isModerator(username, thread_id, function(bool) {
+	 if (bool) {
+	 req.io.emit('add_event_form', {
+	 // empty
+	 });
+	 }
+	 });*/
+
 });
 
 /**
  * EXPRESS ROUTING
  */
-// GET /auth/reddit
-// Use passport.authenticate() as route middleware to authenticate the
-// request. The first step in Reddit authentication will involve
-// redirecting the user to reddit.com. After authorization, Reddit
-// will redirect the user back to this application at /auth/reddit/callback
-//
-// Note that the 'state' option is a Reddit-specific requirement.
 app.get('/auth/reddit', function(req, res, next) {
 	req.session.state = crypto.randomBytes(32).toString('hex');
 	passport.authenticate('reddit', {
@@ -156,11 +155,6 @@ app.get('/auth/reddit', function(req, res, next) {
 	})(req, res, next);
 });
 
-// GET /auth/reddit/callback
-// Use passport.authenticate() as route middleware to authenticate the
-// request. If authentication fails, the user will be redirected back to the
-// login page. Otherwise, the primary route function function will be called,
-// which, in this example, will redirect the user to the home page.
 app.get('/auth/reddit/callback', function(req, res, next) {
 	console.log("app.get('/auth/reddit/callback')");
 	// Check for origin via state token
@@ -176,7 +170,9 @@ app.get('/auth/reddit/callback', function(req, res, next) {
 		if (err) {
 		return next(new Error(403));
 		}
-		db.addUser(req.user.name);
+		db.User.create({ username: req.user.name, money: 499 }).success(function(user) {
+		console.log(user.values); // => { username: 'barfooz', isAdmin: false }
+		});
 		return res.redirect(req.session.redirect_to);
 		});
 		})(req, res, next);
@@ -217,11 +213,9 @@ function parseSubreddit(link) {
 	return link.substring(link.indexOf('/r/') + 3, link.indexOf('/comments/'));
 }
 
-// Simple route middleware to ensure user is authenticated.
-// Use this route middleware on any resource that needs to be protected. If
-// the request is authenticated (typically via a persistent login session),
-// the request will proceed. Otherwise, the user will be redirected to the
-// login page.
+/**
+ * MIDDLEWARE
+ */
 function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
@@ -229,3 +223,16 @@ function ensureAuthenticated(req, res, next) {
 	req.session.redirect_to = req.path;
 	res.redirect('/auth/reddit');
 }
+
+/**
+ * START SERVER
+ */
+db.sequelize.sync({
+	force : true
+}).complete(function(err) {
+	if (err) {
+		throw err;
+	} else {
+		app.listen(PORT);
+	}
+});
