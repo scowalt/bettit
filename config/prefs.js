@@ -1,0 +1,1 @@
+exports.default_money = 500;

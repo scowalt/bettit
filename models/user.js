@@ -1,3 +1,5 @@
+var prefs = require('../config/prefs.js');
+
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define("User", {
 		username : {

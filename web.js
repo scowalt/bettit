@@ -9,6 +9,7 @@ var crypto = require('crypto');
 var request = require('request');
 var SnuOwnd = require('snuownd');
 var RedditStrategy = require('passport-reddit').Strategy;
+var RedisStore = require('connect-redis')(express);
 
 /**
  * MODULE IMPORTS
@@ -28,27 +29,22 @@ var PORT = 8080;
  * SETUP
  */
 var app = express().http().io();
-app.use(express.logger());
 
 // Passport session setup.
-// To support persistent login sessions, Passport needs to be able to
-// serialize users into and deserialize users out of the session. Typically,
-// this will be as simple as storing the user ID when serializing, and finding
-// the user by ID when deserializing. However, since this example does not
-// have a database of user records, the complete Reddit profile is
-// serialized and deserialized.
+//   To support persistent login sessions, Passport needs to be able to
+//   serialize users into and deserialize users out of the session.  Typically,
+//   this will be as simple as storing the user ID when serializing, and finding
+//   the user by ID when deserializing.  However, since this example does not
+//   have a database of user records, the complete Reddit profile is
+//   serialized and deserialized.
 passport.serializeUser(function(user, done) {
-	done(null, user);
+  done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
-	done(null, obj);
+  done(null, obj);
 });
 
-// Use the RedditStrategy within Passport.
-// Strategies in Passport require a `verify` function, which accept
-// credentials (in this case, an accessToken, refreshToken, and Reddit
-// profile), and invoke a callback with a user object.
 passport.use(new RedditStrategy({
 	clientID : REDDIT_CONSUMER_KEY,
 	clientSecret : REDDIT_CONSUMER_SECRET,
@@ -68,20 +64,20 @@ passport.use(new RedditStrategy({
 
 // configure Express
 app.configure(function() {
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	app.use(express.static(__dirname + '/public'));
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'ejs');
 	app.use(express.logger());
-	app.use(express.cookieParser());
-	app.use(express.bodyParser());
 	app.use(express.favicon());
-	app.use(express.methodOverride());
-	app.use(express.session({
-		secret : secrets.secret
-	}));
 	app.use(passport.initialize());
-	app.use(passport.session());
+	app.use(passport.session());	
+	app.use(express.cookieParser());
+	app.use(express.session({
+		store : new RedisStore,
+		secret : secrets.secret}));
 	app.use(app.router);
-	app.use(express.static(__dirname + '/public'));
 });
 
 /**
@@ -170,7 +166,8 @@ app.get('/auth/reddit/callback', function(req, res, next) {
 		if (err) {
 		return next(new Error(403));
 		}
-		db.User.create({ username: req.user.name, money: 499 }).success(function(user) {
+		console.log("REDIRECTING TO: " + req.session.redirect_to);
+		db.User.findOrCreate({ username: req.user.name, money: 499 }).success(function(user) {
 		console.log(user.values); // => { username: 'barfooz', isAdmin: false }
 		});
 		return res.redirect(req.session.redirect_to);
@@ -218,8 +215,10 @@ function parseSubreddit(link) {
  */
 function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
+		console.log("This request is authenticated!!!");
 		return next();
 	}
+	console.log("This request is not authenticated :(");
 	req.session.redirect_to = req.path;
 	res.redirect('/auth/reddit');
 }
