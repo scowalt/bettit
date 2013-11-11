@@ -16,6 +16,7 @@ var RedisStore = require('connect-redis')(express);
  */
 var db = require('./models');
 var secrets = require('./config/secrets.js');
+var prefs = require('./config/prefs.js');
 
 /**
  * CONSTANTS
@@ -38,11 +39,11 @@ var app = express().http().io();
 //   have a database of user records, the complete Reddit profile is
 //   serialized and deserialized.
 passport.serializeUser(function(user, done) {
-  done(null, user);
+	done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+	done(null, obj);
 });
 
 passport.use(new RedditStrategy({
@@ -50,14 +51,13 @@ passport.use(new RedditStrategy({
 	clientSecret : REDDIT_CONSUMER_SECRET,
 	callbackURL : SERVER_URL + "/auth/reddit/callback"
 }, function(accessToken, refreshToken, profile, done) {
-	// asynchronous verification, for effect...
 	process.nextTick(function() {
-
-		// To keep the example simple, the user's Reddit profile is returned to
-		// represent the logged-in user. In a typical application, you would
-		// want
-		// to associate the Reddit account with a user record in your database,
-		// and return that user instead.
+		db.User.findOrCreate({
+			username : req.user.name,
+			money : prefs.default_money
+		}).success(function(user) {
+			console.log(user.values);
+		});
 		return done(null, profile);
 	});
 }));
@@ -71,12 +71,13 @@ app.configure(function() {
 	app.set('view engine', 'ejs');
 	app.use(express.logger());
 	app.use(express.favicon());
-	app.use(passport.initialize());
-	app.use(passport.session());	
 	app.use(express.cookieParser());
 	app.use(express.session({
 		store : new RedisStore,
-		secret : secrets.secret}));
+		secret : secrets.secret
+	}));
+	app.use(passport.initialize());
+	app.use(passport.session());
 	app.use(app.router);
 });
 
@@ -84,7 +85,6 @@ app.configure(function() {
  * SOCKET.IO ROUTING
  */
 app.io.route('money', function(req) {
-	console.log(new Date());
 	console.log("route('money')");
 	var username = req.session.passport.user.name;
 	/*
@@ -128,7 +128,6 @@ app.io.route('is_mod', function(req) {
 	var username = req.session.passport.user.name;
 	var referer = req.headers.referer;
 	var thread_id = parseThreadID(referer);
-	console.log(thread_id);
 	/*
 	 db.isModerator(username, thread_id, function(bool) {
 	 if (bool) {
@@ -152,7 +151,6 @@ app.get('/auth/reddit', function(req, res, next) {
 });
 
 app.get('/auth/reddit/callback', function(req, res, next) {
-	console.log("app.get('/auth/reddit/callback')");
 	// Check for origin via state token
 	if (req.query.state == req.session.state) {
 		passport.authenticate('reddit', function(err, user, info) {
@@ -166,10 +164,6 @@ app.get('/auth/reddit/callback', function(req, res, next) {
 		if (err) {
 		return next(new Error(403));
 		}
-		console.log("REDIRECTING TO: " + req.session.redirect_to);
-		db.User.findOrCreate({ username: req.user.name, money: 499 }).success(function(user) {
-		console.log(user.values); // => { username: 'barfooz', isAdmin: false }
-		});
 		return res.redirect(req.session.redirect_to);
 		});
 		})(req, res, next);
@@ -215,10 +209,8 @@ function parseSubreddit(link) {
  */
 function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
-		console.log("This request is authenticated!!!");
 		return next();
 	}
-	console.log("This request is not authenticated :(");
 	req.session.redirect_to = req.path;
 	res.redirect('/auth/reddit');
 }

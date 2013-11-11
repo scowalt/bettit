@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull : false,
 			primaryKey : false,
 			unique : false,
-			defaultValue : 500
+			defaultValue : prefs.default_money
 		}
 	});
 };

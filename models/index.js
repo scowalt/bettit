@@ -1,8 +1,6 @@
 if (!global.hasOwnProperty('db')) {
 	var info = require('../config/secrets.js').mysql;
 	var Sequelize = require('sequelize');
-
-	// the application is executed on the local machine ... use mysql
 	var sequelize = new Sequelize('test', info.username, info.password);
 
 	global.db = {
