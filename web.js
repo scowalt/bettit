@@ -14,7 +14,7 @@ var RedisStore = require('connect-redis')(express);
 /**
  * MODULE IMPORTS
  */
-var db = require('./models');
+var db = require('./models')('bettit');
 var secrets = require('./config/secrets.js');
 var prefs = require('./config/prefs.js');
 
@@ -53,7 +53,7 @@ passport.use(new RedditStrategy({
 }, function(accessToken, refreshToken, profile, done) {
 	process.nextTick(function() {
 		db.User.findOrCreate({
-			username : req.user.name,
+			username : profile.name,
 			money : prefs.default_money
 		}).success(function(user) {
 			console.log(user.values);

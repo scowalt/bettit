@@ -1,9 +1,11 @@
 var Browser = require("zombie");
 var assert = require("assert");
 var vows = require('vows');
-var db = require('../models');
+var db = require('../models')('test');
 
-// TODO modify to use test db instead of real one
+db.sequelize.sync({
+	force : true
+});
 
 vows.describe('Database tests').addBatch({
 	'A user' : {
@@ -24,10 +26,6 @@ vows.describe('Database tests').addBatch({
 					}).success(function(user) {
 						assert.equal(info.money, user.money);
 					});
-				},
-
-				teardown : function(info) {
-					db.User.destroy(info);
 				}
 			}
 		}
