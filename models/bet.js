@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define("User", {
+	return sequelize.define("Bet", {
 		amount : {
 			type : DataTypes.BIGINT.UNSIGNED,
 			allowNull : false,
@@ -8,9 +8,10 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		winner : {
 			type : DataTypes.BOOLEAN,
-			allowNull : false,
+			allowNull : true,
 			primaryKey : false,
-			unique : false
+			unique : false,
+			defaultValue : null
 		}
 	});
 };

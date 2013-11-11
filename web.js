@@ -219,7 +219,7 @@ function ensureAuthenticated(req, res, next) {
  * START SERVER
  */
 db.sequelize.sync({
-	force : true
+	force : prefs.force_sync
 }).complete(function(err) {
 	if (err) {
 		throw err;
