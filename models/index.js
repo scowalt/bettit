@@ -25,10 +25,10 @@ module.exports = function(database, logging) {
 		 global.db.User.hasMany(global.db.SomethingElse)
 		 */
 		global.db.Thread.hasMany(global.db.User, {
-			as : 'Moderators'
+			joinTableName : "UserThreads"
 		});
 		global.db.User.hasMany(global.db.Thread, {
-			as : 'Threads_moderated'
+			joinTableName : "UserThreads"
 		});
 		global.db.Thread.hasMany(global.db.Event);
 		global.db.Event.hasMany(global.db.Outcome);

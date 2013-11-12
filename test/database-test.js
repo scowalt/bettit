@@ -37,7 +37,7 @@ describe('Database tests:', function() {
 							db.User.find({
 								where : user
 							}).success(function(u) {
-								t.addModerator(u).success(function() {
+								t.addUser(u).success(function() {
 									done();
 								});
 							});
@@ -45,15 +45,25 @@ describe('Database tests:', function() {
 					});
 
 					it('should appear as the moderator of the thread', function(done) {
-						done();
 						db.Thread.find({
 							where : thread
 						}).success(function(t) {
-							t.getModerators().success(function(moderators) {
+							t.getUsers().success(function(moderators) {
 								assert.equal(moderators[0].username, user.username);
+								done();
 							});
 						});
+					});
 
+					it('the thread should appear under the user\'s moderated threads', function(done) {
+						db.User.find({
+							where : user
+						}).success(function(u) {
+							u.getThreads().success(function(threads) {
+								assert.equal(threads[0].id, thread.id);
+								done();
+							});
+						});
 					});
 
 					after(function(done) {
