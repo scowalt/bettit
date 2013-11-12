@@ -11,7 +11,7 @@
 		"request": ">= 0.0.0",
 		"snuownd": ">= 0.0.0",
 		"zombie": ">= 0.0.0",
-		"vows": ">= 0.0.0",
+		"mocha": ">= 0.0.0",
 		"sequelize": ">= 0.0.0",
 		"connect-redis": ">= 0.0.0",
 		"mysql" : ">= 2.0.0-alpha9"

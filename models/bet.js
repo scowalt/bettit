@@ -5,13 +5,6 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull : false,
 			primaryKey : false,
 			unique : false
-		},
-		winner : {
-			type : DataTypes.BOOLEAN,
-			allowNull : true,
-			primaryKey : false,
-			unique : false,
-			defaultValue : null
 		}
 	});
 };
