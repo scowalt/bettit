@@ -1,6 +1,6 @@
 module.exports = function(database, logging) {
-	if ( typeof logging == "undefined") {
-		logging = true;
+	if (logging === true || typeof logging == "undefined") {
+		logging = console.log;
 	}
 	if (!global.hasOwnProperty('db')) {
 		var info = require('../config/secrets.js').mysql;
