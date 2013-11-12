@@ -3,7 +3,7 @@ var assert = require("assert");
 var prefs = require('../config/prefs.js');
 var db = require('../models')('test', false);
 
-describe('Database tests', function() {
+describe('Database tests:', function() {
 	before(function(done) {
 		db.sequelize.sync({
 			force : true
@@ -27,7 +27,43 @@ describe('Database tests', function() {
 					});
 				});
 
-				it('is in the database with the correct money value', function(done) {
+				describe('when set as the moderater of a thread', function() {
+					var thread = {
+						id : 'asdf12'
+					};
+
+					before(function(done) {
+						db.Thread.create(thread).success(function(t) {
+							db.User.find({
+								where : user
+							}).success(function(u) {
+								t.addModerator(u).success(function() {
+									done();
+								});
+							});
+						});
+					});
+
+					it('should appear as the moderator of the thread', function(done) {
+						done();
+						db.Thread.find({
+							where : thread
+						}).success(function(t) {
+							t.getModerators().success(function(moderators) {
+								assert.equal(moderators[0].username, user.username);
+							});
+						});
+
+					});
+
+					after(function(done) {
+						db.Thread.destroy(thread).success(function() {
+							done();
+						});
+					});
+				});
+
+				it('should be in the database with the correct money value', function(done) {
 					db.User.find({
 						where : user
 					}).success(function(info) {
@@ -47,7 +83,7 @@ describe('Database tests', function() {
 		});
 		describe('with a username and no money amount', function() {
 			var user = {
-				username : 'testuser2'
+				username : 'testuser'
 			};
 
 			describe('when added to the database', function() {
@@ -57,7 +93,7 @@ describe('Database tests', function() {
 					});
 				});
 
-				it('is in the database with the default money value', function(done) {
+				it('should be in the database with the default money value', function(done) {
 					db.User.find({
 						where : user
 					}).success(function(info) {
@@ -82,6 +118,37 @@ describe('Database tests', function() {
 			it("can't be added to the database", function(done) {
 				db.User.create(user).error(function() {
 					done();
+				});
+			});
+		});
+	});
+
+	describe('A thread', function() {
+		describe('with valid information', function() {
+			var thread = {
+				id : 'atqr2e'
+			};
+
+			describe('when added to the database', function() {
+				before(function(done) {
+					db.Thread.create(thread).success(function() {
+						done();
+					});
+				});
+
+				it('should be in the database with the correct information', function(done) {
+					db.Thread.find({
+						where : thread
+					}).success(function(info) {
+						assert.equal(info.id, thread.id);
+						done();
+					});
+				});
+
+				after(function(done) {
+					db.Thread.destroy(thread).success(function() {
+						done();
+					});
 				});
 			});
 		});

@@ -6,7 +6,8 @@ module.exports = function(sequelize, DataTypes) {
 			type : DataTypes.STRING,
 			allowNull : false,
 			primaryKey : true,
-			unique : true
+			unique : true,
+			notEmpty : true
 		},
 		money : {
 			type : DataTypes.BIGINT,
