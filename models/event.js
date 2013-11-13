@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define("Event", {
-		id    : {
+		id : {
 			type          : DataTypes.BIGINT.UNSIGNED,
 			autoIncrement : true,
 			allowNull     : false,
