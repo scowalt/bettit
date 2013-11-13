@@ -129,27 +129,14 @@ app.io.route('is_mod', function(req){
 	var referer = req.headers.referer;
 	var thread_id = parseThreadID(referer);
 	db.User.find({where : {id : id}}).success(function(user){
-		user.getThreads().success(function(threads){
-			var ret = false;
-			for (var thread in threads) {
-				if(thread.values.id == thread_id)
-					ret = true;
-			}
-			if(ret) {
+		user.isModeratorOf(thread_id, function(bool){
+			if(bool) {
 				req.io.emit('add_event_form', {
 					// empty
-				})
+				});
 			}
-		});
+		})
 	});
-	/*
-	 db.isModerator(username, thread_id, function(bool) {
-	 if (bool) {
-	 req.io.emit('add_event_form', {
-	 // empty
-	 });
-	 }
-	 });*/
 
 });
 

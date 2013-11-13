@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes){
 			type       : DataTypes.STRING,
 			allowNull  : false,
 			primaryKey : true,
-			comment    : "Taken from reddit"
+			comment    : "Taken from reddit",
+			notEmpty: true
 		}
 	});
 };

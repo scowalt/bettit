@@ -17,7 +17,8 @@ module.exports = function(sequelize, DataTypes){
 			type       : DataTypes.STRING,
 			allowNull  : false,
 			primaryKey : false,
-			unique     : false
+			unique     : false,
+			notEmpty   : true
 		}
 	});
 };
