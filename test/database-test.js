@@ -144,7 +144,7 @@ describe('Database tests:', function(){
 				});
 
 				describe('when an event is added', function(){
-					var event = { title: "event title" };
+					var event = { title : "event title" };
 					before(function(done){
 						db.Event.create(event).success(function(e){
 							event.id = e.values.id;
@@ -233,6 +233,34 @@ describe('Database tests:', function(){
 						assert.equal(e.id, event.id);
 						assert.equal(e.title, event.title);
 						done();
+					});
+				});
+
+				describe('when an outcome is added to the event', function(){
+					var outcome = {
+						title : "Thing 1 will happen"
+					};
+
+					before(function(done){
+						db.Outcome.create(outcome).success(function(o){
+							outcome.id = o.values.id;
+							db.Event.find(event.id).success(function(e){
+								e.addOutcome(o).success(function(){
+									done();
+								});
+							});
+						});
+					});
+
+					it('the outcome will belong to the event', function(done){
+						db.Event.find(event.id).success(function(e){
+							e.getOutcomes().success(function(outcomes){
+								assert.equal(outcomes.length, 1);
+								assert.equal(outcomes[0].title, outcome.title);
+								assert.equal(outcomes[0].id, outcome.id);
+								done();
+							});
+						});
 					});
 				});
 			});

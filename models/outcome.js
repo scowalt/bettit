@@ -12,6 +12,11 @@ module.exports = function(sequelize, DataTypes){
 			primaryKey   : false,
 			unique       : false,
 			defaultValue : null
+		},
+		title : {
+			type         : DataTypes.STRING,
+			allowNull    : false,
+			primaryKey   : false
 		}
 	});
 };
