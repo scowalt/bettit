@@ -262,6 +262,16 @@ describe('Database tests:', function(){
 							});
 						});
 					});
+
+					it('the event will be the owner of the outcome', function(done){
+						db.Outcome.find(outcome.id).success(function(o){
+							o.getEvent().success(function(owner){
+								assert.equal(owner.id, event.id);
+								assert.equal(owner.title, event.title);
+								done();
+							});
+						});
+					});
 				});
 			});
 
