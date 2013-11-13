@@ -86,14 +86,12 @@ app.configure(function(){
  */
 app.io.route('money', function(req){
 	console.log("route('money')");
-	var username = req.session.passport.user.name;
-	/*
-	 db.getMoney(username, function(data) {
-	 req.io.emit('money_response', {
-	 money : data
-	 });
-	 });*/
-
+	var id = req.session.passport.user.id;
+	db.User.find({where : {id : id}}).success(function(user){
+		req.io.emit('money_response', {
+			money : user.values.money
+		});
+	});
 });
 
 app.io.route('thread_info', function(req){
@@ -101,7 +99,8 @@ app.io.route('thread_info', function(req){
 	var referer = req.headers.referer;
 	var subreddit = parseSubreddit(referer);
 	var thread_id = parseThreadID(referer);
-	var path = 'http://www.reddit.com/r/' + subreddit + '/comments/ ' + thread_id + '/.json';
+	var path = 'http://www.reddit.com/r/' + subreddit + '/comments/ ' + thread_id +
+		'/.json';
 
 	request({
 		uri : path
@@ -109,7 +108,8 @@ app.io.route('thread_info', function(req){
 		var json = JSON.parse(body);
 		var post = json[0]['data']['children'][0]['data'];
 		var title = post['title'];
-		var content = post['is_self'] ? SnuOwnd.getParser().render(post['selftext']) : post['url'];
+		var content = post['is_self'] ? SnuOwnd.getParser().render(post['selftext'])
+			: post['url'];
 		var author = post['author'];
 		/*
 		 db.addUser(author);
@@ -125,9 +125,23 @@ app.io.route('thread_info', function(req){
 
 app.io.route('is_mod', function(req){
 	console.log("route('is_mod')");
-	var username = req.session.passport.user.name;
+	var id = req.session.passport.user.id;
 	var referer = req.headers.referer;
 	var thread_id = parseThreadID(referer);
+	db.User.find({where : {id : id}}).success(function(user){
+		user.getThreads().success(function(threads){
+			var ret = false;
+			for (var thread in threads) {
+				if(thread.values.id == thread_id)
+					ret = true;
+			}
+			if(ret) {
+				req.io.emit('add_event_form', {
+					// empty
+				})
+			}
+		});
+	});
 	/*
 	 db.isModerator(username, thread_id, function(bool) {
 	 if (bool) {
@@ -152,16 +166,16 @@ app.get('/auth/reddit', function(req, res, next){
 
 app.get('/auth/reddit/callback', function(req, res, next){
 	// Check for origin via state token
-	if (req.query.state == req.session.state) {
+	if(req.query.state == req.session.state) {
 		passport.authenticate('reddit', function(err, user, info){
-			if (!user) {
+			if(!user) {
 				return res.redirect('/');
 			}
-			if (err) {
+			if(err) {
 				return next(new Error(403));
 			}
 			req.logIn(user, function(err){
-				if (err) {
+				if(err) {
 					return next(new Error(403));
 				}
 				return res.redirect(req.session.redirect_to);
@@ -181,9 +195,10 @@ app.get('/r/:subreddit/comments/:thread/', ensureAuthenticated, function(req, re
 	threadFunction(req, res);
 });
 
-app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated, function(req, res){
-	threadFunction(req, res);
-});
+app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated,
+	function(req, res){
+		threadFunction(req, res);
+	});
 
 /**
  * PRIVATE HELPERS
@@ -208,11 +223,18 @@ function parseSubreddit(link){
  * MIDDLEWARE
  */
 function ensureAuthenticated(req, res, next){
-	if (req.isAuthenticated()) {
-		return next();
+	if(req.isAuthenticated()) {
+		db.User.findOrCreate({
+			id       : req.user.id,
+			username : req.user.name}).success(function(){
+				next();
+			}).error(function(){
+				console.log("Error finding or adding user!");
+			});
+	} else {
+		req.session.redirect_to = req.path;
+		res.redirect('/auth/reddit');
 	}
-	req.session.redirect_to = req.path;
-	res.redirect('/auth/reddit');
 }
 
 /**
@@ -221,7 +243,7 @@ function ensureAuthenticated(req, res, next){
 db.sequelize.sync({
 	force : prefs.force_sync
 }).complete(function(err){
-		if (err) {
+		if(err) {
 			throw err;
 		} else {
 			app.listen(PORT);

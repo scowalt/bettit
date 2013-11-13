@@ -55,10 +55,10 @@ describe('Database tests:', function(){
 						db.User.find({
 							where : user
 						}).success(function(u){
-								u.getThreads().success(function(threads){
-									assert.equal(threads[0].id, thread.id);
+								u.isModeratorOf(thread.id, function(bool){
+									assert.equal(bool, true);
 									done();
-								});
+								})
 							});
 					});
 
