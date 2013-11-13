@@ -5,15 +5,20 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bettit.iws" afterPath="$PROJECT_DIR$/bettit.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/database-test.js" afterPath="$PROJECT_DIR$/test/database-test.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/outcome.js" afterPath="$PROJECT_DIR$/models/outcome.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/user.js" afterPath="$PROJECT_DIR$/models/user.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web.js" afterPath="$PROJECT_DIR$/web.js" />
     </list>
     <ignored path="bettit.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384300100187" ignored="false" />
-    <file path="/a.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384307452665" ignored="false" />
-    <file path="/database-test.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384312815861" ignored="false" />
+    <file path="/a.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384315166319" ignored="false" />
+    <file path="/database-test.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384316148150" ignored="false" />
     <file path="/index.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384305659115" ignored="false" />
     <file path="/a.dummy" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384307247318" ignored="false" />
     <file path="/event.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384308478184" ignored="false" />
+    <file path="/outcome.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384313858066" ignored="false" />
+    <file path="/user.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384314875198" ignored="false" />
+    <file path="/web.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384315016434" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,11 +82,11 @@
       <file leaf-file-name="database-test.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/database-test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="241" column="22" selection-start="5761" selection-end="5761" vertical-scroll-proportion="0.7708333">
+            <state line="363" column="43" selection-start="8975" selection-end="8975" vertical-scroll-proportion="2.6571429">
               <folding>
                 <element signature="e#184#261#0" expanded="false" />
-                <element signature="e#295#2997#0" expanded="false" />
-                <element signature="e#3033#4958#0" expanded="false" />
+                <element signature="e#3062#4987#0" expanded="false" />
+                <element signature="e#5023#6755#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -90,8 +95,20 @@
       <file leaf-file-name="event.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/event.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="8" selection-start="225" selection-end="323" vertical-scroll-proportion="0.0">
+            <state line="2" column="8" selection-start="87" selection-end="222" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="web.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="53" column="30" selection-start="1640" selection-end="1640" vertical-scroll-proportion="-22.28">
+              <folding>
+                <element signature="e#1399#1532#0" expanded="false" />
+                <element signature="e#1881#2336#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -108,7 +125,7 @@
       <file leaf-file-name="outcome.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/outcome.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="10" selection-start="377" selection-end="377" vertical-scroll-proportion="0.0">
+            <state line="19" column="30" selection-start="492" selection-end="492" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -126,7 +143,7 @@
       <file leaf-file-name="user.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="20" selection-start="143" selection-end="143" vertical-scroll-proportion="0.0">
+            <state line="7" column="32" selection-start="229" selection-end="229" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -135,7 +152,7 @@
       <file leaf-file-name="index.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="40" selection-start="619" selection-end="625" vertical-scroll-proportion="0.0">
+            <state line="19" column="32" selection-start="728" selection-end="728" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -160,11 +177,12 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/web.js" />
         <option value="$PROJECT_DIR$/models/index.js" />
         <option value="$PROJECT_DIR$/models/bet.js" />
         <option value="$PROJECT_DIR$/models/event.js" />
         <option value="$PROJECT_DIR$/models/outcome.js" />
+        <option value="$PROJECT_DIR$/models/user.js" />
+        <option value="$PROJECT_DIR$/web.js" />
         <option value="$PROJECT_DIR$/test/database-test.js" />
       </list>
     </option>
@@ -248,20 +266,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bettit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bettit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -275,7 +279,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="preferences.sourceCode.JavaScript" />
+    <property name="options.lastSelected" value="web.server" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -472,7 +476,7 @@
     <frame x="960" y="0" width="960" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33522728" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33522728" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -491,7 +495,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21603563" sideWeight="0.66477275" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2037862" sideWeight="0.66477275" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -587,8 +591,8 @@
         <state line="20" column="52" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#184#261#0" expanded="false" />
-            <element signature="e#295#2997#0" expanded="false" />
-            <element signature="e#3033#4958#0" expanded="false" />
+            <element signature="e#3062#4987#0" expanded="false" />
+            <element signature="e#5023#6755#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -597,9 +601,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="196" column="75" selection-start="5043" selection-end="5043" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#1403#1536#0" expanded="false" />
-            <element signature="e#1590#1815#0" expanded="false" />
-            <element signature="e#1867#2322#0" expanded="false" />
+            <element signature="e#1399#1532#0" expanded="false" />
+            <element signature="e#1881#2336#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -616,8 +619,8 @@
         <state line="20" column="52" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#184#261#0" expanded="false" />
-            <element signature="e#295#2997#0" expanded="false" />
-            <element signature="e#3033#4958#0" expanded="false" />
+            <element signature="e#3062#4987#0" expanded="false" />
+            <element signature="e#5023#6755#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -626,20 +629,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="205" column="50" selection-start="5240" selection-end="5240" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#1403#1536#0" expanded="false" />
-            <element signature="e#1590#1815#0" expanded="false" />
-            <element signature="e#1867#2322#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="42" selection-start="1819" selection-end="1819" vertical-scroll-proportion="0.2609727">
-          <folding>
-            <element signature="e#1403#1536#0" expanded="false" />
-            <element signature="e#1590#1815#0" expanded="false" />
-            <element signature="e#1867#2322#0" expanded="false" />
+            <element signature="e#1399#1532#0" expanded="false" />
+            <element signature="e#1881#2336#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -647,27 +638,6 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="0" selection-start="408" selection-end="408" vertical-scroll-proportion="-12.423077">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="20" selection-start="143" selection-end="143" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="40" selection-start="619" selection-end="625" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/bet.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="9" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -686,27 +656,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/bet.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="9" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/event.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="8" selection-start="225" selection-end="323" vertical-scroll-proportion="0.0">
+        <state line="2" column="8" selection-start="87" selection-end="222" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="30" selection-start="1640" selection-end="1640" vertical-scroll-proportion="-22.28">
+          <folding>
+            <element signature="e#1399#1532#0" expanded="false" />
+            <element signature="e#1881#2336#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="32" selection-start="229" selection-end="229" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/outcome.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="10" selection-start="377" selection-end="377" vertical-scroll-proportion="0.0">
+        <state line="19" column="30" selection-start="492" selection-end="492" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="32" selection-start="728" selection-end="728" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/database-test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="241" column="22" selection-start="5761" selection-end="5761" vertical-scroll-proportion="0.7708333">
+        <state line="363" column="43" selection-start="8975" selection-end="8975" vertical-scroll-proportion="2.6571429">
           <folding>
             <element signature="e#184#261#0" expanded="false" />
-            <element signature="e#295#2997#0" expanded="false" />
-            <element signature="e#3033#4958#0" expanded="false" />
+            <element signature="e#3062#4987#0" expanded="false" />
+            <element signature="e#5023#6755#0" expanded="false" />
           </folding>
         </state>
       </provider>

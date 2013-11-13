@@ -37,11 +37,11 @@ var app = express().http().io();
 //   the user by ID when deserializing.  However, since this example does not
 //   have a database of user records, the complete Reddit profile is
 //   serialized and deserialized.
-passport.serializeUser(function (user, done) {
+passport.serializeUser(function(user, done){
 	done(null, user);
 });
 
-passport.deserializeUser(function (obj, done) {
+passport.deserializeUser(function(obj, done){
 	done(null, obj);
 });
 
@@ -49,12 +49,13 @@ passport.use(new RedditStrategy({
 	clientID     : REDDIT_CONSUMER_KEY,
 	clientSecret : REDDIT_CONSUMER_SECRET,
 	callbackURL  : SERVER_URL + "/auth/reddit/callback"
-}, function (accessToken, refreshToken, profile, done) {
-	process.nextTick(function () {
+}, function(accessToken, refreshToken, profile, done){
+	process.nextTick(function(){
 		db.User.findOrCreate({
+			id       : profile.id,
 			username : profile.name,
 			money    : prefs.default_money
-		}).success(function (user) {
+		}).success(function(user){
 				console.log(user.values);
 			});
 		return done(null, profile);
@@ -62,7 +63,7 @@ passport.use(new RedditStrategy({
 }));
 
 // configure Express
-app.configure(function () {
+app.configure(function(){
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(express.static(__dirname + '/public'));
@@ -83,7 +84,7 @@ app.configure(function () {
 /**
  * SOCKET.IO ROUTING
  */
-app.io.route('money', function (req) {
+app.io.route('money', function(req){
 	console.log("route('money')");
 	var username = req.session.passport.user.name;
 	/*
@@ -95,7 +96,7 @@ app.io.route('money', function (req) {
 
 });
 
-app.io.route('thread_info', function (req) {
+app.io.route('thread_info', function(req){
 	console.log("route('thread_title')");
 	var referer = req.headers.referer;
 	var subreddit = parseSubreddit(referer);
@@ -104,7 +105,7 @@ app.io.route('thread_info', function (req) {
 
 	request({
 		uri : path
-	}, function (error, response, body) {
+	}, function(error, response, body){
 		var json = JSON.parse(body);
 		var post = json[0]['data']['children'][0]['data'];
 		var title = post['title'];
@@ -122,7 +123,7 @@ app.io.route('thread_info', function (req) {
 	});
 });
 
-app.io.route('is_mod', function (req) {
+app.io.route('is_mod', function(req){
 	console.log("route('is_mod')");
 	var username = req.session.passport.user.name;
 	var referer = req.headers.referer;
@@ -141,7 +142,7 @@ app.io.route('is_mod', function (req) {
 /**
  * EXPRESS ROUTING
  */
-app.get('/auth/reddit', function (req, res, next) {
+app.get('/auth/reddit', function(req, res, next){
 	req.session.state = crypto.randomBytes(32).toString('hex');
 	passport.authenticate('reddit', {
 		state    : req.session.state,
@@ -149,17 +150,17 @@ app.get('/auth/reddit', function (req, res, next) {
 	})(req, res, next);
 });
 
-app.get('/auth/reddit/callback', function (req, res, next) {
+app.get('/auth/reddit/callback', function(req, res, next){
 	// Check for origin via state token
 	if (req.query.state == req.session.state) {
-		passport.authenticate('reddit', function (err, user, info) {
+		passport.authenticate('reddit', function(err, user, info){
 			if (!user) {
 				return res.redirect('/');
 			}
 			if (err) {
 				return next(new Error(403));
 			}
-			req.logIn(user, function (err) {
+			req.logIn(user, function(err){
 				if (err) {
 					return next(new Error(403));
 				}
@@ -171,42 +172,42 @@ app.get('/auth/reddit/callback', function (req, res, next) {
 	}
 });
 
-app.get('/logout', function (req, res) {
+app.get('/logout', function(req, res){
 	req.logout();
 	res.redirect('/');
 });
 
-app.get('/r/:subreddit/comments/:thread/', ensureAuthenticated, function (req, res) {
+app.get('/r/:subreddit/comments/:thread/', ensureAuthenticated, function(req, res){
 	threadFunction(req, res);
 });
 
-app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated, function (req, res) {
+app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated, function(req, res){
 	threadFunction(req, res);
 });
 
 /**
  * PRIVATE HELPERS
  */
-function threadFunction(req, res) {
+function threadFunction(req, res){
 	res.render('thread', {
 		user : req.user.name
 	});
 }
 
-function parseThreadID(link) {
+function parseThreadID(link){
 	var idx = link.indexOf('/comments/');
 	var ss = link.substring(idx + 10);
 	return ss.substring(0, ss.indexOf('/'));
 }
 
-function parseSubreddit(link) {
+function parseSubreddit(link){
 	return link.substring(link.indexOf('/r/') + 3, link.indexOf('/comments/'));
 }
 
 /**
  * MIDDLEWARE
  */
-function ensureAuthenticated(req, res, next) {
+function ensureAuthenticated(req, res, next){
 	if (req.isAuthenticated()) {
 		return next();
 	}
@@ -219,7 +220,7 @@ function ensureAuthenticated(req, res, next) {
  */
 db.sequelize.sync({
 	force : prefs.force_sync
-}).complete(function (err) {
+}).complete(function(err){
 		if (err) {
 			throw err;
 		} else {

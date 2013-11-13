@@ -12,6 +12,7 @@ describe('Database tests:', function(){
 	describe('A user', function(){
 		describe('with a username and money amount', function(){
 			var user = {
+				id       : '123456',
 				username : 'testuser',
 				money    : 475
 			};
@@ -31,13 +32,11 @@ describe('Database tests:', function(){
 
 					before(function(done){
 						db.Thread.create(thread).success(function(t){
-							db.User.find({
-								where : user
-							}).success(function(u){
-									t.addUser(u).success(function(){
-										done();
-									});
+							db.User.find({where : user}).success(function(u){
+								t.addUser(u).success(function(){
+									done();
 								});
+							});
 						});
 					});
 
@@ -90,6 +89,7 @@ describe('Database tests:', function(){
 		});
 		describe('with a username and no money amount', function(){
 			var user = {
+				id       : '234567',
 				username : 'testuser'
 			};
 
@@ -276,6 +276,105 @@ describe('Database tests:', function(){
 			});
 
 
+		});
+	});
+
+	describe('A bet', function(){
+		describe('with valid information', function(){
+			var bet = {
+				amount : 50
+			};
+
+			describe('when added to the database', function(){
+				before(function(done){
+					db.Bet.create(bet).success(function(b){
+						bet.id = b.values.id;
+						done();
+					});
+				});
+
+				describe('when assigned a user and outcome', function(){
+					var user = {
+						id       : '124j2sz',
+						username : 'testuser3'
+					};
+					var outcome = {
+						title : 'bet outcome title'
+					};
+
+					before(function(done){
+						db.User.create(user).success(function(u){
+							user.id = u.values.id;
+							db.Outcome.create(outcome).success(function(o){
+								outcome.id = o.values.id;
+								db.Bet.find(bet.id).success(function(b){
+									u.addBet(b).success(function(){
+										o.addBet(b).success(function(){
+											done();
+										});
+									});
+								});
+							});
+						});
+					});
+
+					it('bet will appear as a bet of the outcome', function(done){
+						db.Outcome.find(outcome.id).success(function(o){
+							o.getBets().success(function(bets){
+								assert.equal(bets.length, 1);
+								assert.equal(bets[0].id, bet.id);
+								done();
+							})
+						});
+					});
+
+					it('bet will appear as a bet of the user', function(done){
+						db.User.find({where : user}).success(function(u){
+							u.getBets().success(function(bets){
+								assert.equal(bets.length, 1);
+								assert.equal(bets[0].id, bet.id);
+								done();
+							})
+						});
+					})
+
+					it('user will appear as owner of the bet', function(done){
+						db.Bet.find(bet.id).success(function(b){
+							b.getUser().success(function(u){
+								assert.equal(u.id, user.id);
+								done();
+							});
+						})
+					});
+
+					it('outcome will appear as owner of the bet', function(done){
+						db.Bet.find(bet.id).success(function(b){
+							b.getOutcome().success(function(o){
+								assert.equal(o.id, outcome.id);
+								done();
+							});
+						})
+					})
+
+					after(function(done){
+						db.User.find({where : user}).success(function(u){
+							u.destroy().success(function(){
+								db.Outcome.find(outcome.id).success(function(o){
+									o.destroy().success(function(){
+										done();
+									});
+								});
+							});
+						});
+					});
+				});
+
+				after(function(done){
+					db.Bet.destroy(bet.id).success(function(){
+						done();
+					});
+				});
+			});
 		});
 	});
 });

@@ -13,10 +13,11 @@ module.exports = function(sequelize, DataTypes){
 			unique       : false,
 			defaultValue : null
 		},
-		title : {
-			type         : DataTypes.STRING,
-			allowNull    : false,
-			primaryKey   : false
+		title  : {
+			type       : DataTypes.STRING,
+			allowNull  : false,
+			primaryKey : false,
+			unique     : false
 		}
 	});
 };
