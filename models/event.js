@@ -1,10 +1,15 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes){
 	return sequelize.define("Event", {
-		id : {
-			type : DataTypes.INTEGER.UNSIGNED,
+		id    : {
+			type          : DataTypes.BIGINT.UNSIGNED,
 			autoIncrement : true,
-			allowNull : false,
-			primaryKey : true
+			allowNull     : false,
+			primaryKey    : true
+		},
+		title : {
+			type         : DataTypes.STRING,
+			allowNull    : false,
+			primaryKey   : false
 		}
 	});
 };

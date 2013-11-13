@@ -4,11 +4,9 @@ var db = require('../models')('test', false);
 
 describe('Database tests:', function(){
 	before(function(done){
-		db.sequelize.sync({
-			force : true
-		}).success(function(){
-				done();
-			});
+		db.sequelize.sync({force : true}).success(function(){
+			done();
+		});
 	});
 
 	describe('A user', function(){
@@ -146,10 +144,10 @@ describe('Database tests:', function(){
 				});
 
 				describe('when an event is added', function(){
-					var event = { /* empty */ };
-
+					var event = { title: "event title" };
 					before(function(done){
 						db.Event.create(event).success(function(e){
+							event.id = e.values.id;
 							db.Thread.find({where : thread}).success(function(t){
 								t.addEvent(e).success(function(){
 									done();
@@ -162,6 +160,7 @@ describe('Database tests:', function(){
 						db.Thread.find({where : thread}).success(function(t){
 							t.getEvents().success(function(events){
 								assert.equal(events.length, 1);
+								assert.equal(event.title, events[0].values.title);
 								done();
 							}).error(function(error){
 									done(error);
@@ -170,7 +169,7 @@ describe('Database tests:', function(){
 					});
 
 					it('thread should appear as event\'s owner', function(done){
-						db.Event.find(1).success(function(e){
+						db.Event.find(event.id).success(function(e){
 							e.getThread().success(function(t){
 								assert.equal(t.id, thread.id);
 								done();
@@ -183,7 +182,7 @@ describe('Database tests:', function(){
 					});
 
 					after(function(done){
-						db.Event.find(1).success(function(e){
+						db.Event.find(event.id).success(function(e){
 							e.destroy().success(function(){
 								done();
 							})
@@ -208,6 +207,37 @@ describe('Database tests:', function(){
 					});
 				});
 			});
+		});
+	});
+
+	describe('An event', function(){
+		describe('with valid information', function(){
+			var event = {
+				title : "Event title!"
+			};
+
+			describe('when added to the database', function(){
+				before(function(done){
+					db.Event.create(event).success(function(e){
+						event.id = e.values.id;
+						db.Event.find(event.id).success(function(){
+							done();
+						})
+					}).error(function(err){
+							done(err);
+						});
+				});
+
+				it('appears in the database with correct information', function(done){
+					db.Event.find(event.id).success(function(e){
+						assert.equal(e.id, event.id);
+						assert.equal(e.title, event.title);
+						done();
+					});
+				});
+			});
+
+
 		});
 	});
 });
