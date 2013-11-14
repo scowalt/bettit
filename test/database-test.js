@@ -12,7 +12,6 @@ describe('Database tests:', function(){
 	describe('A user', function(){
 		describe('with a username and money amount', function(){
 			var user = {
-				id       : '123456',
 				username : 'testuser',
 				money    : 475
 			};
@@ -93,7 +92,6 @@ describe('Database tests:', function(){
 		});
 		describe('with a username and no money amount', function(){
 			var user = {
-				id       : '234567',
 				username : 'testuser'
 			};
 
@@ -311,7 +309,6 @@ describe('Database tests:', function(){
 
 				describe('when assigned a user and outcome', function(){
 					var user = {
-						id       : '124j2sz',
 						username : 'testuser3'
 					};
 					var outcome = {
@@ -320,7 +317,6 @@ describe('Database tests:', function(){
 
 					before(function(done){
 						db.User.create(user).success(function(u){
-							user.id = u.values.id;
 							db.Outcome.create(outcome).success(function(o){
 								outcome.id = o.values.id;
 								db.Bet.find(bet.id).success(function(b){
@@ -357,7 +353,7 @@ describe('Database tests:', function(){
 					it('user will appear as owner of the bet', function(done){
 						db.Bet.find(bet.id).success(function(b){
 							b.getUser().success(function(u){
-								assert.equal(u.id, user.id);
+								assert.equal(u.username, user.username);
 								done();
 							});
 						})

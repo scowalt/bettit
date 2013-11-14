@@ -52,9 +52,7 @@ passport.use(new RedditStrategy({
 }, function(accessToken, refreshToken, profile, done){
 	process.nextTick(function(){
 		db.User.findOrCreate({
-			id       : profile.id,
-			username : profile.name,
-			money    : prefs.default_money
+			username : profile.name
 		}).success(function(user){
 				console.log(user.values);
 			});
@@ -86,8 +84,8 @@ app.configure(function(){
  */
 app.io.route('money', function(req){
 	console.log("route('money')");
-	var id = req.session.passport.user.id;
-	db.User.find({where : {id : id}}).success(function(user){
+	var username = req.session.passport.user.name;
+	db.User.find({where : {username : username}}).success(function(user){
 		req.io.emit('money_response', {
 			money : user.values.money
 		});
@@ -130,10 +128,10 @@ app.io.route('thread_info', function(req){
 
 app.io.route('is_mod', function(req){
 	console.log("route('is_mod')");
-	var id = req.session.passport.user.id;
+	var username = req.session.passport.user.name;
 	var referer = req.headers.referer;
 	var thread_id = parseThreadID(referer);
-	db.User.find({where : {id : id}}).success(function(user){
+	db.User.find({where : {username : username}}).success(function(user){
 		user.isModeratorOf(thread_id, function(bool){
 			if(bool) {
 				req.io.emit('is_mod_response', {
@@ -218,7 +216,6 @@ function parseSubreddit(link){
 function ensureAuthenticated(req, res, next){
 	if(req.isAuthenticated()) {
 		db.User.findOrCreate({
-			id       : req.user.id,
 			username : req.user.name}).success(function(){
 				next();
 			}).error(function(){

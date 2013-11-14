@@ -7,13 +7,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="icon" type="image/png" href="favicon.ico">
+	<link rel="icon" type="image/png" href="/favicon.ico">
 
 	<!-- Le styles -->
 	<link href="/css/bootstrap.css" rel="stylesheet">
 	<style>
 		body {
-			padding-top    : 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+			padding-top    : 60px; /* make the container go to the bottom of the topbar */
 			padding-bottom : 60px; /* for footer */
 		}
 	</style>
@@ -83,7 +83,7 @@
 
 <!-- CONTENT -->
 <div class="container">
-	<div class="row-fluid">
+	<div id="title_row" class="row-fluid">
 		<div class="span12">
 			<h3><span id="thread_title"></span></h3>
 		</div>
@@ -91,6 +91,7 @@
 	<div class="row-fluid">
 		<div id="events" class="span6">
 			<span id="add_event_button_span"></span>
+
 			<div id="event_test" class="well well-small">
 				<h5 id="event_test_title">
 					Event title
@@ -105,7 +106,7 @@
 						<input type="radio" name="event_test_radios"
 						       id="outcome_y" value="outcome_y">Outcome Y Title
 					</label>
-					<input type="submit" class="btn" value="BET">
+					<input type="submit" class="btn btn-primary" value="BET">
 				</form>
 			</div>
 		</div>
@@ -144,7 +145,6 @@
 <!-- BETTIT JAVASCRIPT -->
 <script src="/socket.io/socket.io.js"></script>
 <script>
-	var mod = false;
 	$(document).ready(function(){
 		io = io.connect();
 
@@ -175,18 +175,15 @@
 		});
 		io.on("thread_info_response", function(data){
 			document.title = document.title + " " + data.title;
-			$("#thread_title").append(data.title);
-			$("#thread_content").append(data.content);
+			$("#thread_title").text(data.title);
+			$("#thread_content").html(data.content);
 		});
 		io.on('is_mod_response', function(data){
-			if(!mod) {
-				$('#add_event_button_span').replaceWith('<button type="button">Add event</button><br/>');
-				mod = true;
-			}
+			$('#add_event_button_span').replaceWith('' +
+					'<button class="btn btn-large btn-block btn-primary"' +
+					' type="button">Add event</button><br/>');
 		});
 	});
-
-
 </script>
 
 <!-- Google Analytics Code -->
