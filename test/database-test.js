@@ -6,7 +6,9 @@ describe('Database tests:', function(){
 	before(function(done){
 		db.sequelize.sync({force : true}).success(function(){
 			done();
-		});
+		}).error(function(error){
+				done(error);
+			});
 	});
 
 	describe('A user', function(){
@@ -156,7 +158,7 @@ describe('Database tests:', function(){
 				});
 
 				describe('when an event is added', function(){
-					var event = { title : "event title" };
+					var event = { title : "event title", status : "open" };
 					before(function(done){
 						db.Event.create(event).success(function(e){
 							event.id = e.values.id;
@@ -226,7 +228,8 @@ describe('Database tests:', function(){
 	describe('An event', function(){
 		describe('with valid information', function(){
 			var event = {
-				title : "Event title!"
+				title : "Event title!",
+				status: 'open'
 			};
 
 			describe('when added to the database', function(){

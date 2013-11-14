@@ -94,7 +94,7 @@
 
 			<div id="event_test" class="well well-small">
 				<h5 id="event_test_title">
-					Event title
+					This event is open and I haven't bet on it
 				</h5>
 
 				<form id="event_test_form" class="event_form">
@@ -107,6 +107,113 @@
 						       id="outcome_y" value="outcome_y">Outcome Y Title
 					</label>
 					<input type="submit" class="btn btn-primary" value="BET">
+				</form>
+			</div>
+
+			<div id="event_test2" class="well well-small">
+				<h5 id="event_test2_title">
+					I bet on this event (it may be locked or open)
+				</h5>
+
+				<label class="radio">
+					<input type="radio" name="event_test2_radios"
+					       id="outcome_x2" value="outcome_x" disabled>Outcome X
+					Title
+				</label>
+				<label class="radio">
+					<input type="radio" name="event_test2_radios"
+					       id="outcome_y2" value="outcome_y" disabled checked>I
+					bet on this outcome
+				</label>
+			</div>
+
+			<div id="event_test3" class="well well-small">
+				<h5 id="event_test3_title">
+					This event is locked and I didn't bet on it
+				</h5>
+
+				<label class="radio">
+					<input type="radio" name="event_test3_radios"
+					       id="outcome_x3" value="outcome_x" disabled>Outcome X
+					Title
+				</label>
+				<label class="radio">
+					<input type="radio" name="event_test3_radios"
+					       id="outcome_y3" value="outcome_y" disabled>Outcome Y
+				</label>
+			</div>
+			<div id="event_test4" class="well well-small">
+				<h5 id="event_test4_title">
+					This event is closed and I bet on it
+				</h5>
+
+				<label class="radio">
+					<input type="radio" name="event_test4_radios"
+					       id="outcome_x4" value="outcome_x" disabled><span
+						class="label label-success">This outcome
+					happened</span>
+				</label>
+				<label class="radio">
+					<input type="radio" name="event_test4_radios"
+					       id="outcome_y4" value="outcome_y" checked disabled>I
+					bet on this outcome and it didn't happen
+				</label>
+			</div>
+
+			<div id="event_test5" class="well well-small">
+				<h5 id="event_test5_title">
+					This event is open and I haven't bet on it and I'm a moderator
+				</h5>
+
+				<form id="event_test5_form" class="event_form">
+					<label class="radio">
+						<input type="radio" name="event_test5_radios"
+						       id="outcome_x5" value="outcome_x">Outcome X Title
+					</label>
+					<label class="radio">
+						<input type="radio" name="event_test5_radios"
+						       id="outcome_y5" value="outcome_y">Outcome Y Title
+					</label>
+					<input type="submit" class="btn btn-primary" value="BET">
+					<button type="button" class="btn btn-warning">Lock</button>
+				</form>
+			</div>
+
+			<div id="event_test6" class="well well-small">
+				<h5 id="event_test6_title">
+					This event is open and I bet on it and I'm a moderator
+				</h5>
+
+				<form id="event_test6_form" class="event_form">
+					<label class="radio">
+						<input type="radio" name="event_test6_radios"
+						       id="outcome_x6" value="outcome_x" disabled
+						       checked>Outcome X Title</label>
+					<label class="radio">
+						<input type="radio" name="event_test6_radios"
+						       id="outcome_y6" value="outcome_y" disabled>Outcome Y
+						Title
+					</label>
+					<button type="button" class="btn btn-warning">Lock</button>
+				</form>
+			</div>
+
+			<div id="event_test7" class="well well-small">
+				<h5 id="event_test7_title">
+					This event is locked and I'm a moderator
+				</h5>
+
+				<form id="event_test7_form" class="event_form">
+					<label class="radio">
+						<input type="radio" name="event_test7_radios"
+						       id="outcome_x7" value="outcome_x">Outcome X
+						Title </label>
+					<label class="radio">
+						<input type="radio" name="event_test7_radios"
+						       id="outcome_y7" value="outcome_y">Outcome Y
+						Title
+					</label>
+					<button type="button" class="btn btn-danger">Close</button>
 				</form>
 			</div>
 		</div>
@@ -166,6 +273,7 @@
 		io.emit('money');
 		io.emit('thread_info');
 		io.emit('is_mod');
+		io.emit('get_events');
 
 		/**
 		 * IO Receivers
