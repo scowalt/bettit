@@ -111,14 +111,19 @@ app.io.route('thread_info', function(req){
 		var content = post['is_self'] ? SnuOwnd.getParser().render(post['selftext'])
 			: post['url'];
 		var author = post['author'];
-		/*
-		 db.addUser(author);
-		 db.addThread(thread_id, title, content, author, subreddit);
-		 db.addThreadMod(author, thread_id);*/
 
 		req.io.emit('thread_info_response', {
 			title   : title,
 			content : content
+		});
+
+		db.User.findOrCreate({username : author}).success(function(user){
+			db.Thread.findOrCreate({id : thread_id}).success(function(thread){
+				thread.addUser(user).success(function(){
+					if(req.session.passport.user.name === author)
+						req.io.emit('is_mod_response', {});
+				});
+			});
 		});
 	});
 });
@@ -131,7 +136,7 @@ app.io.route('is_mod', function(req){
 	db.User.find({where : {id : id}}).success(function(user){
 		user.isModeratorOf(thread_id, function(bool){
 			if(bool) {
-				req.io.emit('add_event_form', {
+				req.io.emit('is_mod_response', {
 					// empty
 				});
 			}
@@ -168,7 +173,8 @@ app.get('/auth/reddit/callback', function(req, res, next){
 				return res.redirect(req.session.redirect_to);
 			});
 		})(req, res, next);
-	} else {
+	}
+	else {
 		next(new Error(403));
 	}
 });
@@ -218,7 +224,8 @@ function ensureAuthenticated(req, res, next){
 			}).error(function(){
 				console.log("Error finding or adding user!");
 			});
-	} else {
+	}
+	else {
 		req.session.redirect_to = req.path;
 		res.redirect('/auth/reddit');
 	}
@@ -232,7 +239,8 @@ db.sequelize.sync({
 }).complete(function(err){
 		if(err) {
 			throw err;
-		} else {
+		}
+		else {
 			app.listen(PORT);
 		}
 	});

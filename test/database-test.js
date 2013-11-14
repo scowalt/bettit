@@ -40,27 +40,30 @@ describe('Database tests:', function(){
 						});
 					});
 
-					it('should appear as the moderator of the thread', function(done){
-						db.Thread.find({
-							where : thread
-						}).success(function(t){
-								t.getUsers().success(function(moderators){
-									assert.equal(moderators[0].username, user.username);
-									done();
+					it('should appear as the moderator of the thread',
+						function(done){
+							db.Thread.find({
+								where : thread
+							}).success(function(t){
+									t.getUsers().success(function(moderators){
+										assert.equal(moderators[0].username,
+											user.username);
+										done();
+									});
 								});
-							});
-					});
+						});
 
-					it('the thread should appear under the user\'s moderated threads', function(done){
-						db.User.find({
-							where : user
-						}).success(function(u){
-								u.isModeratorOf(thread.id, function(bool){
-									assert.equal(bool, true);
-									done();
-								})
-							});
-					});
+					it('the thread should appear under the user\'s moderated threads',
+						function(done){
+							db.User.find({
+								where : user
+							}).success(function(u){
+									u.isModeratorOf(thread.id, function(bool){
+										assert.equal(bool, true);
+										done();
+									})
+								});
+						});
 
 					after(function(done){
 						db.Thread.destroy(thread).success(function(){
@@ -69,15 +72,16 @@ describe('Database tests:', function(){
 					});
 				});
 
-				it('should be in the database with the correct money value', function(done){
-					db.User.find({
-						where : user
-					}).success(function(info){
-							assert.equal(user.money, info.money);
-							assert.equal(user.username, info.username);
-							done();
-						});
-				});
+				it('should be in the database with the correct money value',
+					function(done){
+						db.User.find({
+							where : user
+						}).success(function(info){
+								assert.equal(user.money, info.money);
+								assert.equal(user.username, info.username);
+								done();
+							});
+					});
 
 				after(function(done){
 					db.User.destroy(user).success(function(){
@@ -100,15 +104,16 @@ describe('Database tests:', function(){
 					});
 				});
 
-				it('should be in the database with the default money value', function(done){
-					db.User.find({
-						where : user
-					}).success(function(info){
-							assert.equal(user.username, info.username);
-							assert.equal(prefs.default_money, info.money);
-							done();
-						});
-				});
+				it('should be in the database with the default money value',
+					function(done){
+						db.User.find({
+							where : user
+						}).success(function(info){
+								assert.equal(user.username, info.username);
+								assert.equal(prefs.default_money, info.money);
+								done();
+							});
+					});
 
 				after(function(done){
 					db.User.destroy(user).success(function(){
@@ -135,6 +140,15 @@ describe('Database tests:', function(){
 			var thread = {
 				id : 'atqr2e'
 			};
+
+			it('cannot be found before being added to the database', function(done){
+				db.Thread.find({where : thread}).success(function(t){
+					if(t)
+						throw "Shouldn't be in database";
+					else
+						done();
+				});
+			});
 
 			describe('when added to the database', function(){
 				before(function(done){
@@ -192,14 +206,15 @@ describe('Database tests:', function(){
 					});
 				});
 
-				it('should be in the database with the correct information', function(done){
-					db.Thread.find({
-						where : thread
-					}).success(function(info){
-							assert.equal(info.id, thread.id);
-							done();
-						});
-				});
+				it('should be in the database with the correct information',
+					function(done){
+						db.Thread.find({
+							where : thread
+						}).success(function(info){
+								assert.equal(info.id, thread.id);
+								done();
+							});
+					});
 
 				after(function(done){
 					db.Thread.destroy(thread).success(function(){
@@ -228,13 +243,14 @@ describe('Database tests:', function(){
 						});
 				});
 
-				it('appears in the database with correct information', function(done){
-					db.Event.find(event.id).success(function(e){
-						assert.equal(e.id, event.id);
-						assert.equal(e.title, event.title);
-						done();
+				it('appears in the database with correct information',
+					function(done){
+						db.Event.find(event.id).success(function(e){
+							assert.equal(e.id, event.id);
+							assert.equal(e.title, event.title);
+							done();
+						});
 					});
-				});
 
 				describe('when an outcome is added to the event', function(){
 					var outcome = {

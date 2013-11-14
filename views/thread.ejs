@@ -117,6 +117,8 @@
 		<!-- BETTIT JAVASCRIPT -->
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
+			var mod = false;
+
 			$(document).ready(function() {
 				io = io.connect();
 
@@ -138,8 +140,11 @@
 					$("#thread_title").append(data.title);
 					$("#thread_content").append(data.content);
 				});
-				io.on('add_event_form', function(data) {
+				io.on('is_mod_response', function(data) {
+					if (!mod){
 					$('#events').prepend('<button type="button">Add event</button><br/>');
+						mod = true;
+					}
 				});
 			});
 		</script>
