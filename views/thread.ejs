@@ -1,169 +1,209 @@
 <!DOCTYPE html>
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Bettit -</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		<link rel="icon" type="image/png" href="favicon.ico">
+<head>
+	<meta charset="utf-8">
+	<title>Bettit -</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" type="image/png" href="favicon.ico">
 
-		<!-- Le styles -->
-		<link href="/css/bootstrap.css" rel="stylesheet">
-		<style>
-			body {
-				padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-				padding-bottom: 60px; /* for footer */
-			}
-		</style>
-		<link href="/css/bootstrap-responsive.css" rel="stylesheet">
-		<style type="text/css">
-			#footer {
-				position: fixed;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				height: 60px;
-				width: 100%;
-				background-color: #f5f5f5;
-			}
-			.scrollable {
-				height: 500px;
-				overflow: scroll;
-			}
-			.container .credit {
-				margin: 20px 0;
-			}
-			#thread_content hr {
-				border-color: #E2E2E2;
-			}
-			#thread_content table, th, td {
-				border: 1px solid black;
-			}
-		</style>
+	<!-- Le styles -->
+	<link href="/css/bootstrap.css" rel="stylesheet">
+	<style>
+		body {
+			padding-top    : 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+			padding-bottom : 60px; /* for footer */
+		}
+	</style>
+	<link href="/css/bootstrap-responsive.css" rel="stylesheet">
+	<style type="text/css">
+		#footer {
+			position         : fixed;
+			bottom           : 0;
+			left             : 0;
+			right            : 0;
+			height           : 60px;
+			width            : 100%;
+			background-color : #f5f5f5;
+		}
 
-		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-		<!--[if lt IE 9]>
-		<script src="/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
-	<body>
-		<!-- NAV BAR -->
-		<div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container">
-					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="brand" href="#">bettit</a>
-					<div class="nav-collapse collapse">
-						<ul class="nav">
-							<li>
-								<a href="http://bettit.us/">Home</a>
-							</li>
-							<li>
-								<a href="http://bettit.us/about">About</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
+		.scrollable {
+			height   : 500px;
+			overflow : scroll;
+		}
 
-		<!-- CONTENT -->
+		.container .credit {
+			margin : 20px 0;
+		}
+
+		#thread_content hr {
+			border-color : #E2E2E2;
+		}
+
+		#thread_content table, th, td {
+			border : 1px solid black;
+		}
+	</style>
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.js"></script>
+	<![endif]-->
+</head>
+<body>
+<!-- NAV BAR -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
 		<div class="container">
-			<div class="row-fluid">
-				<div class="span12">
-					<b><span id="thread_title"></span></b>
-				</div>
-			</div>
-			<div class="row-fluid">
-				<div id="events" class="span6">
-					Events
-				</div>
-				<div class="span6">
-					<div id="thread_content" class="hero-unit scrollable"></div>
-				</div>
-			</div>
-		</div>
+			<button type="button"
+			        class="btn btn-navbar"
+			        data-toggle="collapse"
+			        data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="brand" href="#">bettit</a>
 
-		<!-- FLOATING FOOTER-->
-		<div id="footer">
-			<div class="container">
-				<p id="user_info" class="credit">
-					<%= user %> | &sect;
-				</p>
+			<div class="nav-collapse collapse">
+				<ul class="nav">
+					<li>
+						<a href="http://bettit.us/">Home</a>
+					</li>
+					<li>
+						<a href="http://bettit.us/about">About</a>
+					</li>
+				</ul>
 			</div>
 		</div>
+	</div>
+</div>
 
-		<!-- BOOTSTRAP JAVASCRIPT -->
-		<script src="/js/jquery.js"></script>
-		<script src="/js/bootstrap-transition.js"></script>
-		<script src="/js/bootstrap-alert.js"></script>
-		<script src="/js/bootstrap-modal.js"></script>
-		<script src="/js/bootstrap-dropdown.js"></script>
-		<script src="/js/bootstrap-scrollspy.js"></script>
-		<script src="/js/bootstrap-tab.js"></script>
-		<script src="/js/bootstrap-tooltip.js"></script>
-		<script src="/js/bootstrap-popover.js"></script>
-		<script src="/js/bootstrap-button.js"></script>
-		<script src="/js/bootstrap-collapse.js"></script>
-		<script src="/js/bootstrap-carousel.js"></script>
-		<script src="/js/bootstrap-typeahead.js"></script>
+<!-- CONTENT -->
+<div class="container">
+	<div class="row-fluid">
+		<div class="span12">
+			<h3><span id="thread_title"></span></h3>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div id="events" class="span6">
+			<span id="add_event_button_span"></span>
+			<div id="event_test" class="well well-small">
+				<h5 id="event_test_title">
+					Event title
+				</h5>
 
-		<!-- BETTIT JAVASCRIPT -->
-		<script src="/socket.io/socket.io.js"></script>
-		<script>
-			var mod = false;
+				<form id="event_test_form" class="event_form">
+					<label class="radio">
+						<input type="radio" name="event_test_radios"
+						       id="outcome_x" value="outcome_x">Outcome X Title
+					</label>
+					<label class="radio">
+						<input type="radio" name="event_test_radios"
+						       id="outcome_y" value="outcome_y">Outcome Y Title
+					</label>
+					<input type="submit" class="btn" value="BET">
+				</form>
+			</div>
+		</div>
+		<div class="span6">
+			<div id="thread_content" class="hero-unit scrollable"></div>
+		</div>
+	</div>
+</div>
 
-			$(document).ready(function() {
-				io = io.connect();
+<!-- FLOATING FOOTER-->
+<div id="footer">
+	<div align="center" class="container">
+		<p id="user_info" class="credit">
+		<h4>
+			<%= user %> | &sect;<span id="user_money"></span>
+		</h4>
+		</p>
+	</div>
+</div>
 
-				/**
-				 * IO Emits
-				 */
-				io.emit('money');
-				io.emit('thread_info');
-				io.emit('is_mod');
+<!-- BOOTSTRAP JAVASCRIPT -->
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap-transition.js"></script>
+<script src="/js/bootstrap-alert.js"></script>
+<script src="/js/bootstrap-modal.js"></script>
+<script src="/js/bootstrap-dropdown.js"></script>
+<script src="/js/bootstrap-scrollspy.js"></script>
+<script src="/js/bootstrap-tab.js"></script>
+<script src="/js/bootstrap-tooltip.js"></script>
+<script src="/js/bootstrap-popover.js"></script>
+<script src="/js/bootstrap-button.js"></script>
+<script src="/js/bootstrap-collapse.js"></script>
+<script src="/js/bootstrap-carousel.js"></script>
+<script src="/js/bootstrap-typeahead.js"></script>
 
-				/**
-				 * IO Receivers
-				 */
-				io.on('money_response', function(data) {
-					$("#user_info").append(data.money);
-				});
-				io.on("thread_info_response", function(data) {
-					document.title = document.title + " " + data.title;
-					$("#thread_title").append(data.title);
-					$("#thread_content").append(data.content);
-				});
-				io.on('is_mod_response', function(data) {
-					if (!mod){
-					$('#events').prepend('<button type="button">Add event</button><br/>');
-						mod = true;
-					}
-				});
+<!-- BETTIT JAVASCRIPT -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	var mod = false;
+	$(document).ready(function(){
+		io = io.connect();
+
+		$(".event_form").each(function(index){
+			var $form = $(this);
+			$form.submit(function(event){
+				event.preventDefault();
+				var id = $form.attr('id');
+				var search = '#' + id + ' input:checked';
+				$(search).each(function(index){
+					console.log($(this));
+				})
 			});
-		</script>
+		});
 
-		<!-- Google Analytics Code -->
-		<script>
-			( function(b, o, i, l, e, r) {
-					b.GoogleAnalyticsObject = l;
-					b[l] || (b[l] = function() {
-						(b[l].q = b[l].q || []).push(arguments);
-					});
-					b[l].l = +new Date;
-					e = o.createElement(i);
-					r = o.getElementsByTagName(i)[0];
-					e.src = '//www.google-analytics.com/analytics.js';
-					r.parentNode.insertBefore(e, r)
-				}(window, document, 'script', 'ga'));
-			ga('create', 'UA-45375037-1');
-			ga('send', 'pageview');
-		</script>
-	</body>
+		/**
+		 * IO Emits
+		 */
+		io.emit('money');
+		io.emit('thread_info');
+		io.emit('is_mod');
+
+		/**
+		 * IO Receivers
+		 */
+		io.on('money_response', function(data){
+			$("#user_money").text(data.money);
+		});
+		io.on("thread_info_response", function(data){
+			document.title = document.title + " " + data.title;
+			$("#thread_title").append(data.title);
+			$("#thread_content").append(data.content);
+		});
+		io.on('is_mod_response', function(data){
+			if(!mod) {
+				$('#add_event_button_span').replaceWith('<button type="button">Add event</button><br/>');
+				mod = true;
+			}
+		});
+	});
+
+
+</script>
+
+<!-- Google Analytics Code -->
+<script>
+	( function(b, o, i, l, e, r){
+		b.GoogleAnalyticsObject = l;
+		b[l] || (b[l] = function(){
+			(b[l].q = b[l].q || []).push(arguments);
+		});
+		b[l].l = +new Date;
+		e = o.createElement(i);
+		r = o.getElementsByTagName(i)[0];
+		e.src = '//www.google-analytics.com/analytics.js';
+		r.parentNode.insertBefore(e, r)
+	}(window, document, 'script', 'ga'));
+	ga('create', 'UA-45375037-1');
+	ga('send', 'pageview');
+</script>
+</body>
 </html>

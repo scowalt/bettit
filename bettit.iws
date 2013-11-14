@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67eabefe-ad6e-4405-9087-d369956aa746" name="Default" comment="Using IntelliJ (again), test commit">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/database-test.js" afterPath="$PROJECT_DIR$/test/database-test.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bettit.iws" afterPath="$PROJECT_DIR$/bettit.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/thread.ejs" afterPath="$PROJECT_DIR$/views/thread.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/thread.js" afterPath="$PROJECT_DIR$/models/thread.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web.js" afterPath="$PROJECT_DIR$/web.js" />
     </list>
     <ignored path="bettit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -20,7 +18,7 @@
     <file path="/web.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384387797939" ignored="false" />
     <file path="/thread.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384387203480" ignored="false" />
     <file path="/prefs.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384378818561" ignored="false" />
-    <file path="/thread.ejs" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384387946544" ignored="false" />
+    <file path="/thread.ejs" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384410921703" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,19 +79,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="reddit.json" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/meta/reddit.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="23" selection-start="478" selection-end="478" vertical-scroll-proportion="-9.076923">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="event.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/event.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="8" selection-start="87" selection-end="219" vertical-scroll-proportion="0.0">
+            <state line="13" column="7" selection-start="325" selection-end="325" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -114,7 +103,7 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="144" column="26" selection-start="3760" selection-end="3760" vertical-scroll-proportion="0.6415094">
+            <state line="181" column="22" selection-start="4565" selection-end="4565" vertical-scroll-proportion="0.48679245">
               <folding />
             </state>
           </provider>
@@ -208,8 +197,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="952" />
-    <option name="y" value="9" />
+    <option name="x" value="960" />
     <option name="width" value="960" />
     <option name="height" value="1040" />
   </component>
@@ -342,7 +330,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="settings.nodejs" />
+    <property name="options.lastSelected" value="preferences.pluginManager" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/bettit.ipr" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
@@ -537,7 +525,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="952" y="9" width="960" height="1040" extended-state="0" />
+    <frame x="960" y="0" width="960" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33522728" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -701,13 +689,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/event.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="8" selection-start="87" selection-end="219" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/thread.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="9" selection-start="238" selection-end="238" vertical-scroll-proportion="0.0">
@@ -724,9 +705,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/meta/reddit.json">
+    <entry file="file://$PROJECT_DIR$/models/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="23" selection-start="478" selection-end="478" vertical-scroll-proportion="-9.076923">
+        <state line="19" column="32" selection-start="728" selection-end="728" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/event.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="7" selection-start="325" selection-end="325" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -738,19 +726,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="32" selection-start="728" selection-end="728" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/thread.ejs">
       <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="144" column="26" selection-start="3760" selection-end="3760" vertical-scroll-proportion="0.6415094">
+        <state line="181" column="22" selection-start="4565" selection-end="4565" vertical-scroll-proportion="0.48679245">
           <folding />
         </state>
       </provider>
