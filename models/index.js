@@ -6,7 +6,8 @@ module.exports = function(database, logging){
 		var info = require('../config/secrets.js').mysql;
 		var Sequelize = require('sequelize');
 		var sequelize = new Sequelize(database, info.username, info.password, {
-			logging : logging
+			logging : logging,
+			pool: { maxConnections: 5, maxIdleTime: 30}
 		});
 
 		global.db = {

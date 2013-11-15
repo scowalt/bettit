@@ -15,7 +15,8 @@ module.exports = function(sequelize, DataTypes){
 			type       : DataTypes.ENUM,
 			values: ['open', 'locked', 'closed'],
 			allowNull  : false,
-			primaryKey : false
+			primaryKey : false,
+			defaultValue : 'open'
 		}
 	});
 };

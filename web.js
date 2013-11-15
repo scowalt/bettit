@@ -83,11 +83,10 @@ app.configure(function(){
  * SOCKET.IO ROUTING
  */
 app.io.route('ready', function(req){
-	console.log("Joining room " + parseThreadID(req.headers.referer));
 	req.io.join(parseThreadID(req.headers.referer));
 	var username = req.session.passport.user.name;
 	db.User.find({where : {username : username}}).success(function(user){
-		if (!user) return;
+		if(!user) return;
 		req.io.emit('money_response', {
 			money : user.values.money
 		});
@@ -95,7 +94,6 @@ app.io.route('ready', function(req){
 });
 
 app.io.route('thread_info', function(req){
-	console.log("route('thread_title')");
 	var referer = req.headers.referer;
 	var subreddit = parseSubreddit(referer);
 	var thread_id = parseThreadID(referer);
@@ -129,12 +127,11 @@ app.io.route('thread_info', function(req){
 });
 
 app.io.route('is_mod', function(req){
-	console.log("route('is_mod')");
 	var username = req.session.passport.user.name;
 	var referer = req.headers.referer;
 	var thread_id = parseThreadID(referer);
 	db.User.find({where : {username : username}}).success(function(user){
-		if (!user) return;
+		if(!user) return;
 		user.isModeratorOf(thread_id, function(bool){
 			if(bool) {
 				req.io.emit('is_mod_response', {
@@ -143,8 +140,47 @@ app.io.route('is_mod', function(req){
 			}
 		})
 	});
-
 });
+
+app.io.route('add_event', function(req){
+	var username = req.session.passport.user.name;
+	var thread_id = parseThreadID(req.headers.referer);
+	db.User.find({where : {username : username}}).success(function(user){
+		if(!user) return;
+		user.isModeratorOf(thread_id, function(bool){
+			if(!bool) return;
+			db.Event.create({title : req.data.title}).success(function(event){
+				for (var i = 0; i < req.data.outcomes.length; i++) {
+					var outcome = req.data.outcomes[i];
+					db.Outcome.create({title : outcome}).success(function(o){
+						event.addOutcome(o).success(function(){
+							// don't do anything
+						});
+					});
+				}
+				;
+				sendNewEvent(thread_id, event.values.id);
+			});
+		});
+	});
+});
+
+function sendNewEvent(thread_id, event_id){
+	db.Event.find({where : {id : event_id}}).success(function(event){
+		event.getOutcomes().success(function(outcomes){
+			var outcomeTitles = [];
+			for(var i = 0; i < outcomes.length; i++){
+				var outcome = outcomes[i]
+				outcomeTitles.push(outcome.values.title);
+			}
+			app.io.room(thread_id).broadcast('new_event', {
+				id : event_id,
+				title : event.values.title,
+				outcomes : outcomeTitles
+			});
+		});
+	});
+};
 
 /**
  * EXPRESS ROUTING

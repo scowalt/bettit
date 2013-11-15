@@ -57,6 +57,10 @@ $(document).ready(function(){
 				'class="btn btn-large btn-block btn-primary"' +
 				' type="button">Add event</button><br/>');
 	});
+	io.on('new_event', function(data){
+		var html = $()
+		$("#add_event_span").after();
+	})
 
 	$(document).on("click", "#add_event_button", function(){
 		$("#add_event_span").html($("<div>",
@@ -79,7 +83,8 @@ $(document).ready(function(){
 				if(value !== '') outcomes.push(value);
 			})
 			io.emit('add_event', {
-
+				title    : eventTitle,
+				outcomes : outcomes
 			});
 		})
 	})
