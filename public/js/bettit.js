@@ -51,15 +51,42 @@ $(document).ready(function(){
 		$("#thread_content").html(data.content);
 	});
 	io.on('is_mod_response', function(data){
-		if(!mod)
+		if(!mod){
 			$('#add_event_span').html('' + '<button ' +
 				'id="add_event_button" ' +
 				'class="btn btn-large btn-block btn-primary"' +
 				' type="button">Add event</button><br/>');
+			mod = true;
+		}
 	});
 	io.on('new_event', function(data){
-		var html = $()
-		$("#add_event_span").after();
+		var form = $("<form>", {
+			'id'    : "event_" + data.id + "_form",
+			'class' : 'event_form'
+		});
+		for (var i = 0; i < data.outcomes.length; i++) {
+			var outcome = data.outcomes[i];
+			form.append($("<label>", {'class' : 'radio'}).text(outcome.title)
+				.prepend($("<input>", {
+					'type'  : 'radio',
+					'name'  : 'event_' + data.id + '_radios',
+					'id'    : 'outcome_' + outcome.id,
+					'value' : 'outcome_' + outcome.id
+				})));
+		}
+		form.append($("<input>", {
+			'type'  : 'submit',
+			'class' : "btn btn-primary",
+			'value' : 'Bet'
+		}));
+		if(mod) form.append($("<button>", {
+			'type' : "button", 'class' : "btn btn-warning"
+		}).text("Lock"));
+		var html = $("<div>", {
+			'id'    : "event_" + data.id,
+			'class' : 'well well-small'
+		}).append($('<h5>').text(data.title)).append(form);
+		$("#add_event_span").after(html);
 	})
 
 	$(document).on("click", "#add_event_button", function(){

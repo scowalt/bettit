@@ -9,6 +9,7 @@ var request = require('request');
 var SnuOwnd = require('snuownd');
 var RedditStrategy = require('passport-reddit').Strategy;
 var RedisStore = require('connect-redis')(express);
+var _ = require('underscore');
 
 /**
  * MODULE IMPORTS
@@ -150,16 +151,20 @@ app.io.route('add_event', function(req){
 		user.isModeratorOf(thread_id, function(bool){
 			if(!bool) return;
 			db.Event.create({title : req.data.title}).success(function(event){
-				for (var i = 0; i < req.data.outcomes.length; i++) {
+				var len = req.data.outcomes.length;
+				var finished = _.after(len,
+					function(){
+						sendNewEvent(thread_id, event.values.id)
+					});
+				for (var i = 0; i < len; i++) {
 					var outcome = req.data.outcomes[i];
 					db.Outcome.create({title : outcome}).success(function(o){
 						event.addOutcome(o).success(function(){
-							// don't do anything
+							finished();
 						});
 					});
 				}
-				;
-				sendNewEvent(thread_id, event.values.id);
+
 			});
 		});
 	});
@@ -168,15 +173,18 @@ app.io.route('add_event', function(req){
 function sendNewEvent(thread_id, event_id){
 	db.Event.find({where : {id : event_id}}).success(function(event){
 		event.getOutcomes().success(function(outcomes){
-			var outcomeTitles = [];
-			for(var i = 0; i < outcomes.length; i++){
+			var outcomeInfos = [];
+			for (var i = 0; i < outcomes.length; i++) {
 				var outcome = outcomes[i]
-				outcomeTitles.push(outcome.values.title);
+				outcomeInfos.push(
+					{title : outcome.values.title,
+						id : outcome.values.id});
 			}
+			console.log(outcomeInfos);
 			app.io.room(thread_id).broadcast('new_event', {
-				id : event_id,
-				title : event.values.title,
-				outcomes : outcomeTitles
+				id       : event_id,
+				title    : event.values.title,
+				outcomes : outcomeInfos
 			});
 		});
 	});
