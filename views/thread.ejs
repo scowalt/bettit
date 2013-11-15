@@ -251,53 +251,7 @@
 
 <!-- BETTIT JAVASCRIPT -->
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/bettit-mod.js"></script>
-<script>
-	var mod = false;
-
-	$(document).ready(function(){
-		io = io.connect();
-
-		$(".event_form").each(function(index){
-			var $form = $(this);
-			$form.submit(function(event){
-				event.preventDefault();
-				var id = $form.attr('id');
-				var search = '#' + id + ' input:checked';
-				$(search).each(function(index){
-					console.log($(this));
-				})
-			});
-		});
-
-		/**
-		 * IO Emits
-		 */
-		io.emit('money');
-		io.emit('thread_info');
-		io.emit('is_mod');
-		io.emit('get_events');
-
-		/**
-		 * IO Receivers
-		 */
-		io.on('money_response', function(data){
-			$("#user_money").text(data.money);
-		});
-		io.on("thread_info_response", function(data){
-			document.title = document.title + " " + data.title;
-			$("#thread_title").text(data.title);
-			$("#thread_content").html(data.content);
-		});
-		io.on('is_mod_response', function(data){
-			if(!mod)
-				$('#add_event_span').html('' + '<button ' +
-						'id="add_event_button" ' +
-						'class="btn btn-large btn-block btn-primary"' +
-						' type="button">Add event</button><br/>');
-		});
-	});
-</script>
+<script src="/js/bettit.js"></script>
 
 <!-- Google Analytics Code -->
 <script>

@@ -82,10 +82,12 @@ app.configure(function(){
 /**
  * SOCKET.IO ROUTING
  */
-app.io.route('money', function(req){
-	console.log("route('money')");
+app.io.route('ready', function(req){
+	console.log("Joining room " + parseThreadID(req.headers.referer));
+	req.io.join(parseThreadID(req.headers.referer));
 	var username = req.session.passport.user.name;
 	db.User.find({where : {username : username}}).success(function(user){
+		if (!user) return;
 		req.io.emit('money_response', {
 			money : user.values.money
 		});
@@ -132,6 +134,7 @@ app.io.route('is_mod', function(req){
 	var referer = req.headers.referer;
 	var thread_id = parseThreadID(referer);
 	db.User.find({where : {username : username}}).success(function(user){
+		if (!user) return;
 		user.isModeratorOf(thread_id, function(bool){
 			if(bool) {
 				req.io.emit('is_mod_response', {
