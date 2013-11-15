@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="67eabefe-ad6e-4405-9087-d369956aa746" name="Default" comment="Using IntelliJ (again), test commit">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bettit.iws" afterPath="$PROJECT_DIR$/bettit.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/database-test.js" afterPath="$PROJECT_DIR$/test/database-test.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/event.js" afterPath="$PROJECT_DIR$/models/event.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/thread.ejs" afterPath="$PROJECT_DIR$/views/thread.ejs" />
     </list>
     <ignored path="bettit.iws" />
@@ -13,14 +11,14 @@
     <file path="/a.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384411342287" ignored="false" />
     <file path="/database-test.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384458706932" ignored="false" />
     <file path="/index.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384305659115" ignored="false" />
-    <file path="/a.dummy" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384386633577" ignored="false" />
+    <file path="/a.dummy" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384463060536" ignored="false" />
     <file path="/event.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384458650142" ignored="false" />
     <file path="/outcome.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384385271231" ignored="false" />
     <file path="/user.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384385243788" ignored="false" />
     <file path="/web.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384412780080" ignored="false" />
     <file path="/thread.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384387203480" ignored="false" />
     <file path="/prefs.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384378818561" ignored="false" />
-    <file path="/thread.ejs" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384457130157" ignored="false" />
+    <file path="/thread.ejs" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384485234447" ignored="false" />
     <file path="/a.html" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384411303438" ignored="false" />
     <file path="/*.regexp" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384456841883" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -83,11 +81,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="database-test.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="database-test.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/database-test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="237" column="34" selection-start="5594" selection-end="5594" vertical-scroll-proportion="0.58801496">
-              <folding />
+            <state line="226" column="0" selection-start="5293" selection-end="5293" vertical-scroll-proportion="-10.88">
+              <folding>
+                <element signature="e#184#307#0" expanded="false" />
+                <element signature="e#400#2161#0" expanded="false" />
+                <element signature="e#2224#2852#0" expanded="false" />
+                <element signature="e#2899#3070#0" expanded="false" />
+                <element signature="e#3160#5285#0" expanded="false" />
+                <element signature="e#5375#7084#0" expanded="false" />
+                <element signature="e#7171#9447#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -101,10 +107,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thread.ejs" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="thread.ejs" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/thread.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="217" column="17" selection-start="6170" selection-end="6170" vertical-scroll-proportion="-4.736842">
+            <state line="270" column="52" selection-start="8029" selection-end="8029" vertical-scroll-proportion="0.59113926">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strawpoll.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/meta/strawpoll.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="36" selection-start="128" selection-end="317" vertical-scroll-proportion="-4.08">
               <folding />
             </state>
           </provider>
@@ -164,15 +179,16 @@
         <option value="$PROJECT_DIR$/models/thread.js" />
         <option value="$PROJECT_DIR$/models/user.js" />
         <option value="$PROJECT_DIR$/web.js" />
-        <option value="$PROJECT_DIR$/views/thread.ejs" />
         <option value="$PROJECT_DIR$/models/event.js" />
         <option value="$PROJECT_DIR$/test/database-test.js" />
+        <option value="$PROJECT_DIR$/meta/strawpoll.js" />
+        <option value="$PROJECT_DIR$/views/thread.ejs" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="969" />
-    <option name="width" value="951" />
+    <option name="x" value="960" />
+    <option name="width" value="960" />
     <option name="height" value="1040" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -275,6 +291,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bettit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bettit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="meta" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -499,14 +529,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="969" y="0" width="951" height="1040" extended-state="0" />
+    <frame x="960" y="0" width="960" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33522728" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33522728" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3284091" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3284091" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -521,7 +551,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15860517" sideWeight="0.66477275" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15701559" sideWeight="0.6715909" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -598,13 +628,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/models/bet.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="9" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="196" column="75" selection-start="5043" selection-end="5043" vertical-scroll-proportion="0.0">
@@ -622,7 +645,15 @@
     <entry file="file://$PROJECT_DIR$/test/database-test.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="52" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="e#184#307#0" expanded="false" />
+            <element signature="e#400#2161#0" expanded="false" />
+            <element signature="e#2224#2852#0" expanded="false" />
+            <element signature="e#2899#3070#0" expanded="false" />
+            <element signature="e#3160#5285#0" expanded="false" />
+            <element signature="e#5375#7084#0" expanded="false" />
+            <element signature="e#7171#9447#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -668,23 +699,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/thread.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="217" column="17" selection-start="6170" selection-end="6170" vertical-scroll-proportion="-4.736842">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="216" column="19" selection-start="5527" selection-end="5527" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/prefs.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="26" selection-start="215" selection-end="215" vertical-scroll-proportion="0.0">
@@ -699,6 +713,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test/database-test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="226" column="0" selection-start="5293" selection-end="5293" vertical-scroll-proportion="-10.88">
+          <folding>
+            <element signature="e#184#307#0" expanded="false" />
+            <element signature="e#400#2161#0" expanded="false" />
+            <element signature="e#2224#2852#0" expanded="false" />
+            <element signature="e#2899#3070#0" expanded="false" />
+            <element signature="e#3160#5285#0" expanded="false" />
+            <element signature="e#5375#7084#0" expanded="false" />
+            <element signature="e#7171#9447#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/event.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="18" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
@@ -706,11 +735,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/database-test.js">
+    <entry file="file://$PROJECT_DIR$/web.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="237" column="34" selection-start="5594" selection-end="5594" vertical-scroll-proportion="0.58801496">
+        <state line="216" column="19" selection-start="5527" selection-end="5527" vertical-scroll-proportion="0.0">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/meta/strawpoll.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="36" selection-start="128" selection-end="317" vertical-scroll-proportion="-4.08">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/thread.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="270" column="52" selection-start="8029" selection-end="8029" vertical-scroll-proportion="0.59113926">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
       </provider>
     </entry>
   </component>
