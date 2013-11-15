@@ -84,12 +84,42 @@ app.configure(function(){
  * SOCKET.IO ROUTING
  */
 app.io.route('ready', function(req){
-	req.io.join(parseThreadID(req.headers.referer));
+	var threadID = parseThreadID(req.headers.referer);
+	req.io.join(threadID);
 	var username = req.session.passport.user.name;
 	db.User.find({where : {username : username}}).success(function(user){
-		if(!user) return;
+		if(!user) return; //TODO Handle this
 		req.io.emit('money_response', {
 			money : user.values.money
+		});
+		db.Thread.find({where : {id : threadID}}).success(function(thread){
+			if(!thread) { //TODO Handle this
+				console.log("Can't find thread with ID " + threadID);
+				return;
+			}
+			thread.getEvents().success(function(events){
+				for (var i = 0; i < events.length; i++) {
+					var event_id = events[i].values.id;
+					db.Event.find({where : {id : event_id}}).success(function(event){
+						event.getOutcomes().success(function(outcomes){
+							var outcomeInfos = [];
+							for (var i = 0; i < outcomes.length; i++) {
+								var outcome = outcomes[i]
+								outcomeInfos.push(
+									{title : outcome.values.title,
+										id : outcome.values.id});
+							}
+							console.log(outcomeInfos);
+							req.io.emit('event_response', {
+								id       : event_id,
+								title    : event.values.title,
+								status   : event.values.status,
+								outcomes : outcomeInfos
+							});
+						});
+					});
+				}
+			});
 		});
 	});
 });
@@ -152,10 +182,15 @@ app.io.route('add_event', function(req){
 			if(!bool) return;
 			db.Event.create({title : req.data.title}).success(function(event){
 				var len = req.data.outcomes.length;
-				var finished = _.after(len,
+				var finished = _.after(len + 1,
 					function(){
-						sendNewEvent(thread_id, event.values.id)
+						sendEvent(thread_id, event.values.id)
 					});
+				db.Thread.find({where : {id : thread_id}}).success(function(thread){
+					thread.addEvent(event).success(function(){
+						finished();
+					})
+				});
 				for (var i = 0; i < len; i++) {
 					var outcome = req.data.outcomes[i];
 					db.Outcome.create({title : outcome}).success(function(o){
@@ -164,13 +199,14 @@ app.io.route('add_event', function(req){
 						});
 					});
 				}
-
+				;
 			});
 		});
 	});
 });
 
-function sendNewEvent(thread_id, event_id){
+function sendEvent(thread_id, event_id){
+	console.log("sendevent()");
 	db.Event.find({where : {id : event_id}}).success(function(event){
 		event.getOutcomes().success(function(outcomes){
 			var outcomeInfos = [];
@@ -181,9 +217,10 @@ function sendNewEvent(thread_id, event_id){
 						id : outcome.values.id});
 			}
 			console.log(outcomeInfos);
-			app.io.room(thread_id).broadcast('new_event', {
+			app.io.room(thread_id).broadcast('event_response', {
 				id       : event_id,
 				title    : event.values.title,
+				status   : event.values.status,
 				outcomes : outcomeInfos
 			});
 		});

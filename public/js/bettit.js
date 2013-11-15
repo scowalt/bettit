@@ -19,18 +19,6 @@ var mod = false;
 $(document).ready(function(){
 	io = io.connect();
 
-	$(".event_form").each(function(index){
-		var $form = $(this);
-		$form.submit(function(event){
-			event.preventDefault();
-			var id = $form.attr('id');
-			var search = '#' + id + ' input:checked';
-			$(search).each(function(index){
-				console.log($(this));
-			})
-		});
-	});
-
 	/**
 	 * IO Emits
 	 */
@@ -51,7 +39,7 @@ $(document).ready(function(){
 		$("#thread_content").html(data.content);
 	});
 	io.on('is_mod_response', function(data){
-		if(!mod){
+		if(!mod) {
 			$('#add_event_span').html('' + '<button ' +
 				'id="add_event_button" ' +
 				'class="btn btn-large btn-block btn-primary"' +
@@ -59,27 +47,28 @@ $(document).ready(function(){
 			mod = true;
 		}
 	});
-	io.on('new_event', function(data){
+	io.on('event_response', function(data){
 		var form = $("<form>", {
 			'id'    : "event_" + data.id + "_form",
 			'class' : 'event_form'
 		});
 		for (var i = 0; i < data.outcomes.length; i++) {
 			var outcome = data.outcomes[i];
+			var radio = $("<input>", {
+				'type'  : 'radio',
+				'name'  : 'event_' + data.id + '_radios',
+				'id'    : 'outcome_' + outcome.id,
+				'value' : 'outcome_' + outcome.id
+			});
 			form.append($("<label>", {'class' : 'radio'}).text(outcome.title)
-				.prepend($("<input>", {
-					'type'  : 'radio',
-					'name'  : 'event_' + data.id + '_radios',
-					'id'    : 'outcome_' + outcome.id,
-					'value' : 'outcome_' + outcome.id
-				})));
+				.prepend(radio));
 		}
 		form.append($("<input>", {
 			'type'  : 'submit',
 			'class' : "btn btn-primary",
 			'value' : 'Bet'
 		}));
-		if(mod) form.append($("<button>", {
+		if(mod && data.status === 'open') form.append($("<button>", {
 			'type' : "button", 'class' : "btn btn-warning"
 		}).text("Lock"));
 		var html = $("<div>", {
@@ -88,6 +77,21 @@ $(document).ready(function(){
 		}).append($('<h5>').text(data.title)).append(form);
 		$("#add_event_span").after(html);
 	})
+
+	/**
+	 * Handle when any event form is submitted (bet on)
+	 */
+	$(".event_form").each(function(index){
+		var $form = $(this);
+		$form.submit(function(event){
+			event.preventDefault();
+			var id = $form.attr('id');
+			var search = '#' + id + ' input:checked';
+			$(search).each(function(index){
+				console.log($(this));
+			})
+		});
+	});
 
 	/**
 	 * Handles a moderator adding an event
