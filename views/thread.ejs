@@ -251,30 +251,7 @@
 
 <!-- BETTIT JAVASCRIPT -->
 <script src="/socket.io/socket.io.js"></script>
-<script>
-	var event_title_html = '<input id="add_event_title" class="input-block-level" ' +
-			'type="text" placeholder="Event title">';
-	var outcome_html = '<input id="add_event_outcome" class="input-block-level ' +
-			'add_event_outcome" type="text" placeholder="Outcome">';
-
-	function addEventForm(){
-		console.log("addEventForm()");
-		$("#add_event_span").html('<div class="well well-small">' +
-				'<form id="add_event_form">' + event_title_html +
-				'<hr>' + outcome_html + outcome_html +
-				'<a class="btn" onclick="anotherOutcome()">' +
-				'<i class="icon-plus-sign"></i></a>' +
-				'<input type="submit" class="btn btn-primary" value="Submit">' +
-				'</form></div>');
-
-		$("#add_event_span").on("keypress", ".add_event_outcome:last", function(){
-			console.log("Called last keypress function");
-			$(this).after($("<input>").attr("id", "add_event_outcome")
-					.attr("class", "input-block-level add_event_outcome")
-					.attr("type", "text").attr("placeholder", "Outcome"))
-		})
-	}
-</script>
+<script src="/js/bettit-mod.js"></script>
 <script>
 	var mod = false;
 
@@ -315,7 +292,7 @@
 		io.on('is_mod_response', function(data){
 			if(!mod)
 				$('#add_event_span').html('' + '<button ' +
-						'onclick="addEventForm()" ' +
+						'id="add_event_button" ' +
 						'class="btn btn-large btn-block btn-primary"' +
 						' type="button">Add event</button><br/>');
 		});
