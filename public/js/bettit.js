@@ -89,6 +89,9 @@ $(document).ready(function(){
 		$("#add_event_span").after(html);
 	})
 
+	/**
+	 * Handles a moderator adding an event
+	 */
 	$(document).on("click", "#add_event_button", function(){
 		$("#add_event_span").html($("<div>",
 			{'class' : 'well well-small'}).append($("<form>",
