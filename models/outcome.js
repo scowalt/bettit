@@ -11,7 +11,9 @@ module.exports = function(sequelize, DataTypes){
 			allowNull    : true,
 			primaryKey   : false,
 			unique       : false,
-			defaultValue : null
+			defaultValue : null,
+			comment      : "null = event not closed, " +
+				"true/false = selected when event is closed"
 		},
 		title  : {
 			type       : DataTypes.STRING,
