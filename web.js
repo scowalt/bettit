@@ -154,22 +154,6 @@ app.io.route('thread_info', function(req){
 	});
 });
 
-app.io.route('is_mod', function(req){
-	var username = req.session.passport.user.name;
-	var referer = req.headers.referer;
-	var thread_id = parseThreadID(referer);
-	db.User.find({where : {username : username}}).success(function(user){
-		if (!user) return;
-		user.isModeratorOf(thread_id, function(bool){
-			if (bool) {
-				req.io.emit('is_mod_response', {
-					// empty
-				});
-			}
-		})
-	});
-});
-
 /**
  * 'add_event' is called when a client is attempting to add a
  */
