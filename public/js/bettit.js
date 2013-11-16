@@ -49,7 +49,6 @@ $(document).ready(function(){
 		if (data.status === 'open') form.append($("<input>", {
 			'type' : 'submit', 'class' : "btn btn-primary bet", 'value' : 'Bet'
 		}));
-		// TODO Send mod info over packet instead of checking local variable
 		if (window.mod && data.status === 'open') form.append($("<input>", {
 			'type' : "submit", 'class' : "btn btn-warning", 'value' : 'Lock'
 		}));
@@ -62,7 +61,7 @@ $(document).ready(function(){
 
 		// put the div onto the page
 		$("#events").prepend(html);
-	})
+	});
 
 	/**
 	 * Handles creating the add event form
@@ -85,7 +84,7 @@ $(document).ready(function(){
 				{'id' : 'add_event_form'}).append(event_title_html)
 				.append(outcome_html).append(outcome_html.clone().val(''))
 				.append(submit_button_html)));
-	})
+	});
 
 	/**
 	 * HTML for the outcome inputs in the add_event_form
@@ -97,20 +96,23 @@ $(document).ready(function(){
 		'placeholder' : 'Outcome'
 	});
 
+	var $add_event_span = $("#add_event_span");
+
 	/**
 	 * When a mod types into the last outcome input
 	 */
-	$("#add_event_span").on("keypress", ".add_event_outcome:last", function(){
+	$add_event_span.on("keypress", ".add_event_outcome:last", function(){
 		$(this).after(outcome_html.clone().val(''));
 	});
 
 	/**
 	 * When a mod submits a new event
 	 */
-	$("#add_event_span").on("submit", "form#add_event_form", function(event){
+	$add_event_span.on("submit", "form#add_event_form", function(event){
 		event.preventDefault();
-		var eventTitle = $("#add_event_title").val();
-		$("#add_event_title").val('');
+		var $add_event_title = $("#add_event_title");
+		var eventTitle = $add_event_title.val();
+		$add_event_title.val('');
 		var $outcomes = $('.add_event_outcome');
 		var outcomes = [];
 		$outcomes.each(function(){
