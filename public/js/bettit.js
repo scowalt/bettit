@@ -19,7 +19,6 @@ $("#add_event_span").on("keypress", ".add_event_outcome:last", function(){
 $("#add_event_span").on("submit", "form#add_event_form", function(event){
 	event.preventDefault();
 	var eventTitle = $("#add_event_title").val();
-	console.log(eventTitle);
 	$("#add_event_title").val('');
 	var $outcomes = $('.add_event_outcome');
 	var outcomes = [];
@@ -27,13 +26,22 @@ $("#add_event_span").on("submit", "form#add_event_form", function(event){
 		var value = $(this).val();
 		$(this).val('');
 		if (value !== '') outcomes.push(value);
-	})
+	});
 	io.emit('add_event', {
 		title    : eventTitle,
 		outcomes : outcomes
 	});
 	addAddEventButton();
-})
+});
+
+/**
+ * When an existing event is submitted
+ */
+$(document).on("click", ":submit", function(event){
+	if ($(this).attr('id') === 'add_event_button') return;
+	event.preventDefault();
+	console.log($(this).attr('value'));
+});
 
 /**
  * Replaces content of add_event_span with just the Add Event button
@@ -100,13 +108,11 @@ $(document).ready(function(){
 
 		// append buttons to form
 		if (data.status === 'open') form.append($("<input>", {
-			'type'  : 'submit',
-			'class' : "btn btn-primary",
-			'value' : 'Bet'
+			'type' : 'submit', 'class' : "btn btn-primary", 'value' : 'Bet'
 		}));
-		if (mod && data.status === 'open') form.append($("<button>", {
-			'type' : "button", 'class' : "btn btn-warning"
-		}).text("Lock"));
+		if (mod && data.status === 'open') form.append($("<input>", {
+			'type' : "submit", 'class' : "btn btn-warning", 'value' : 'Lock'
+		}));
 
 		// put form inside of div
 		var html = $("<div>", {

@@ -23,7 +23,7 @@
     <file path="/a.html" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384411303438" ignored="false" />
     <file path="/*.regexp" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384456841883" ignored="false" />
     <file path="/bettit-mod.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384493996623" ignored="false" />
-    <file path="/bettit.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384580348462" ignored="false" />
+    <file path="/bettit.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384583452163" ignored="false" />
     <file path="/package.json" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384498040175" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -115,7 +115,7 @@
       <file leaf-file-name="bettit.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/bettit.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="8" selection-start="2727" selection-end="2727" vertical-scroll-proportion="0.6635688">
+            <state line="115" column="0" selection-start="2940" selection-end="2940" vertical-scroll-proportion="0.5055762">
               <folding />
             </state>
           </provider>
@@ -200,8 +200,8 @@
         <option value="$PROJECT_DIR$/models/outcome.js" />
         <option value="$PROJECT_DIR$/test/database-test.js" />
         <option value="$PROJECT_DIR$/models/event.js" />
-        <option value="$PROJECT_DIR$/public/js/bettit.js" />
         <option value="$PROJECT_DIR$/web.js" />
+        <option value="$PROJECT_DIR$/public/js/bettit.js" />
       </list>
     </option>
   </component>
@@ -790,7 +790,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/bettit.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="8" selection-start="2727" selection-end="2727" vertical-scroll-proportion="0.6635688">
+        <state line="115" column="0" selection-start="2940" selection-end="2940" vertical-scroll-proportion="0.5055762">
           <folding />
         </state>
       </provider>

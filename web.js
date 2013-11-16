@@ -98,12 +98,12 @@ app.io.route('ready', function(req){
 	req.io.join(threadID);
 	var username = req.session.passport.user.name;
 	db.User.find({where : {username : username}}).success(function(user){
-		if(!user) return; //TODO Handle this
+		if (!user) return; //TODO Handle this
 		req.io.emit('money_response', {
 			money : user.values.money
 		});
 		db.Thread.find({where : {id : threadID}}).success(function(thread){
-			if(!thread) { //TODO Handle this
+			if (!thread) { //TODO Handle this
 				console.log("Can't find thread with ID " + threadID);
 				return;
 			}
@@ -145,7 +145,7 @@ app.io.route('thread_info', function(req){
 		db.User.findOrCreate({username : author}).success(function(user){
 			db.Thread.findOrCreate({id : thread_id}).success(function(thread){
 				thread.addUser(user).success(function(){
-					if(req.session.passport.user.name === author)
+					if (req.session.passport.user.name === author)
 						req.io.emit('is_mod_response', {});
 				});
 			});
@@ -158,9 +158,9 @@ app.io.route('is_mod', function(req){
 	var referer = req.headers.referer;
 	var thread_id = parseThreadID(referer);
 	db.User.find({where : {username : username}}).success(function(user){
-		if(!user) return;
+		if (!user) return;
 		user.isModeratorOf(thread_id, function(bool){
-			if(bool) {
+			if (bool) {
 				req.io.emit('is_mod_response', {
 					// empty
 				});
@@ -176,9 +176,9 @@ app.io.route('add_event', function(req){
 	var username = req.session.passport.user.name;
 	var thread_id = parseThreadID(req.headers.referer);
 	db.User.find({where : {username : username}}).success(function(user){
-		if(!user) return;
+		if (!user) return;
 		user.isModeratorOf(thread_id, function(bool){
-			if(!bool) return;
+			if (!bool) return;
 			db.Event.create({title : req.data.title}).success(function(event){
 				var len = req.data.outcomes.length;
 				var finished = _.after(len + 1,
@@ -225,16 +225,16 @@ app.get('/auth/reddit', function(req, res, next){
  */
 app.get('/auth/reddit/callback', function(req, res, next){
 	// Check for origin via state token
-	if(req.query.state == req.session.state) {
+	if (req.query.state == req.session.state) {
 		passport.authenticate('reddit', function(err, user, info){
-			if(!user) {
+			if (!user) {
 				return res.redirect('/');
 			}
-			if(err) {
+			if (err) {
 				return next(new Error(403));
 			}
 			req.logIn(user, function(err){
-				if(err) {
+				if (err) {
 					return next(new Error(403));
 				}
 				// return where the user was before
@@ -293,7 +293,7 @@ function parseSubreddit(link){
  * MIDDLEWARE
  */
 function ensureAuthenticated(req, res, next){
-	if(req.isAuthenticated()) {
+	if (req.isAuthenticated()) {
 		db.User.findOrCreate({
 			username : req.user.name}).success(function(){
 				next();
@@ -313,7 +313,7 @@ function ensureAuthenticated(req, res, next){
 db.sequelize.sync({
 	force : prefs.force_sync
 }).complete(function(err){
-		if(err) {
+		if (err) {
 			throw err;
 		}
 		else {
