@@ -21,6 +21,13 @@ module.exports = function(sequelize, DataTypes){
 			primaryKey : false,
 			unique     : false,
 			notEmpty   : true
+		},
+		order  : {
+			type      : DataTypes.INTEGER.UNSIGNED,
+			allowNull : false,
+			unique    : false,
+			comment   : "the relative ordering of this outcome compared to " +
+				"others in the same event"
 		}
 	});
 };

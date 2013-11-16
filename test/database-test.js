@@ -255,7 +255,8 @@ describe('Database tests:', function(){
 
 				describe('when an outcome is added to the event', function(){
 					var outcome = {
-						title : "Thing 1 will happen"
+						title : "Thing 1 will happen",
+						order : 0
 					};
 
 					before(function(done){
@@ -265,7 +266,6 @@ describe('Database tests:', function(){
 								e.addOutcome(o).success(function(){
 									done();
 								});
-
 							});
 						});
 					});
@@ -316,7 +316,8 @@ describe('Database tests:', function(){
 						username : 'testuser3'
 					};
 					var outcome = {
-						title : 'bet outcome title'
+						title : 'bet outcome title',
+						order : 0
 					};
 
 					before(function(done){

@@ -46,12 +46,16 @@ passport.deserializeUser(function(obj, done){
 	done(null, obj);
 });
 
+/**
+ * Define authentication strategy
+ */
 passport.use(new RedditStrategy({
 	clientID     : REDDIT_CONSUMER_KEY,
 	clientSecret : REDDIT_CONSUMER_SECRET,
 	callbackURL  : SERVER_URL + "/auth/reddit/callback"
 }, function(accessToken, refreshToken, profile, done){
 	process.nextTick(function(){
+		// add user to database when authenticated
 		db.User.findOrCreate({
 			username : profile.name
 		}).success(function(user){
@@ -61,7 +65,10 @@ passport.use(new RedditStrategy({
 	});
 }));
 
-// configure Express
+/**
+ * Configure express
+ * NOTE: The order of this configuration is VERY important
+ */
 app.configure(function(){
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
@@ -83,6 +90,9 @@ app.configure(function(){
 /**
  * SOCKET.IO ROUTING
  */
+/**
+ * 'ready' is called by the client on page load
+ */
 app.io.route('ready', function(req){
 	var threadID = parseThreadID(req.headers.referer);
 	req.io.join(threadID);
@@ -99,24 +109,10 @@ app.io.route('ready', function(req){
 			}
 			thread.getEvents().success(function(events){
 				for (var i = 0; i < events.length; i++) {
-					var event_id = events[i].values.id;
-					db.Event.find({where : {id : event_id}}).success(function(event){
-						event.getOutcomes().success(function(outcomes){
-							var outcomeInfos = [];
-							for (var i = 0; i < outcomes.length; i++) {
-								var outcome = outcomes[i]
-								outcomeInfos.push(
-									{title : outcome.values.title,
-										id : outcome.values.id});
-							}
-							console.log(outcomeInfos);
-							req.io.emit('event_response', {
-								id       : event_id,
-								title    : event.values.title,
-								status   : event.values.status,
-								outcomes : outcomeInfos
-							});
-						});
+					var event = events[i];
+					event.emitEvent(function(data){
+						console.log(data);
+						req.io.emit('event_response', data);
 					});
 				}
 			});
@@ -173,6 +169,9 @@ app.io.route('is_mod', function(req){
 	});
 });
 
+/**
+ * 'add_event' is called when a client is attempting to add a
+ */
 app.io.route('add_event', function(req){
 	var username = req.session.passport.user.name;
 	var thread_id = parseThreadID(req.headers.referer);
@@ -184,7 +183,9 @@ app.io.route('add_event', function(req){
 				var len = req.data.outcomes.length;
 				var finished = _.after(len + 1,
 					function(){
-						sendEvent(thread_id, event.values.id)
+						event.emitEvent(function(data){
+							app.io.room(thread_id).broadcast('event_response', data);
+						});
 					});
 				db.Thread.find({where : {id : thread_id}}).success(function(thread){
 					thread.addEvent(event).success(function(){
@@ -192,43 +193,24 @@ app.io.route('add_event', function(req){
 					})
 				});
 				for (var i = 0; i < len; i++) {
-					var outcome = req.data.outcomes[i];
-					db.Outcome.create({title : outcome}).success(function(o){
-						event.addOutcome(o).success(function(){
-							finished();
+					var outcome_title = req.data.outcomes[i];
+					db.Outcome.create({title : outcome_title, order : i})
+						.success(function(outcome){
+							event.addOutcome(outcome).success(function(){
+								finished();
+							});
 						});
-					});
 				}
-				;
 			});
 		});
 	});
 });
 
-function sendEvent(thread_id, event_id){
-	console.log("sendevent()");
-	db.Event.find({where : {id : event_id}}).success(function(event){
-		event.getOutcomes().success(function(outcomes){
-			var outcomeInfos = [];
-			for (var i = 0; i < outcomes.length; i++) {
-				var outcome = outcomes[i]
-				outcomeInfos.push(
-					{title : outcome.values.title,
-						id : outcome.values.id});
-			}
-			console.log(outcomeInfos);
-			app.io.room(thread_id).broadcast('event_response', {
-				id       : event_id,
-				title    : event.values.title,
-				status   : event.values.status,
-				outcomes : outcomeInfos
-			});
-		});
-	});
-};
-
 /**
  * EXPRESS ROUTING
+ */
+/**
+ * Authentication route
  */
 app.get('/auth/reddit', function(req, res, next){
 	req.session.state = crypto.randomBytes(32).toString('hex');
@@ -238,6 +220,9 @@ app.get('/auth/reddit', function(req, res, next){
 	})(req, res, next);
 });
 
+/**
+ * Authentication callback
+ */
 app.get('/auth/reddit/callback', function(req, res, next){
 	// Check for origin via state token
 	if(req.query.state == req.session.state) {
@@ -252,6 +237,7 @@ app.get('/auth/reddit/callback', function(req, res, next){
 				if(err) {
 					return next(new Error(403));
 				}
+				// return where the user was before
 				return res.redirect(req.session.redirect_to);
 			});
 		})(req, res, next);
@@ -261,16 +247,25 @@ app.get('/auth/reddit/callback', function(req, res, next){
 	}
 });
 
+/**
+ * Logout
+ */
 app.get('/logout', function(req, res){
 	req.logout();
 	res.redirect('/');
 });
 
+/**
+ * Thread route with thread title in url
+ */
 app.get('/r/:subreddit/comments/:thread/', ensureAuthenticated, function(req, res){
 	threadFunction(req, res);
 });
 
-app.get('/r/:subreddit/comments/:thread/:name/', ensureAuthenticated,
+/**
+ * Thread route without thread title in url
+ */
+app.get('/r/:subreddit/comments/:thread/:title/', ensureAuthenticated,
 	function(req, res){
 		threadFunction(req, res);
 	});
