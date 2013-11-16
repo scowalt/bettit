@@ -1,3 +1,7 @@
+/**
+ * HTML for the outcome inputs in the add_event_form
+ * @type {*|jQuery|HTMLElement}
+ */
 var outcome_html = $("<input>", {
 	'class'       : 'input-block-level add_event_outcome',
 	'type'        : 'text',
@@ -22,7 +26,7 @@ $("#add_event_span").on("submit", "form#add_event_form", function(event){
 	$outcomes.each(function(){
 		var value = $(this).val();
 		$(this).val('');
-		if(value !== '') outcomes.push(value);
+		if (value !== '') outcomes.push(value);
 	})
 	io.emit('add_event', {
 		title    : eventTitle,
@@ -31,12 +35,19 @@ $("#add_event_span").on("submit", "form#add_event_form", function(event){
 	addAddEventButton();
 })
 
+/**
+ * Replaces content of add_event_span with just the Add Event button
+ */
 function addAddEventButton(){
 	$('#add_event_span').html('' + '<button ' +
 		'id="add_event_button" ' +
 		'class="btn btn-large btn-block btn-primary"' +
 		' type="button">Add event</button><br/>');
 }
+
+/**
+ * This variable prevents mod triggers from happening more than once
+ */
 var mod = false;
 
 $(document).ready(function(){
@@ -62,16 +73,19 @@ $(document).ready(function(){
 		$("#thread_content").html(data.content);
 	});
 	io.on('is_mod_response', function(data){
-		if(!mod) {
+		if (!mod) {
 			addAddEventButton();
 			mod = true;
 		}
 	});
 	io.on('event_response', function(data){
+		// base form
 		var form = $("<form>", {
 			'id'    : "event_" + data.id + "_form",
 			'class' : 'event_form'
 		});
+
+		// append outcomes to form
 		for (var i = 0; i < data.outcomes.length; i++) {
 			var outcome = data.outcomes[i];
 			var radio = $("<input>", {
@@ -83,18 +97,24 @@ $(document).ready(function(){
 			form.append($("<label>", {'class' : 'radio'}).text(outcome.title)
 				.prepend(radio));
 		}
-		form.append($("<input>", {
+
+		// append buttons to form
+		if (data.status === 'open') form.append($("<input>", {
 			'type'  : 'submit',
 			'class' : "btn btn-primary",
 			'value' : 'Bet'
 		}));
-		if(mod && data.status === 'open') form.append($("<button>", {
+		if (mod && data.status === 'open') form.append($("<button>", {
 			'type' : "button", 'class' : "btn btn-warning"
 		}).text("Lock"));
+
+		// put form inside of div
 		var html = $("<div>", {
 			'id'    : "event_" + data.id,
 			'class' : 'well well-small'
 		}).append($('<h5>').text(data.title)).append(form);
+
+		// put the div onto the page
 		$("#add_event_span").after(html);
 	})
 
@@ -119,5 +139,5 @@ $(document).ready(function(){
 				{'id' : 'add_event_form'}).append(event_title_html)
 				.append(outcome_html).append(outcome_html.clone().val(''))
 				.append(submit_button_html)));
-	}) // onClick() #add_event_button
+	})
 });
