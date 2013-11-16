@@ -1,17 +1,17 @@
 /**
  * This variable prevents mod triggers from happening more than once
  */
-var mod = false;
 
 $(document).ready(function(){
 	io = io.connect();
+
+	addAddEventButton();
 
 	/**
 	 * IO Emits
 	 */
 	io.emit('ready');
 	io.emit('thread_info');
-	io.emit('is_mod');
 	io.emit('get_events');
 
 	/**
@@ -24,12 +24,6 @@ $(document).ready(function(){
 		document.title = document.title + " " + data.title;
 		$("#thread_title").text(data.title);
 		$("#thread_content").html(data.content);
-	});
-	io.on('is_mod_response', function(data){
-		if (!mod) {
-			addAddEventButton();
-			mod = true;
-		}
 	});
 	io.on('event_response', function(data){
 		// base form
@@ -56,7 +50,7 @@ $(document).ready(function(){
 			'type' : 'submit', 'class' : "btn btn-primary bet", 'value' : 'Bet'
 		}));
 		// TODO Send mod info over packet instead of checking local variable
-		if (mod && data.status === 'open') form.append($("<input>", {
+		if (window.mod && data.status === 'open') form.append($("<input>", {
 			'type' : "submit", 'class' : "btn btn-warning", 'value' : 'Lock'
 		}));
 
@@ -67,7 +61,7 @@ $(document).ready(function(){
 		}).append($('<h5>').text(data.title)).append(form);
 
 		// put the div onto the page
-		$("#add_event_span").after(html);
+		$("#events").prepend(html);
 	})
 
 	/**
@@ -149,14 +143,14 @@ $(document).ready(function(){
 			outcome_id : outcomeID
 		})
 	});
-
-	/**
-	 * Replaces content of add_event_span with just the Add Event button
-	 */
-	function addAddEventButton(){
-		$('#add_event_span').html('' + '<button ' +
-			'id="add_event_button" ' +
-			'class="btn btn-large btn-block btn-primary"' +
-			' type="button">Add event</button><br/>');
-	}
 });
+
+/**
+ * Replaces content of add_event_span with just the Add Event button
+ */
+function addAddEventButton(){
+	$('#add_event_span').html('' + '<button ' +
+		'id="add_event_button" ' +
+		'class="btn btn-large btn-block btn-primary"' +
+		' type="button">Add event</button><br/>');
+}

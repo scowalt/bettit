@@ -81,7 +81,7 @@ app.configure(function(){
 	app.use(express.session({
 		store  : new RedisStore,
 		secret : secrets.secret,
-		cookie : { maxAge: 5*365*24*60*60*1000 }
+		cookie : { maxAge : 5 * 365 * 24 * 60 * 60 * 1000 }
 	}));
 	app.use(passport.initialize());
 	app.use(passport.session());
@@ -275,9 +275,16 @@ app.get('/r/:subreddit/comments/:thread/:title/', ensureAuthenticated,
  * PRIVATE HELPERS
  */
 function threadFunction(req, res){
-	res.render('thread', {
-		user : req.user.name
-	});
+	var thread_id = req.params.thread;
+	var username = req.session.passport.user.name;
+	db.User.find({where : {username : username}}).success(function(user){
+		user.isModeratorOf(thread_id, function(bool){
+			res.render('thread', {
+				user : req.user.name,
+				mod  : bool
+			});
+		});
+	})
 }
 
 function parseThreadID(link){
