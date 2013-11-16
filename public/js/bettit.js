@@ -1,59 +1,4 @@
 /**
- * HTML for the outcome inputs in the add_event_form
- * @type {*|jQuery|HTMLElement}
- */
-var outcome_html = $("<input>", {
-	'class'       : 'input-block-level add_event_outcome',
-	'type'        : 'text',
-	'placeholder' : 'Outcome'
-});
-/**
- * When a mod types into the last outcome input
- */
-$("#add_event_span").on("keypress", ".add_event_outcome:last", function(){
-	$(this).after(outcome_html.clone().val(''));
-});
-/**
- * When a mod submits a new event
- */
-$("#add_event_span").on("submit", "form#add_event_form", function(event){
-	event.preventDefault();
-	var eventTitle = $("#add_event_title").val();
-	$("#add_event_title").val('');
-	var $outcomes = $('.add_event_outcome');
-	var outcomes = [];
-	$outcomes.each(function(){
-		var value = $(this).val();
-		$(this).val('');
-		if (value !== '') outcomes.push(value);
-	});
-	io.emit('add_event', {
-		title    : eventTitle,
-		outcomes : outcomes
-	});
-	addAddEventButton();
-});
-
-/**
- * When an existing event is submitted
- */
-$(document).on("click", ":submit", function(event){
-	if ($(this).attr('id') === 'add_event_button') return;
-	event.preventDefault();
-	console.log($(this).attr('value'));
-});
-
-/**
- * Replaces content of add_event_span with just the Add Event button
- */
-function addAddEventButton(){
-	$('#add_event_span').html('' + '<button ' +
-		'id="add_event_button" ' +
-		'class="btn btn-large btn-block btn-primary"' +
-		' type="button">Add event</button><br/>');
-}
-
-/**
  * This variable prevents mod triggers from happening more than once
  */
 var mod = false;
@@ -108,8 +53,9 @@ $(document).ready(function(){
 
 		// append buttons to form
 		if (data.status === 'open') form.append($("<input>", {
-			'type' : 'submit', 'class' : "btn btn-primary", 'value' : 'Bet'
+			'type' : 'submit', 'class' : "btn btn-primary bet", 'value' : 'Bet'
 		}));
+		// TODO Send mod info over packet instead of checking local variable
 		if (mod && data.status === 'open') form.append($("<input>", {
 			'type' : "submit", 'class' : "btn btn-warning", 'value' : 'Lock'
 		}));
@@ -125,7 +71,7 @@ $(document).ready(function(){
 	})
 
 	/**
-	 * Handles a moderator adding an event
+	 * Handles creating the add event form
 	 */
 	$(document).on("click", "#add_event_button", function(){
 		var event_title_html = $("<input>", {
@@ -146,4 +92,71 @@ $(document).ready(function(){
 				.append(outcome_html).append(outcome_html.clone().val(''))
 				.append(submit_button_html)));
 	})
+
+	/**
+	 * HTML for the outcome inputs in the add_event_form
+	 * @type {*|jQuery|HTMLElement}
+	 */
+	var outcome_html = $("<input>", {
+		'class'       : 'input-block-level add_event_outcome',
+		'type'        : 'text',
+		'placeholder' : 'Outcome'
+	});
+
+	/**
+	 * When a mod types into the last outcome input
+	 */
+	$("#add_event_span").on("keypress", ".add_event_outcome:last", function(){
+		$(this).after(outcome_html.clone().val(''));
+	});
+
+	/**
+	 * When a mod submits a new event
+	 */
+	$("#add_event_span").on("submit", "form#add_event_form", function(event){
+		event.preventDefault();
+		var eventTitle = $("#add_event_title").val();
+		$("#add_event_title").val('');
+		var $outcomes = $('.add_event_outcome');
+		var outcomes = [];
+		$outcomes.each(function(){
+			var value = $(this).val();
+			$(this).val('');
+			if (value !== '') outcomes.push(value);
+		});
+		io.emit('add_event', {
+			title    : eventTitle,
+			outcomes : outcomes
+		});
+		addAddEventButton();
+	});
+
+	/**
+	 * When an existing event is bet on
+	 */
+	$(document).on("click", ".bet", function(event){
+		event.preventDefault();
+		var $form = $(this).parent('form');
+		var formID = $form.attr('id');
+		var eventID = formID.replace('event_', '').replace('_form', '');
+		var outcomeID = null;
+		$('#' + formID + ' :checked').each(function(){
+			var outcomeID = $(this).val().replace('outcome_', '');
+			console.log(outcomeID);
+		});
+		if (outcomeID) io.emit('bet', {
+			event_id   : eventID,
+			outcome_id : outcomeID
+		})
+	});
+
+	/**
+	 * Replaces content of add_event_span with just the Add Event button
+	 */
+	function addAddEventButton(){
+		$('#add_event_span').html('' + '<button ' +
+			'id="add_event_button" ' +
+			'class="btn btn-large btn-block btn-primary"' +
+			' type="button">Add event</button><br/>');
+	}
 });

@@ -80,7 +80,8 @@ app.configure(function(){
 	app.use(express.cookieParser());
 	app.use(express.session({
 		store  : new RedisStore,
-		secret : secrets.secret
+		secret : secrets.secret,
+		cookie : { maxAge: 5*365*24*60*60*1000 }
 	}));
 	app.use(passport.initialize());
 	app.use(passport.session());
