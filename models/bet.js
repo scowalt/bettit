@@ -28,7 +28,9 @@ module.exports = function(sequelize, DataTypes){
 				if (!outcome || !user || !amount) {
 					return callback("parameters");
 				}
+				console.log("This request's username is: " + user.username);
 				outcome.getBets().success(function(bets){
+					console.log("Found " + bets.length + " bets")
 					var finished = _.after(bets.length + 1, function(){
 						// only get here if bet doesn't exist
 						Bet.create({amount : amount}).success(function(bet){
@@ -36,16 +38,17 @@ module.exports = function(sequelize, DataTypes){
 							bet.setUser(user);
 							bet.setOutcome(outcome);
 							user.updateAttributes({
-								money : user.values.money - amount,
+								money : (user.values.money - amount)
 							}).success(function(){
 									return callback(null);
-								})
+								});
 						})
 					});
 					finished();
 					for (var i = 0; i < bets.length; i++) {
 						var bet = bets[i];
 						bet.getUser().success(function(better){
+							console.log("Better = " + better.username);
 							if (better.username === user.username) {
 								return callback("duplicate");
 							}

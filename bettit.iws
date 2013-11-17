@@ -3,33 +3,30 @@
   <component name="ChangeListManager">
     <list default="true" id="67eabefe-ad6e-4405-9087-d369956aa746" name="Default" comment="Using IntelliJ (again), test commit">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/bet.js" afterPath="$PROJECT_DIR$/models/bet.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bettit.iws" afterPath="$PROJECT_DIR$/bettit.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/bettit.js" afterPath="$PROJECT_DIR$/public/js/bettit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/thread.ejs" afterPath="$PROJECT_DIR$/views/thread.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/thread.js" afterPath="$PROJECT_DIR$/models/thread.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/user.js" afterPath="$PROJECT_DIR$/models/user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web.js" afterPath="$PROJECT_DIR$/web.js" />
     </list>
     <ignored path="bettit.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384649800890" ignored="false" />
+    <file path="/Dummy.txt" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384667949049" ignored="false" />
     <file path="/a.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384637647760" ignored="false" />
     <file path="/database-test.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384574319273" ignored="false" />
     <file path="/index.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384495134375" ignored="false" />
     <file path="/a.dummy" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384639180684" ignored="false" />
     <file path="/event.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384574860092" ignored="false" />
     <file path="/outcome.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384574150142" ignored="false" />
-    <file path="/user.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384385243788" ignored="false" />
-    <file path="/web.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384667842766" ignored="false" />
+    <file path="/user.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384672670553" ignored="false" />
+    <file path="/web.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384672962142" ignored="false" />
     <file path="/thread.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384660962054" ignored="false" />
     <file path="/prefs.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384652788958" ignored="false" />
     <file path="/thread.ejs" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384659857854" ignored="false" />
     <file path="/a.html" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384411303438" ignored="false" />
     <file path="/*.regexp" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384456841883" ignored="false" />
     <file path="/bettit-mod.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384493996623" ignored="false" />
-    <file path="/bettit.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384665855371" ignored="false" />
+    <file path="/bettit.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384672275765" ignored="false" />
     <file path="/package.json" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384654062737" ignored="false" />
-    <file path="/bet.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384667671907" ignored="false" />
+    <file path="/bet.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384669721010" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,12 +90,11 @@
       <file leaf-file-name="web.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="152" column="35" selection-start="4478" selection-end="4478" vertical-scroll-proportion="0.22264875">
+            <state line="119" column="11" selection-start="3503" selection-end="3503" vertical-scroll-proportion="0.76685935">
               <folding>
                 <element signature="e#2261#2759#0" expanded="false" />
                 <element signature="e#3149#3185#0" expanded="false" />
-                <element signature="e#4478#5138#0" expanded="false" />
-                <element signature="n#!!block;n#sendThreadInfo#0" expanded="false" />
+                <element signature="e#3583#4981#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -107,7 +103,7 @@
       <file leaf-file-name="thread.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/thread.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="220" column="28" selection-start="6147" selection-end="6147" vertical-scroll-proportion="-0.88461536">
+            <state line="196" column="32" selection-start="5313" selection-end="5319" vertical-scroll-proportion="-9.846154">
               <folding />
             </state>
           </provider>
@@ -125,7 +121,16 @@
       <file leaf-file-name="bettit.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/bettit.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="140" column="28" selection-start="3902" selection-end="3902" vertical-scroll-proportion="0.0">
+            <state line="29" column="32" selection-start="715" selection-end="715" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="event.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/event.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="28" selection-start="1262" selection-end="1270" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -134,7 +139,16 @@
       <file leaf-file-name="bet.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/bet.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="29" selection-start="1492" selection-end="1492" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="30" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/user.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="49" column="66" selection-start="1423" selection-end="1423" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -160,7 +174,6 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/meta/reddit.json" />
-        <option value="$PROJECT_DIR$/models/user.js" />
         <option value="$PROJECT_DIR$/meta/strawpoll.js" />
         <option value="$PROJECT_DIR$/public/js/bettit-mod.js" />
         <option value="$PROJECT_DIR$/models/index.js" />
@@ -171,8 +184,9 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/views/thread.ejs" />
         <option value="$PROJECT_DIR$/models/thread.js" />
-        <option value="$PROJECT_DIR$/public/js/bettit.js" />
         <option value="$PROJECT_DIR$/models/bet.js" />
+        <option value="$PROJECT_DIR$/public/js/bettit.js" />
+        <option value="$PROJECT_DIR$/models/user.js" />
         <option value="$PROJECT_DIR$/web.js" />
       </list>
     </option>
@@ -224,7 +238,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -329,6 +342,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -345,11 +359,11 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="MemberChooser.showClasses" value="true" />
     <property name="FullScreen" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PublishConfig" serverName="bettit (DigitalOcean)" serverId="0f75250d-ba22-46e1-be11-5ce408ed6e40" uploadOnCheckin="0f75250d-ba22-46e1-be11-5ce408ed6e40">
     <servers>
@@ -391,6 +405,22 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="$PROJECT_DIR$">
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -417,22 +447,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
-    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="$PROJECT_DIR$">
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -546,7 +560,7 @@
     <frame x="960" y="0" width="960" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33522728" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3375" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3284091" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -564,7 +578,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18819599" sideWeight="0.66477275" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18819599" sideWeight="0.6625" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -653,8 +667,7 @@
           <folding>
             <element signature="e#2261#2759#0" expanded="false" />
             <element signature="e#3149#3185#0" expanded="false" />
-            <element signature="e#4478#5138#0" expanded="false" />
-            <element signature="n#!!block;n#sendThreadInfo#0" expanded="false" />
+            <element signature="e#3583#4981#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -683,13 +696,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="28" selection-start="654" selection-end="654" vertical-scroll-proportion="0.7583643">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/thread.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="34" selection-start="571" selection-end="571" vertical-scroll-proportion="0.6003717">
@@ -711,13 +717,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/event.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="20" selection-start="883" selection-end="883" vertical-scroll-proportion="0.39177102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/outcome.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="25" selection-start="316" selection-end="316" vertical-scroll-proportion="0.0">
@@ -730,33 +729,46 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="220" column="28" selection-start="6147" selection-end="6147" vertical-scroll-proportion="-0.88461536">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/bettit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="28" selection-start="3902" selection-end="3902" vertical-scroll-proportion="0.0">
+        <state line="196" column="32" selection-start="5313" selection-end="5319" vertical-scroll-proportion="-9.846154">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/bet.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="29" selection-start="1492" selection-end="1492" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="30" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/bettit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="32" selection-start="715" selection-end="715" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="66" selection-start="1423" selection-end="1423" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/event.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="28" selection-start="1262" selection-end="1270" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="152" column="35" selection-start="4478" selection-end="4478" vertical-scroll-proportion="0.22264875">
+        <state line="119" column="11" selection-start="3503" selection-end="3503" vertical-scroll-proportion="0.76685935">
           <folding>
             <element signature="e#2261#2759#0" expanded="false" />
             <element signature="e#3149#3185#0" expanded="false" />
-            <element signature="e#4478#5138#0" expanded="false" />
-            <element signature="n#!!block;n#sendThreadInfo#0" expanded="false" />
+            <element signature="e#3583#4981#0" expanded="false" />
           </folding>
         </state>
       </provider>

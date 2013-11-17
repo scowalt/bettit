@@ -24,6 +24,8 @@ $(document).ready(function(){
 		$("#thread_content").html(data.content);
 	});
 	io.on('event_response', function(data){
+		console.log(data);
+
 		// base form
 		var form = $("<form>", {
 			'id'    : "event_" + data.id + "_form",
@@ -39,14 +41,21 @@ $(document).ready(function(){
 				'id'    : 'outcome_' + outcome.id,
 				'value' : 'outcome_' + outcome.id
 			});
+			if (data.betOn !== false)
+				radio.attr('disabled', true);
+			if (data.betOn === outcome.id)
+				radio.attr('checked', true);
 			form.append($("<label>", {'class' : 'radio'}).text(outcome.title)
 				.prepend(radio));
 		}
 
 		// append buttons to form
-		if (data.status === 'open') form.append($("<input>", {
-			'type' : 'submit', 'class' : "btn btn-primary bet", 'value' : 'Bet'
-		}));
+		if (data.status === 'open' && data.betOn === false)
+			form.append($("<input>", {
+				'type'  : 'submit',
+				'class' : "btn btn-primary bet",
+				'value' : 'Bet §20'
+			}));
 		if (window.mod && data.status === 'open') form.append($("<input>", {
 			'type' : "submit", 'class' : "btn btn-warning", 'value' : 'Lock'
 		}));

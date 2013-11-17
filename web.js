@@ -105,16 +105,19 @@ sessionSockets.on('connection', function(err, socket, session){
 			socket.emit('money_response', {
 				money : user.values.money
 			});
-		});
-		db.Thread.findOrCreate({id : threadID}).success(function(thread){
-			if (!thread) { //TODO Handle this
-				return;
-			}
-			thread.emitEvents(function(data){
-				socket.emit('event_response', data);
+
+			db.Thread.findOrCreate({id : threadID}).success(function(thread){
+				if (!thread) { //TODO Handle this
+					return;
+				}
+				thread.emitEvents(function(data){
+					user.betOn(data.id, function(outcome_id){
+						data.betOn = outcome_id;
+						socket.emit('event_response', data);
+					});
+				});
 			});
 		});
-
 		sendThreadInfo(threadID, socket);
 	});
 	socket.on('add_event', function(data){
@@ -128,8 +131,20 @@ sessionSockets.on('connection', function(err, socket, session){
 					var finished = _.after(len + 1,
 						function(){
 							event.emitEvent(function(data){
-								io.sockets.in(thread_id).emit('event_response',
-									data);
+								io.sockets.clients(thread_id).forEach(function(socket){
+									sessionSockets.getSession(socket,
+										function(err, session){
+											if (err) return; //TODO Handle
+											db.User.find({where : {username : session.passport.user.name}}).success(function(user){
+												user.betOn(thread_id,
+													function(outcome_id){
+														data.betOn = outcome_id;
+														socket.emit('event_response',
+															data);
+													});
+											});
+										});
+								});
 							});
 						});
 					db.Thread.find({where : {id : thread_id}}).success(function(thread){
@@ -179,6 +194,7 @@ function sendThreadInfo(thread_id, socket){
 	request({uri : path}, function(error, response, body){
 		var path = 'http://reddit.com' + response.request.path + '.json';
 		request({ uri : path }, function(error, response, body){
+			if (error) return; // TODO Handle
 			var json = JSON.parse(body);
 			var post = json[0]['data']['children'][0]['data'];
 			var title = post['title'];
