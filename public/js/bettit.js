@@ -119,6 +119,7 @@ $(document).ready(function(){
 			if (value !== '') outcomes.push(value);
 		});
 		io.emit('add_event', {
+			threadID : window.threadID,
 			title    : eventTitle,
 			outcomes : outcomes
 		});

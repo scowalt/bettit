@@ -19,14 +19,14 @@
     <file path="/event.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384574860092" ignored="false" />
     <file path="/outcome.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384574150142" ignored="false" />
     <file path="/user.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384385243788" ignored="false" />
-    <file path="/web.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384661767370" ignored="false" />
+    <file path="/web.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384662622124" ignored="false" />
     <file path="/thread.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384660962054" ignored="false" />
     <file path="/prefs.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384652788958" ignored="false" />
     <file path="/thread.ejs" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384659857854" ignored="false" />
     <file path="/a.html" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384411303438" ignored="false" />
     <file path="/*.regexp" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384456841883" ignored="false" />
     <file path="/bettit-mod.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384493996623" ignored="false" />
-    <file path="/bettit.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384659838040" ignored="false" />
+    <file path="/bettit.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384662566820" ignored="false" />
     <file path="/package.json" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384654062737" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -91,10 +91,10 @@
       <file leaf-file-name="web.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="179" column="28" selection-start="5360" selection-end="5360" vertical-scroll-proportion="0.74725276">
+            <state line="128" column="21" selection-start="3844" selection-end="3844" vertical-scroll-proportion="0.5604606">
               <folding>
                 <element signature="e#2261#2759#0" expanded="false" />
-                <element signature="n#!!block;n#sendThreadInfo#0" expanded="false" />
+                <element signature="e#2932#3447#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -130,7 +130,7 @@
       <file leaf-file-name="event.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/event.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="9" selection-start="497" selection-end="1294" vertical-scroll-proportion="0.0">
+            <state line="27" column="31" selection-start="687" selection-end="687" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -139,7 +139,7 @@
       <file leaf-file-name="bettit.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/bettit.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="7" selection-start="317" selection-end="317" vertical-scroll-proportion="-9.52">
+            <state line="121" column="35" selection-start="3397" selection-end="3397" vertical-scroll-proportion="-12.92">
               <folding />
             </state>
           </provider>
@@ -176,8 +176,8 @@
         <option value="$PROJECT_DIR$/config/prefs.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/views/thread.ejs" />
-        <option value="$PROJECT_DIR$/public/js/bettit.js" />
         <option value="$PROJECT_DIR$/models/thread.js" />
+        <option value="$PROJECT_DIR$/public/js/bettit.js" />
         <option value="$PROJECT_DIR$/web.js" />
       </list>
     </option>
@@ -675,7 +675,7 @@
         <state line="205" column="50" selection-start="5240" selection-end="5240" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#2261#2759#0" expanded="false" />
-            <element signature="n#!!block;n#sendThreadInfo#0" expanded="false" />
+            <element signature="e#2932#3447#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -739,26 +739,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/thread.ejs">
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="220" column="28" selection-start="6147" selection-end="6147" vertical-scroll-proportion="-0.88461536">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/event.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="9" selection-start="497" selection-end="1294" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/bettit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="7" selection-start="317" selection-end="317" vertical-scroll-proportion="-9.52">
+        <state line="27" column="31" selection-start="687" selection-end="687" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -770,12 +753,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/thread.ejs">
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="220" column="28" selection-start="6147" selection-end="6147" vertical-scroll-proportion="-0.88461536">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/bettit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="121" column="35" selection-start="3397" selection-end="3397" vertical-scroll-proportion="-12.92">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="179" column="28" selection-start="5360" selection-end="5360" vertical-scroll-proportion="0.74725276">
+        <state line="128" column="21" selection-start="3844" selection-end="3844" vertical-scroll-proportion="0.5604606">
           <folding>
             <element signature="e#2261#2759#0" expanded="false" />
-            <element signature="n#!!block;n#sendThreadInfo#0" expanded="false" />
+            <element signature="e#2932#3447#0" expanded="false" />
           </folding>
         </state>
       </provider>

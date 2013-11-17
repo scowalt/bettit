@@ -117,6 +117,40 @@ sessionSockets.on('connection', function(err, socket, session){
 
 		sendThreadInfo(threadID, socket);
 	});
+	socket.on('add_event', function(data){
+		var username = session.passport.user.name;
+		var thread_id = data.threadID;
+		db.User.find({where : {username : username}}).success(function(user){
+			if (!user) return;
+			user.isModeratorOf(thread_id, function(bool){
+				if (!bool) return;
+				db.Event.create({title : data.title}).success(function(event){
+					var len = data.outcomes.length;
+					var finished = _.after(len + 1,
+						function(){
+							event.emitEvent(function(data){
+								io.sockets.in(thread_id).emit('event_response',
+									data);
+							});
+						});
+					db.Thread.find({where : {id : thread_id}}).success(function(thread){
+						thread.addEvent(event).success(function(){
+							finished();
+						})
+					});
+					for (var i = 0; i < len; i++) {
+						var outcome_title = data.outcomes[i];
+						db.Outcome.create({title : outcome_title, order : i})
+							.success(function(outcome){
+								event.addOutcome(outcome).success(function(){
+									finished();
+								});
+							});
+					}
+				});
+			});
+		});
+	});
 });
 
 function sendThreadInfo(thread_id, socket){
@@ -154,37 +188,7 @@ function sendThreadInfo(thread_id, socket){
 // * 'add_event' is called when a client is attempting to add an event
 // */
 //app.io.route('add_event', function(req){
-//	var username = req.session.passport.user.name;
-//	var thread_id = parseThreadID(req.headers.referer);
-//	db.User.find({where : {username : username}}).success(function(user){
-//		if (!user) return;
-//		user.isModeratorOf(thread_id, function(bool){
-//			if (!bool) return;
-//			db.Event.create({title : req.data.title}).success(function(event){
-//				var len = req.data.outcomes.length;
-//				var finished = _.after(len + 1,
-//					function(){
-//						event.emitEvent(function(data){
-//							app.io.room(thread_id).broadcast('event_response', data);
-//						});
-//					});
-//				db.Thread.find({where : {id : thread_id}}).success(function(thread){
-//					thread.addEvent(event).success(function(){
-//						finished();
-//					})
-//				});
-//				for (var i = 0; i < len; i++) {
-//					var outcome_title = req.data.outcomes[i];
-//					db.Outcome.create({title : outcome_title, order : i})
-//						.success(function(outcome){
-//							event.addOutcome(outcome).success(function(){
-//								finished();
-//							});
-//						});
-//				}
-//			});
-//		});
-//	});
+
 //});
 //
 ///**
