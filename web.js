@@ -15,7 +15,7 @@ var SessionSockets = require('session.socket.io');
 /**
  * MODULE IMPORTS
  */
-var db = require('./models')('bettit', false);
+var db = require('./models')('bettit', true);
 var secrets = require('./config/secrets.js');
 var prefs = require('./config/prefs.js');
 
@@ -125,6 +125,7 @@ sessionSockets.on('connection', function(err, socket, session){
 		sendThreadInfo(threadID, socket);
 	});
 	socket.on('add_event', function(data){
+		console.log("add_event recieved from " + username);
 		var thread_id = data.threadID;
 		db.User.find({where : {username : username}}).success(function(user){
 			if (!user) return;
@@ -164,6 +165,7 @@ sessionSockets.on('connection', function(err, socket, session){
 		});
 	});
 	socket.on('bet', function(data){
+		console.log('bet recieved from ' + username);
 		var outcomeID = data.outcomeID;
 		var amount = data.amount ? data.amount : prefs.default_bet;
 		db.User.find({where : {username : username}}).success(function(user){
@@ -269,6 +271,7 @@ function sendThreadInfo(thread_id, socket){
 
 			db.User.findOrCreate({username : author}).success(function(user){
 				db.Thread.findOrCreate({id : thread_id}).success(function(thread){
+					// TODO Don't add if duplicate
 					thread.addUser(user).success(function(){});
 				});
 			});

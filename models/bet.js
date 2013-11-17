@@ -50,6 +50,8 @@ module.exports = function(sequelize, DataTypes){
 						for (var i = 0; i < bets.length; i++) {
 							var bet = bets[i];
 							bet.getUser().success(function(better){
+								console.log("Checking if " + better.username +
+									" === " + user.username);
 								if (better.username === user.username) {
 									return callback("duplicate");
 								}

@@ -3,6 +3,12 @@ var _ = require('underscore');
 
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define("User", {
+		id       : {
+			type          : DataTypes.BIGINT.UNSIGNED,
+			autoIncrement : true,
+			allowNull     : false,
+			primaryKey    : true
+		},
 		username : {
 			type       : DataTypes.STRING,
 			allowNull  : false,

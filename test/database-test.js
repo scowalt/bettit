@@ -143,7 +143,7 @@ describe('Database tests:', function(){
 
 			it('cannot be found before being added to the database', function(done){
 				db.Thread.find({where : thread}).success(function(t){
-					if(t)
+					if (t)
 						throw "Shouldn't be in database";
 					else
 						done();
@@ -228,8 +228,8 @@ describe('Database tests:', function(){
 	describe('An event', function(){
 		describe('with valid information', function(){
 			var event = {
-				title : "Event title!",
-				status: 'open'
+				title  : "Event title!",
+				status : 'open'
 			};
 
 			describe('when added to the database', function(){
@@ -297,101 +297,39 @@ describe('Database tests:', function(){
 		});
 	});
 
-	describe('A bet', function(){
-		describe('with valid information', function(){
-			var bet = {
-				amount : 50
+	describe('Given a user', function(){
+		var userInfo = {
+			username : 'testuser01'
+		};
+
+		before(function(done){
+			db.User.create(userInfo).success(function(user){
+				if (!user) return;
+				done();
+			})
+		});
+
+		describe('and a thread', function(){
+			var threadInfo = {
+				id : 'qwerty2'
 			};
 
-			describe('when added to the database', function(){
+			before(function(done){
+				db.Thread.create(threadInfo).success(function(thread){
+					if (!thread) return;
+					done();
+				});
+			});
+
+			describe('where the user moderates the thread', function(){
 				before(function(done){
-					db.Bet.create(bet).success(function(b){
-						bet.id = b.values.id;
-						done();
-					});
-				});
+					db.User.find({where : userInfo}).success(function(user){
+						db.Thread.find({where : threadInfo}).success(function(thread){
 
-				describe('when assigned a user and outcome', function(){
-					var user = {
-						username : 'testuser3'
-					};
-					var outcome = {
-						title : 'bet outcome title',
-						order : 0
-					};
-
-					before(function(done){
-						db.User.create(user).success(function(u){
-							db.Outcome.create(outcome).success(function(o){
-								outcome.id = o.values.id;
-								db.Bet.find(bet.id).success(function(b){
-									u.addBet(b).success(function(){
-										o.addBet(b).success(function(){
-											done();
-										});
-									});
-								});
-							});
 						});
-					});
-
-					it('bet will appear as a bet of the outcome', function(done){
-						db.Outcome.find(outcome.id).success(function(o){
-							o.getBets().success(function(bets){
-								assert.equal(bets.length, 1);
-								assert.equal(bets[0].id, bet.id);
-								done();
-							})
-						});
-					});
-
-					it('bet will appear as a bet of the user', function(done){
-						db.User.find({where : user}).success(function(u){
-							u.getBets().success(function(bets){
-								assert.equal(bets.length, 1);
-								assert.equal(bets[0].id, bet.id);
-								done();
-							})
-						});
-					})
-
-					it('user will appear as owner of the bet', function(done){
-						db.Bet.find(bet.id).success(function(b){
-							b.getUser().success(function(u){
-								assert.equal(u.username, user.username);
-								done();
-							});
-						})
-					});
-
-					it('outcome will appear as owner of the bet', function(done){
-						db.Bet.find(bet.id).success(function(b){
-							b.getOutcome().success(function(o){
-								assert.equal(o.id, outcome.id);
-								done();
-							});
-						})
-					})
-
-					after(function(done){
-						db.User.find({where : user}).success(function(u){
-							u.destroy().success(function(){
-								db.Outcome.find(outcome.id).success(function(o){
-									o.destroy().success(function(){
-										done();
-									});
-								});
-							});
-						});
-					});
-				});
-
-				after(function(done){
-					db.Bet.destroy(bet.id).success(function(){
-						done();
 					});
 				});
 			});
 		});
-	});
+	})
 });
