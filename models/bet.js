@@ -21,43 +21,45 @@ module.exports = function(sequelize, DataTypes){
 			 * @param outcome required
 			 * @param user required
 			 * @param amount required
-			 * @param callback (err)
+			 * @param callback (err) Called after the bet is created, or err
 			 */
 			createBet : function(outcome, user, amount, callback){
 				var Bet = this;
 				if (!outcome || !user || !amount) {
 					return callback("parameters");
 				}
-				console.log("This request's username is: " + user.username);
-				outcome.getBets().success(function(bets){
-					console.log("Found " + bets.length + " bets")
-					var finished = _.after(bets.length + 1, function(){
-						// only get here if bet doesn't exist
-						Bet.create({amount : amount}).success(function(bet){
-							if (!bet) throw "Bet just created doesn't exist";
-							bet.setUser(user);
-							bet.setOutcome(outcome);
-							user.updateAttributes({
-								money : (user.values.money - amount)
-							}).success(function(){
-									return callback(null);
-								});
-						})
-					});
-					finished();
-					for (var i = 0; i < bets.length; i++) {
-						var bet = bets[i];
-						bet.getUser().success(function(better){
-							console.log("Better = " + better.username);
-							if (better.username === user.username) {
-								return callback("duplicate");
-							}
-							else {
-								finished();
-							}
+				outcome.getEvent().success(function(event){
+					if (event.status !== 'open')
+						return callback("can't bet on an event that's not open");
+					outcome.getBets().success(function(bets){
+						var finished = _.after(bets.length + 1, function(){
+							// only get here if bet doesn't exist
+							Bet.create({amount : amount}).success(function(bet){
+								if (!bet)
+									return callback("Bet just created doesn't exist");
+								bet.setUser(user);
+								bet.setOutcome(outcome);
+								user.updateAttributes({
+									money : (user.values.money - amount)
+								}).success(function(){
+										return callback(null);
+									});
+							})
 						});
-					}
-				});
+						finished();
+						for (var i = 0; i < bets.length; i++) {
+							var bet = bets[i];
+							bet.getUser().success(function(better){
+								if (better.username === user.username) {
+									return callback("duplicate");
+								}
+								else {
+									finished();
+								}
+							});
+						}
+					});
+				})
 			}
 		}
 	});

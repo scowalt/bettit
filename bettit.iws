@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67eabefe-ad6e-4405-9087-d369956aa746" name="Default" comment="Using IntelliJ (again), test commit">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/bet.js" afterPath="$PROJECT_DIR$/models/bet.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bettit.iws" afterPath="$PROJECT_DIR$/bettit.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/bettit.js" afterPath="$PROJECT_DIR$/public/js/bettit.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/thread.ejs" afterPath="$PROJECT_DIR$/views/thread.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/user.js" afterPath="$PROJECT_DIR$/models/user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web.js" afterPath="$PROJECT_DIR$/web.js" />
     </list>
     <ignored path="bettit.iws" />
@@ -24,9 +26,9 @@
     <file path="/a.html" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384411303438" ignored="false" />
     <file path="/*.regexp" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384456841883" ignored="false" />
     <file path="/bettit-mod.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384493996623" ignored="false" />
-    <file path="/bettit.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384713404555" ignored="false" />
+    <file path="/bettit.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384715271972" ignored="false" />
     <file path="/package.json" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384654062737" ignored="false" />
-    <file path="/bet.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384669721010" ignored="false" />
+    <file path="/bet.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384714860499" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +92,7 @@
       <file leaf-file-name="web.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="211" column="40" selection-start="6500" selection-end="6500" vertical-scroll-proportion="0.0">
+            <state line="217" column="0" selection-start="6593" selection-end="6593" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#2261#2759#0" expanded="false" />
                 <element signature="e#2976#3542#0" expanded="false" />
@@ -102,10 +104,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thread.ejs" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="thread.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/thread.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="116" column="41" selection-start="2868" selection-end="2868" vertical-scroll-proportion="-0.3127413">
+            <state line="149" column="6" selection-start="3713" selection-end="3713" vertical-scroll-proportion="1.0">
               <folding />
             </state>
           </provider>
@@ -120,10 +122,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bettit.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="bettit.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/bettit.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="15" selection-start="1067" selection-end="1067" vertical-scroll-proportion="-9.12">
+            <state line="160" column="31" selection-start="4419" selection-end="4419" vertical-scroll-proportion="0.7763158">
               <folding />
             </state>
           </provider>
@@ -141,8 +143,11 @@
       <file leaf-file-name="bet.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/bet.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="30" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="33" column="8" selection-start="966" selection-end="966" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#1067#1484#0" expanded="false" />
+                <element signature="e#1549#1786#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -150,8 +155,10 @@
       <file leaf-file-name="user.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="66" selection-start="1423" selection-end="1423" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="17" column="46" selection-start="464" selection-end="464" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#1163#1766#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -185,11 +192,11 @@
         <option value="$PROJECT_DIR$/config/prefs.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/models/thread.js" />
+        <option value="$PROJECT_DIR$/web.js" />
+        <option value="$PROJECT_DIR$/views/thread.ejs" />
         <option value="$PROJECT_DIR$/models/bet.js" />
         <option value="$PROJECT_DIR$/models/user.js" />
-        <option value="$PROJECT_DIR$/web.js" />
         <option value="$PROJECT_DIR$/public/js/bettit.js" />
-        <option value="$PROJECT_DIR$/views/thread.ejs" />
       </list>
     </option>
   </component>
@@ -650,7 +657,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="6" />
+      <option name="time" value="7" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -709,7 +716,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/config/prefs.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="39" selection-start="271" selection-end="271" vertical-scroll-proportion="0.41078067" />
+        <state line="13" column="39" selection-start="271" selection-end="271" vertical-scroll-proportion="0.41078067">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
@@ -726,23 +735,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/bet.js">
+    <entry file="file://$PROJECT_DIR$/models/event.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="30" vertical-scroll-proportion="0.0">
+        <state line="47" column="28" selection-start="1262" selection-end="1270" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/thread.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="149" column="6" selection-start="3713" selection-end="3713" vertical-scroll-proportion="1.0">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="66" selection-start="1423" selection-end="1423" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="17" column="46" selection-start="464" selection-end="464" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#1163#1766#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/bet.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="8" selection-start="966" selection-end="966" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#1067#1484#0" expanded="false" />
+            <element signature="e#1549#1786#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="211" column="40" selection-start="6500" selection-end="6500" vertical-scroll-proportion="0.0">
+        <state line="217" column="0" selection-start="6593" selection-end="6593" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#2261#2759#0" expanded="false" />
             <element signature="e#2976#3542#0" expanded="false" />
@@ -753,28 +784,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/event.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="28" selection-start="1262" selection-end="1270" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/bettit.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="15" selection-start="1067" selection-end="1067" vertical-scroll-proportion="-9.12">
+        <state line="160" column="31" selection-start="4419" selection-end="4419" vertical-scroll-proportion="0.7763158">
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/thread.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="41" selection-start="2868" selection-end="2868" vertical-scroll-proportion="-0.3127413">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
       </provider>
     </entry>
   </component>

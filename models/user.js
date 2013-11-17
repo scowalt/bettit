@@ -19,6 +19,11 @@ module.exports = function(sequelize, DataTypes){
 		}
 	}, {
 		instanceMethods : {
+			/**
+			 * Does this user moderated thread with id thread_id
+			 * @param thread_id String
+			 * @param callback (bool)
+			 */
 			isModeratorOf : function(thread_id, callback){
 				this.getThreads().success(function(threads){
 					for (var i = 0; i < threads.length; i++) {
@@ -34,7 +39,7 @@ module.exports = function(sequelize, DataTypes){
 			 * Has the user bet on the event? Callback on false for no bet, or
 			 * the outcomeID that the user bet on
 			 * @param event_id
-			 * @param callback
+			 * @param callback (bool/int) False, or the ID bet on
 			 */
 			betOn : function(event_id, callback){
 				this.getBets().success(function(bets){

@@ -55,7 +55,7 @@ $(document).ready(function(){
 				'value' : 'Bet §20'
 			}));
 		if (window.mod && data.status === 'open') form.append($("<input>", {
-			'type' : "submit", 'class' : "btn btn-warning", 'value' : 'Lock'
+			'type' : "submit", 'class' : "btn btn-warning lock", 'value' : 'Lock'
 		}));
 
 		// put form inside of div
@@ -152,6 +152,13 @@ $(document).ready(function(){
 		if (outcomeID) io.emit('bet', {
 			outcomeID : outcomeID
 		})
+	});
+
+	/**
+	 * When an existing event is locked
+	 */
+	$(document).on("click", ".lock", function(event){
+		event.preventDefault();
 	});
 });
 
