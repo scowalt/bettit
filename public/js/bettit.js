@@ -7,12 +7,10 @@ $(document).ready(function(){
 
 	addAddEventButton();
 
-	/**
-	 * IO Emits
-	 */
-	io.emit('ready');
-	io.emit('thread_info');
-	io.emit('get_events');
+	// reserved event, called when connection to server is made
+	io.on('connect', function(){
+		io.emit('ready', window.threadID); // join this thread's room
+	});
 
 	/**
 	 * IO Receivers
