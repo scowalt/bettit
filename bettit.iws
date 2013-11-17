@@ -18,7 +18,7 @@
     <file path="/event.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384574860092" ignored="false" />
     <file path="/outcome.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384574150142" ignored="false" />
     <file path="/user.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384725703111" ignored="false" />
-    <file path="/web.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384725012072" ignored="false" />
+    <file path="/web.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384726563866" ignored="false" />
     <file path="/thread.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384660962054" ignored="false" />
     <file path="/prefs.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384652788958" ignored="false" />
     <file path="/thread.ejs" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384659857854" ignored="false" />
@@ -91,14 +91,14 @@
       <file leaf-file-name="web.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="267" column="32" selection-start="7573" selection-end="7573" vertical-scroll-proportion="0.624498">
+            <state line="38" column="0" selection-start="1134" selection-end="1134" vertical-scroll-proportion="0.06827309">
               <folding>
-                <element signature="e#1444#1577#0" expanded="false" />
-                <element signature="e#1659#1856#0" expanded="false" />
-                <element signature="e#1977#2475#0" expanded="false" />
-                <element signature="e#2865#2901#0" expanded="false" />
-                <element signature="e#5444#6365#0" expanded="false" />
-                <element signature="e#8238#8733#0" expanded="false" />
+                <element signature="e#1497#1630#0" expanded="false" />
+                <element signature="e#1712#1909#0" expanded="false" />
+                <element signature="e#2030#2528#0" expanded="false" />
+                <element signature="e#2918#2954#0" expanded="false" />
+                <element signature="e#5497#6418#0" expanded="false" />
+                <element signature="e#8291#8786#0" expanded="false" />
                 <element signature="n#!!block;n#ensureAuthenticated#0" expanded="false" />
               </folding>
             </state>
@@ -686,12 +686,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="205" column="50" selection-start="5240" selection-end="5240" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#1444#1577#0" expanded="false" />
-            <element signature="e#1659#1856#0" expanded="false" />
-            <element signature="e#1977#2475#0" expanded="false" />
-            <element signature="e#2865#2901#0" expanded="false" />
-            <element signature="e#5444#6365#0" expanded="false" />
-            <element signature="e#8238#8733#0" expanded="false" />
+            <element signature="e#1497#1630#0" expanded="false" />
+            <element signature="e#1712#1909#0" expanded="false" />
+            <element signature="e#2030#2528#0" expanded="false" />
+            <element signature="e#2918#2954#0" expanded="false" />
+            <element signature="e#5497#6418#0" expanded="false" />
+            <element signature="e#8291#8786#0" expanded="false" />
             <element signature="n#!!block;n#ensureAuthenticated#0" expanded="false" />
           </folding>
         </state>
@@ -764,13 +764,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="30" selection-start="128" selection-end="128" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/bet.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="8" selection-start="245" selection-end="380" vertical-scroll-proportion="0.0">
@@ -796,16 +789,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="30" selection-start="128" selection-end="128" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="267" column="32" selection-start="7573" selection-end="7573" vertical-scroll-proportion="0.624498">
+        <state line="38" column="0" selection-start="1134" selection-end="1134" vertical-scroll-proportion="0.06827309">
           <folding>
-            <element signature="e#1444#1577#0" expanded="false" />
-            <element signature="e#1659#1856#0" expanded="false" />
-            <element signature="e#1977#2475#0" expanded="false" />
-            <element signature="e#2865#2901#0" expanded="false" />
-            <element signature="e#5444#6365#0" expanded="false" />
-            <element signature="e#8238#8733#0" expanded="false" />
+            <element signature="e#1497#1630#0" expanded="false" />
+            <element signature="e#1712#1909#0" expanded="false" />
+            <element signature="e#2030#2528#0" expanded="false" />
+            <element signature="e#2918#2954#0" expanded="false" />
+            <element signature="e#5497#6418#0" expanded="false" />
+            <element signature="e#8291#8786#0" expanded="false" />
             <element signature="n#!!block;n#ensureAuthenticated#0" expanded="false" />
           </folding>
         </state>

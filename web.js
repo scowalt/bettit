@@ -32,6 +32,7 @@ var PORT = 8080;
  */
 var app = express();
 var io = require('socket.io').listen(app.listen(PORT));
+io.set('log level', 2); // don't debug log socket.io
 var sessionStore = new RedisStore;
 var cookieParser = express.cookieParser(secrets.secret);
 var sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
