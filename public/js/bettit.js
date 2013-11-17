@@ -141,7 +141,6 @@ $(document).ready(function(){
 			console.log(outcomeID);
 		});
 		if (outcomeID) io.emit('bet', {
-			event_id   : eventID,
 			outcome_id : outcomeID
 		})
 	});

@@ -155,7 +155,7 @@ app.io.route('thread_info', function(req){
 });
 
 /**
- * 'add_event' is called when a client is attempting to add a
+ * 'add_event' is called when a client is attempting to add an event
  */
 app.io.route('add_event', function(req){
 	var username = req.session.passport.user.name;
@@ -189,6 +189,16 @@ app.io.route('add_event', function(req){
 			});
 		});
 	});
+});
+
+/**
+ * 'bet' is called when a user attempts to bet on an event
+ */
+app.io.route('bet', function(req){
+	var username = req.session.passport.user.name;
+	var outcome_id = req.data.outcome_id;
+	var amount = req.data.amount ? req.data.amount : prefs.default_bet;
+	db.Bet.findOrCreate({})
 });
 
 /**
