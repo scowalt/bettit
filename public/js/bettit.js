@@ -24,8 +24,6 @@ $(document).ready(function(){
 		$("#thread_content").html(data.content);
 	});
 	io.on('event_response', function(data){
-		console.log(data);
-
 		// base form
 		var form = $("<form>", {
 			'id'    : "event_" + data.id + "_form",
@@ -41,9 +39,9 @@ $(document).ready(function(){
 				'id'    : 'outcome_' + outcome.id,
 				'value' : 'outcome_' + outcome.id
 			});
-			if (data.betOn !== false)
+			if (data.betOn !== false || data.status === 'locked')
 				radio.attr('disabled', true);
-			if (data.betOn === outcome.id)
+			if (data.betOn == outcome.id)
 				radio.attr('checked', true);
 			form.append($("<label>", {'class' : 'radio'}).text(outcome.title)
 				.prepend(radio));
@@ -66,8 +64,12 @@ $(document).ready(function(){
 			'class' : 'well well-small'
 		}).append($('<h5>').text(data.title)).append(form);
 
-		// put the div onto the page
-		$("#events").prepend(html);
+		// replace event if it's already on the page
+		if ($('#event_' + data.id).length)
+			$('#event_' + data.id).replaceWith(html);
+		// else put the div onto the page
+		else
+			$("#events").prepend(html);
 	});
 
 	/**

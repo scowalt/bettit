@@ -182,7 +182,13 @@ sessionSockets.on('connection', function(err, socket, session){
 						socket.emit('money_response', {
 							money : user.values.money
 						});
-					})
+					});
+					outcome.getEvent().success(function(event){
+						event.emitEvent(function(data){
+							data.betOn = outcomeID;
+							socket.emit('event_response', data);
+						});
+					});
 				})
 			});
 		});
@@ -192,6 +198,7 @@ sessionSockets.on('connection', function(err, socket, session){
 function sendThreadInfo(thread_id, socket){
 	var path = 'http://redd.it/' + thread_id;
 	request({uri : path}, function(error, response, body){
+		if (error) return; //TODO Handle
 		var path = 'http://reddit.com' + response.request.path + '.json';
 		request({ uri : path }, function(error, response, body){
 			if (error) return; // TODO Handle
