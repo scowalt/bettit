@@ -24,6 +24,7 @@ $(document).ready(function(){
 		$("#thread_content").html(data.content);
 	});
 	io.on('event_response', function(data){
+		console.log(data);
 		// base form
 		var form = $("<form>", {
 			'id'    : "event_" + data.id + "_form",
@@ -159,6 +160,12 @@ $(document).ready(function(){
 	 */
 	$(document).on("click", ".lock", function(event){
 		event.preventDefault();
+		var $form = $(this).parent('form');
+		var formID = $form.attr('id');
+		var eventID = formID.replace('event_', '').replace('_form', '');
+		io.emit('lock', {
+			eventID : eventID
+		})
 	});
 });
 

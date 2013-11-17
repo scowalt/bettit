@@ -43,17 +43,15 @@ module.exports = function(sequelize, DataTypes){
 			 */
 			betOn : function(event_id, callback){
 				this.getBets().success(function(bets){
-					var finished = _.after(bets.length+1, function(){
+					var finished = _.after(bets.length + 1, function(){
 						return callback(false);
 					});
 					finished();
-					console.log("User has " + bets.length + " bets");
 					for (var i = 0; i < bets.length; i++) {
 						var bet = bets[i];
 						bet.getOutcome().success(function(outcome){
 							outcome.getEvent().success(function(event){
-								if (event_id === event.values.id){
-									console.log("User bet on " + event_id);
+								if (event_id === event.values.id) {
 									return callback(outcome.values.id);
 								}
 								else

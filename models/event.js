@@ -43,7 +43,6 @@ module.exports = function(sequelize, DataTypes){
 					outcomeInfos.sort(function(o1, o2){
 						return o1.order - o2.order;
 					})
-					console.log(outcomeInfos);
 					data.outcomes = outcomeInfos;
 					callback(data);
 				});

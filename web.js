@@ -15,7 +15,7 @@ var SessionSockets = require('session.socket.io');
 /**
  * MODULE IMPORTS
  */
-var db = require('./models')('bettit');
+var db = require('./models')('bettit', false);
 var secrets = require('./config/secrets.js');
 var prefs = require('./config/prefs.js');
 
@@ -35,13 +35,17 @@ var io = require('socket.io').listen(app.listen(PORT));
 var sessionStore = new RedisStore;
 var cookieParser = express.cookieParser(secrets.secret);
 var sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
-// Passport session setup.
-//   To support persistent login sessions, Passport needs to be able to
-//   serialize users into and deserialize users out of the session.  Typically,
-//   this will be as simple as storing the user ID when serializing, and finding
-//   the user by ID when deserializing.  However, since this example does not
-//   have a database of user records, the complete Reddit profile is
-//   serialized and deserialized.
+
+// sync server
+db.sequelize.sync({ force : prefs.force_sync }).complete(function(err){
+	if (err)
+		throw err;
+});
+
+
+/**
+ * Passport serialization
+ */
 passport.serializeUser(function(user, done){
 	done(null, user);
 });
@@ -131,21 +135,15 @@ sessionSockets.on('connection', function(err, socket, session){
 					var finished = _.after(len + 1,
 						function(){
 							event.emitEvent(function(data){
-								io.sockets.clients(thread_id).forEach(function(socket){
-									sessionSockets.getSession(socket,
-										function(err, session){
-											if (err) return; //TODO Handle
-											db.User.find({where : {username : session.passport.user.name}}).success(function(user){
-												user.betOn(thread_id,
-													function(outcome_id){
-														data.betOn = outcome_id;
-														socket.emit('event_response',
-															data);
-													});
-											});
+								forEveryUserInRoom(thread_id, function(socket, user){
+									user.betOn(thread_id,
+										function(outcome_id){
+											data.betOn = outcome_id;
+											socket.emit('event_response',
+												data);
 										});
 								});
-							});
+							})
 						});
 					db.Thread.find({where : {id : thread_id}}).success(function(thread){
 						thread.addEvent(event).success(function(){
@@ -193,7 +191,60 @@ sessionSockets.on('connection', function(err, socket, session){
 			});
 		});
 	});
+	socket.on('lock', function(data){
+		var eventID = data.eventID;
+		db.User.find({where : {username : username}}).success(function(user){
+			if (!user) return; //TODO Handle
+			db.Event.find({where : {id : eventID}}).success(function(event){
+				if (!event) return; // TODO Handle
+				event.getThread().success(function(thread){
+					if (!thread) return; //TODO Handle
+					user.isModeratorOf(thread.id, function(bool){
+						if (!bool) {
+							// can't lock thread if not mod
+							return;
+						}
+						event.updateAttributes({status : 'locked'})
+							.success(function(){
+								event.emitEvent(function(data){
+									forEveryUserInRoom(thread.id,
+										function(socket, user){
+											user.betOn(event.id,
+												function(outcome_id){
+													data.betOn =
+														outcome_id;
+													socket.emit('event_response',
+														data);
+												});
+										});
+								})
+							})
+					})
+				});
+			});
+		})
+	})
 });
+
+/**
+ * Calls callback on every user in a room
+ * @param roomID
+ * @param callback (socket, user)
+ */
+function forEveryUserInRoom(roomID, callback){
+	io.sockets.clients(roomID)
+		.forEach(function(socket){
+			sessionSockets.getSession(socket,
+				function(err, session){
+					if (err) return; //TODO Handle
+					db.User.find({where : {username : session.passport.user.name}})
+						.success(function(user){
+							if (!user) return; //TODO Handle
+							callback(socket, user);
+						});
+				});
+		});
+}
 
 function sendThreadInfo(thread_id, socket){
 	var path = 'http://redd.it/' + thread_id;
@@ -224,16 +275,6 @@ function sendThreadInfo(thread_id, socket){
 		});
 	});
 }
-//
-///**
-// * 'bet' is called when a user attempts to bet on an event
-// */
-//app.io.route('bet', function(req){
-//	var username = req.session.passport.user.name;
-//	var outcome_id = req.data.outcome_id;
-//	var amount = req.data.amount ? req.data.amount : prefs.default_bet;
-//	db.Bet.findOrCreate({})
-//});
 
 /**
  * EXPRESS ROUTING
@@ -343,17 +384,3 @@ function ensureAuthenticated(req, res, next){
 		res.redirect('/auth/reddit');
 	}
 }
-
-/**
- * START SERVER
- */
-db.sequelize.sync({
-	force : prefs.force_sync
-}).complete(function(err){
-		if (err) {
-			throw err;
-		}
-		else {
-
-		}
-	});
