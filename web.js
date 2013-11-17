@@ -97,9 +97,9 @@ app.configure(function(){
  */
 sessionSockets.on('connection', function(err, socket, session){
 	if (err) return; // TODO Handle this
+	var username = session.passport.user.name;
 	socket.on('ready', function(threadID){
 		socket.join(threadID);
-		var username = session.passport.user.name;
 		db.User.find({where : {username : username}}).success(function(user){
 			if (!user) return; //TODO Handle this
 			socket.emit('money_response', {
@@ -118,7 +118,6 @@ sessionSockets.on('connection', function(err, socket, session){
 		sendThreadInfo(threadID, socket);
 	});
 	socket.on('add_event', function(data){
-		var username = session.passport.user.name;
 		var thread_id = data.threadID;
 		db.User.find({where : {username : username}}).success(function(user){
 			if (!user) return;
@@ -151,18 +150,39 @@ sessionSockets.on('connection', function(err, socket, session){
 			});
 		});
 	});
+	socket.on('bet', function(data){
+		var outcomeID = data.outcomeID;
+		var amount = data.amount ? data.amount : prefs.default_bet;
+		db.User.find({where : {username : username}}).success(function(user){
+			if (!user) return; //TODO Handle
+			db.Outcome.find(outcomeID).success(function(outcome){
+				if (!outcome) return; //TODO Handle
+				db.Bet.createBet(outcome, user, amount, function(err){
+					if (err) {
+						console.log("ERROR: " + err);
+						return;
+					}
+					db.User.find({where : {username : username}}).success(function(user){
+						if (!user) return; //TODO Handle
+						socket.emit('money_response', {
+							money : user.values.money
+						});
+					})
+				})
+			});
+		});
+	});
 });
 
 function sendThreadInfo(thread_id, socket){
 	var path = 'http://redd.it/' + thread_id;
 	request({uri : path}, function(error, response, body){
-		var path = 'http://reddit.com' + response.request.path + '.json'
-		request({
-			uri : path
-		}, function(error, response, body){
+		var path = 'http://reddit.com' + response.request.path + '.json';
+		request({ uri : path }, function(error, response, body){
 			var json = JSON.parse(body);
 			var post = json[0]['data']['children'][0]['data'];
 			var title = post['title'];
+			// TODO Handle different content types
 			var content = post['is_self']
 				? SnuOwnd.getParser().render(post['selftext'])
 				: post['url'];
@@ -175,21 +195,12 @@ function sendThreadInfo(thread_id, socket){
 
 			db.User.findOrCreate({username : author}).success(function(user){
 				db.Thread.findOrCreate({id : thread_id}).success(function(thread){
-					thread.addUser(user).success(function(){
-
-					});
+					thread.addUser(user).success(function(){});
 				});
 			});
 		});
 	});
 }
-//
-///**
-// * 'add_event' is called when a client is attempting to add an event
-// */
-//app.io.route('add_event', function(req){
-
-//});
 //
 ///**
 // * 'bet' is called when a user attempts to bet on an event

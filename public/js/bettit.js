@@ -136,11 +136,10 @@ $(document).ready(function(){
 		var eventID = formID.replace('event_', '').replace('_form', '');
 		var outcomeID = null;
 		$('#' + formID + ' :checked').each(function(){
-			var outcomeID = $(this).val().replace('outcome_', '');
-			console.log(outcomeID);
+			outcomeID = $(this).val().replace('outcome_', '');
 		});
 		if (outcomeID) io.emit('bet', {
-			outcome_id : outcomeID
+			outcomeID : outcomeID
 		})
 	});
 });
