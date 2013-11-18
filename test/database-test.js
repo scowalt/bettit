@@ -321,11 +321,63 @@ describe('Database tests:', function(){
 				});
 			});
 
+			describe('and an open event in the thread with outcomes', function(){
+				var eventInfo = {
+					title  : 'Event test title',
+					status : 'open'
+				};
+				var outcome1Info = {
+					title : 'outcome 1',
+					order : 0
+				};
+				var outcome2Info = {
+					title : 'outcome 2',
+					order : 1
+				};
+
+				before(function(done){
+					db.Event.create(eventInfo).success(function(event){
+						db.Outcome.create(outcome1Info).success(function(outcome1){
+							db.Outcome.create(outcome2Info).success(function(outcome2){
+								event.addOutcome(outcome1).success(function(){
+									event.addOutcome(outcome2).success(function(){
+										done();
+									});
+								});
+							});
+						});
+					});
+				});
+
+				it('the pot of the event is zero (no bets yet)', function(done){
+					db.Event.find({where : eventInfo}).success(function(event){
+						event.calculatePot(function(pot){
+							assert.equal(pot, 0);
+							done();
+						})
+					});
+				});
+			});
+
 			describe('where the user moderates the thread', function(){
 				before(function(done){
 					db.User.find({where : userInfo}).success(function(user){
 						db.Thread.find({where : threadInfo}).success(function(thread){
+							user.addThread(thread).success(function(){
+								done();
+							});
+						});
+					});
+				});
 
+				it('the user appears as a moderator of the thread', function(done){
+					db.User.find({where : userInfo}).success(function(user){
+						user.getThreads().success(function(threads){
+							for (var i = 0; i < threads.length; i++) {
+								var thread = threads[i];
+								if (thread.values.id === threadInfo.id)
+									done()
+							}
 						});
 					});
 				});

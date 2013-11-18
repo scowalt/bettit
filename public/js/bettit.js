@@ -34,18 +34,24 @@ $(document).ready(function(){
 		// append outcomes to form
 		for (var i = 0; i < data.outcomes.length; i++) {
 			var outcome = data.outcomes[i];
+
+			// create radio button
 			var radio = $("<input>", {
 				'type'  : 'radio',
 				'name'  : 'event_' + data.id + '_radios',
 				'id'    : 'outcome_' + outcome.id,
 				'value' : 'outcome_' + outcome.id
 			});
+
+			// give radio button proper attributes
 			if ((data.status == 'closed') ||
 				((data.betOn !== false) && (data.status == 'open')) ||
 				((data.status == 'locked') && (!(window.mod))))
 				radio.attr('disabled', true);
-			if (data.betOn == outcome.id)
+			if (data.betOn == outcome.id && !(window.mod && data.status == 'locked'))
 				radio.attr('checked', true);
+
+			// add radio button (with label) to form
 			form.append($("<label>", {'class' : 'radio'}).text(outcome.title)
 				.prepend(radio));
 		}
@@ -73,7 +79,7 @@ $(document).ready(function(){
 		// replace event if it's already on the page
 		if ($('#event_' + data.id).length)
 			$('#event_' + data.id).replaceWith(html);
-		// else put the div onto the page
+		// else put the event onto the page
 		else
 			$("#events").prepend(html);
 	});
@@ -172,6 +178,25 @@ $(document).ready(function(){
 			eventID : eventID
 		})
 	});
+
+	/**
+	 * When an existing event is closed
+	 */
+	$(document).on("click", "._close", function(event){
+		event.preventDefault();
+		var $form = $(this).parent('form');
+		var formID = $form.attr('id');
+		var eventID = formID.replace('event_', '').replace('_form', '');
+		var outcomeID = null;
+		$('#' + formID + ' :checked').each(function(){
+			outcomeID = $(this).val().replace('outcome_', '');
+		});
+		if (outcomeID) io.emit('close', {
+			eventID   : eventID,
+			outcomeID : outcomeID
+		});
+
+	})
 });
 
 /**

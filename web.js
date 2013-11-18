@@ -226,6 +226,48 @@ sessionSockets.on('connection', function(err, socket, session){
 				});
 			});
 		})
+	});
+	socket.on('close', function(data){
+		var eventID = data.eventID;
+		db.User.find({where : {username : username}}).success(function(user){
+			if (!user) return; // TODO Handle this
+			db.Event.find({where : {id : eventID}}).success(function(event){
+				if (!event) return; // TODO Handle this
+				event.getThread().success(function(thread){
+					if (!thread) return; // TODO Handle this
+					user.isModeratorOf(thread.id, function(bool){
+						if (!bool) return; // isn't moderator, can't close event
+						event.calculatePot(function(pot){
+							event.declareWinner(data.outcomeID, pot,
+								function(error){
+									if (error) throw error;
+									// users have been paid
+									event.status = 'closed';
+									event.save().success(function(){
+
+
+										event.emitEvent(function(data){
+											forEveryUserInRoom(thread.values.id,
+												function(socket, user){
+													socket.emit('money_response', {
+														money : user.values.money
+													});
+													user.betOn(eventID,
+														function(outcomeID){
+															data.betOn = outcomeID;
+															socket.emit('event_response',
+																data);
+														})
+												});
+										});
+									});
+								}
+							);
+						});
+					});
+				})
+			})
+		});
 	})
 });
 
@@ -255,7 +297,7 @@ function sendThreadInfo(thread_id, socket){
 		if (error) return; //TODO Handle
 		var path = 'http://reddit.com' + response.request.path + '.json';
 		request({ uri : path }, function(error, response, body){
-			if (error) return; // TODO Handle
+			if (error) throw error; // TODO Handle
 			var json = JSON.parse(body);
 			var post = json[0]['data']['children'][0]['data'];
 			var title = post['title'];

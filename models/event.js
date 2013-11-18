@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define("Event", {
 		id     : {
@@ -45,6 +47,88 @@ module.exports = function(sequelize, DataTypes){
 					})
 					data.outcomes = outcomeInfos;
 					callback(data);
+				});
+			},
+
+			/**
+			 * Set the winner of the event and modify users with their payouts.
+			 * NOTE: THIS WILL NOT CLOSE THE EVENT (you have to do that yourself)
+			 * @param outcomeID Which outcome won
+			 * @param callback (error)
+			 */
+			declareWinner : function(outcomeID, pot, callback){
+				if (!outcomeID || !callback)
+					throw "declareWinner(" + outcomeID + ", " + callback +
+						") not called properly";
+				this.getOutcomes().success(function(outcomes){
+					// after modifying all of the outcomes and users
+					var finished = _.after(outcomes.length, function(){
+						return callback(null);
+					});
+
+					// for outcomes of event
+					for (var i = 0; i < outcomes.length; i++) {
+						var outcome = outcomes[i];
+						outcome.updateAttributes({
+							winner : outcome.values.id == outcomeID
+						}).success(function(){
+								if (outcome.values.id == outcomeID) {
+									outcome.getBets().success(function(bets){
+										var user_paid = _.after(bets.length,
+											function(){
+												finished();
+											})
+										var payout = Math.floor(pot /
+											bets.length);
+										for (var i = 0; i < bets.length; i++) {
+											var bet = bets[i];
+											bet.getUser().success(function(user){
+												user.updateAttributes({
+													money : user.values.money +
+														payout
+												}).success(function(){
+														user_paid();
+													})
+											});
+										}
+									})
+								}
+								else {
+									finished();
+								}
+							})
+					}
+				});
+			},
+
+			/**
+			 * How much money has been bet on this event?
+			 * @param callback (pot)
+			 */
+			calculatePot : function(callback){
+				if (!callback)
+					throw "calculatePot() called without callback"
+				this.getOutcomes().success(function(outcomes){
+					var pot = 0;
+					// once all of the outcomes are done
+					var outcome_finished = _.after(outcomes.length, function(){
+						callback(pot);
+					});
+					for (var i = 0; i < outcomes.length; i++) {
+						var outcome = outcomes[i];
+						outcome.getBets().success(function(bets){
+							//once all of the bets for this outcome are done
+							var bet_finished = _.after(bets.length + 1, function(){
+								outcome_finished();
+							});
+							bet_finished();
+							for (var b = 0; b < bets.length; b++) {
+								var bet = bets[b];
+								pot = pot + bet.values.amount;
+								bet_finished();
+							}
+						});
+					}
 				});
 			}
 		}
