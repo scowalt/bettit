@@ -40,7 +40,9 @@ $(document).ready(function(){
 				'id'    : 'outcome_' + outcome.id,
 				'value' : 'outcome_' + outcome.id
 			});
-			if (data.betOn !== false || data.status === 'locked')
+			if ((data.status == 'closed') ||
+				((data.betOn !== false) && (data.status == 'open')) ||
+				((data.status == 'locked') && (!(window.mod))))
 				radio.attr('disabled', true);
 			if (data.betOn == outcome.id)
 				radio.attr('checked', true);
@@ -52,11 +54,14 @@ $(document).ready(function(){
 		if (data.status === 'open' && data.betOn === false)
 			form.append($("<input>", {
 				'type'  : 'submit',
-				'class' : "btn btn-primary bet",
+				'class' : "btn btn-primary _bet",
 				'value' : 'Bet §20'
 			}));
 		if (window.mod && data.status === 'open') form.append($("<input>", {
-			'type' : "submit", 'class' : "btn btn-warning lock", 'value' : 'Lock'
+			'type' : "submit", 'class' : "btn btn-warning _lock", 'value' : 'Lock'
+		}));
+		if (window.mod && data.status === 'locked') form.append($("<input>", {
+			'type' : 'submit', 'class' : 'btn btn-danger _close', 'value' : 'Close'
 		}));
 
 		// put form inside of div
@@ -141,7 +146,7 @@ $(document).ready(function(){
 	/**
 	 * When an existing event is bet on
 	 */
-	$(document).on("click", ".bet", function(event){
+	$(document).on("click", "._bet", function(event){
 		event.preventDefault();
 		var $form = $(this).parent('form');
 		var formID = $form.attr('id');
@@ -158,7 +163,7 @@ $(document).ready(function(){
 	/**
 	 * When an existing event is locked
 	 */
-	$(document).on("click", ".lock", function(event){
+	$(document).on("click", "._lock", function(event){
 		event.preventDefault();
 		var $form = $(this).parent('form');
 		var formID = $form.attr('id');
