@@ -82,7 +82,10 @@ module.exports = function(sequelize, DataTypes){
 											bets.length);
 										for (var i = 0; i < bets.length; i++) {
 											var bet = bets[i];
+
 											bet.getUser().success(function(user){
+												console.log("Giving " +
+													user.values.name + " " + payout);
 												user.updateAttributes({
 													money : user.values.money +
 														payout
