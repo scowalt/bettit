@@ -11,11 +11,12 @@ var RedditStrategy = require('passport-reddit').Strategy;
 var RedisStore = require('connect-redis')(express);
 var _ = require('underscore');
 var SessionSockets = require('session.socket.io');
+var colog = require('colog');
 
 /**
  * MODULE IMPORTS
  */
-var db = require('./models')('bettit', true);
+var db = require('./models')('bettit', false);
 var secrets = require('./config/secrets.js');
 var prefs = require('./config/prefs.js');
 
@@ -32,7 +33,7 @@ var PORT = 8080;
  */
 var app = express();
 var io = require('socket.io').listen(app.listen(PORT));
-io.set('log level', 2); // don't debug log socket.io
+io.set('log level', 1); // don't debug log socket.io
 var sessionStore = new RedisStore;
 var cookieParser = express.cookieParser(secrets.secret);
 var sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
@@ -82,7 +83,7 @@ app.configure(function(){
 	app.use(express.static(__dirname + '/public'));
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'ejs');
-	app.use(express.logger());
+	// app.use(express.logger());
 	app.use(express.favicon());
 	app.use(cookieParser);
 	app.use(express.session({
@@ -124,7 +125,7 @@ sessionSockets.on('connection', function(err, socket, session){
 		sendThreadInfo(threadID, socket);
 	});
 	socket.on('add_event', function(data){
-		console.log("add_event recieved from " + username);
+		colog.info("add_event recieved from " + username);
 		var thread_id = data.threadID;
 		db.User.find({where : {username : username}}).success(function(user){
 			if (!user) return;
@@ -164,7 +165,7 @@ sessionSockets.on('connection', function(err, socket, session){
 		});
 	});
 	socket.on('bet', function(data){
-		console.log('bet recieved from ' + username);
+		colog.info('bet recieved from ' + username);
 		var outcomeID = data.outcomeID;
 		var amount = data.amount ? data.amount : prefs.default_bet;
 		db.User.find({where : {username : username}}).success(function(user){
@@ -226,6 +227,7 @@ sessionSockets.on('connection', function(err, socket, session){
 		})
 	});
 	socket.on('close', function(data){
+		colog.info('close recieved from ' + username);
 		var eventID = data.eventID;
 		db.User.find({where : {username : username}}).success(function(user){
 			if (!user) return; // TODO Handle this
@@ -242,8 +244,6 @@ sessionSockets.on('connection', function(err, socket, session){
 									// users have been paid
 									event.status = 'closed';
 									event.save().success(function(){
-
-
 										event.emitEvent(function(data){
 											forEveryUserInRoom(thread.values.id,
 												function(socket, user){

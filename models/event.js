@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var colog = require('colog');
 
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define("Event", {
@@ -41,6 +42,9 @@ module.exports = function(sequelize, DataTypes){
 							{title    : outcome.values.title,
 								id    : outcome.values.id,
 								order : outcome.values.order});
+						if (data.status == 'closed' &&
+							outcome.values.winner === true)
+							data.winner = outcome.values.id;
 					}
 					outcomeInfos.sort(function(o1, o2){
 						return o1.order - o2.order;
@@ -60,46 +64,51 @@ module.exports = function(sequelize, DataTypes){
 				if (!outcomeID || !callback)
 					throw "declareWinner(" + outcomeID + ", " + callback +
 						") not called properly";
+				colog.info('declareWinner(' + outcomeID + ', ' + pot + ')');
 				this.getOutcomes().success(function(outcomes){
 					// after modifying all of the outcomes and users
 					var finished = _.after(outcomes.length, function(){
 						return callback(null);
 					});
-
 					// for outcomes of event
 					for (var i = 0; i < outcomes.length; i++) {
-						var outcome = outcomes[i];
-						outcome.updateAttributes({
-							winner : outcome.values.id == outcomeID
-						}).success(function(){
-								if (outcome.values.id == outcomeID) {
-									outcome.getBets().success(function(bets){
-										var user_paid = _.after(bets.length,
-											function(){
-												finished();
-											})
-										var payout = Math.floor(pot /
-											bets.length);
-										for (var i = 0; i < bets.length; i++) {
-											var bet = bets[i];
+						(function(idx){
+							var outcome = outcomes[idx];
+							outcome.updateAttributes({
+								winner : outcome.values.id == outcomeID
+							}).success(function(){
+									if (outcome.values.id == outcomeID) {
+										colog.success('\toutcome ' + outcomeID +
+											' won!');
+										outcome.getBets().success(function(bets){
+											var user_paid = _.after(bets.length + 1,
+												function(){
+													finished();
+												})
+											user_paid();
+											var payout = Math.floor(pot /
+												bets.length);
+											for (var i = 0; i < bets.length; i++) {
+												var bet = bets[i];
 
-											bet.getUser().success(function(user){
-												console.log("Giving " +
-													user.values.name + " " + payout);
-												user.updateAttributes({
-													money : user.values.money +
-														payout
-												}).success(function(){
-														user_paid();
-													})
-											});
-										}
-									})
-								}
-								else {
-									finished();
-								}
-							})
+												bet.getUser().success(function(user){
+													user.updateAttributes({
+														money : user.values.money +
+															payout
+													}).success(function(){
+															user_paid();
+														})
+												});
+											}
+										})
+									}
+									else {
+										colog.info('\toutcome ' + outcome.values.id +
+											'didn\'t win');
+										finished();
+									}
+								})
+						})(i);
 					}
 				});
 			},

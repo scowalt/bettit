@@ -51,9 +51,11 @@ $(document).ready(function(){
 			if (data.betOn == outcome.id && !(window.mod && data.status == 'locked'))
 				radio.attr('checked', true);
 
+			// set outcome's label
+			var label = $("<span>").text(outcome.title);
+
 			// add radio button (with label) to form
-			form.append($("<label>", {'class' : 'radio'}).text(outcome.title)
-				.prepend(radio));
+			form.append($("<label>", {'class' : 'radio'}).append(radio).append(label));
 		}
 
 		// append buttons to form
