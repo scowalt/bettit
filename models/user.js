@@ -49,8 +49,6 @@ module.exports = function(sequelize, DataTypes){
 			 * @param callback (bool/int) False, or the ID bet on
 			 */
 			betOn : function(event_id, callback){
-				colog.info('\t' + this.values.username + ".betOn(" + event_id +
-					", callback)");
 				this.getBets().success(function(bets){
 					var finished = _.after(bets.length + 1, function(){
 						return callback(false);
@@ -60,11 +58,14 @@ module.exports = function(sequelize, DataTypes){
 						var bet = bets[i];
 						bet.getOutcome().success(function(outcome){
 							outcome.getEvent().success(function(event){
-								if (event_id === event.values.id) {
+								if (event_id == event.values.id) {
+									colog.success('\t\tthis bet was for the event!');
 									return callback(outcome.values.id);
 								}
-								else
+								else {
+									colog.info('\t\tthis bet wasn\'t for the event');
 									finished();
+								}
 							});
 						});
 					}

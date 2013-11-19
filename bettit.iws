@@ -19,7 +19,7 @@
     <file path="/a.dummy" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384639180684" ignored="false" />
     <file path="/event.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384826319086" ignored="false" />
     <file path="/outcome.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384574150142" ignored="false" />
-    <file path="/user.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384826857338" ignored="false" />
+    <file path="/user.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384829515177" ignored="false" />
     <file path="/web.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384827236360" ignored="false" />
     <file path="/thread.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384660962054" ignored="false" />
     <file path="/prefs.js" changelist="67eabefe-ad6e-4405-9087-d369956aa746" time="1384652788958" ignored="false" />
@@ -90,13 +90,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="web.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="web.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="29" selection-start="2588" selection-end="2588" vertical-scroll-proportion="0.070281126">
+            <state line="248" column="76" selection-start="7369" selection-end="7369" vertical-scroll-proportion="-12.96">
               <folding>
                 <element signature="e#1528#1661#0" expanded="false" />
                 <element signature="e#2743#3309#0" expanded="false" />
+                <element signature="e#3350#4386#0" expanded="false" />
                 <element signature="e#4421#5310#0" expanded="false" />
                 <element signature="e#5346#6267#0" expanded="false" />
                 <element signature="e#9475#9970#0" expanded="false" />
@@ -172,10 +173,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="user.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="33" selection-start="1357" selection-end="1357" vertical-scroll-proportion="0.0">
+            <state line="52" column="57" selection-start="1421" selection-end="1421" vertical-scroll-proportion="0.25373134">
               <folding />
             </state>
           </provider>
@@ -222,8 +223,8 @@
         <option value="$PROJECT_DIR$/public/js/bettit.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/models/event.js" />
-        <option value="$PROJECT_DIR$/models/user.js" />
         <option value="$PROJECT_DIR$/web.js" />
+        <option value="$PROJECT_DIR$/models/user.js" />
       </list>
     </option>
   </component>
@@ -703,6 +704,7 @@
           <folding>
             <element signature="e#1528#1661#0" expanded="false" />
             <element signature="e#2743#3309#0" expanded="false" />
+            <element signature="e#3350#4386#0" expanded="false" />
             <element signature="e#4421#5310#0" expanded="false" />
             <element signature="e#5346#6267#0" expanded="false" />
             <element signature="e#9475#9970#0" expanded="false" />
@@ -767,13 +769,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/outcome.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="33" selection-start="324" selection-end="324" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/thread.ejs">
       <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
         <state />
@@ -791,13 +786,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/bet.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="31" selection-start="913" selection-end="913" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/event.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="31" selection-end="60" vertical-scroll-proportion="0.0">
@@ -809,23 +797,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/user.js">
+    <entry file="file://$PROJECT_DIR$/models/outcome.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="33" selection-start="1357" selection-end="1357" vertical-scroll-proportion="0.0">
+        <state line="11" column="33" selection-start="324" selection-end="324" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/bet.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="31" selection-start="913" selection-end="913" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="29" selection-start="2588" selection-end="2588" vertical-scroll-proportion="0.070281126">
+        <state line="248" column="76" selection-start="7369" selection-end="7369" vertical-scroll-proportion="-12.96">
           <folding>
             <element signature="e#1528#1661#0" expanded="false" />
             <element signature="e#2743#3309#0" expanded="false" />
+            <element signature="e#3350#4386#0" expanded="false" />
             <element signature="e#4421#5310#0" expanded="false" />
             <element signature="e#5346#6267#0" expanded="false" />
             <element signature="e#9475#9970#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="57" selection-start="1421" selection-end="1421" vertical-scroll-proportion="0.25373134">
+          <folding />
         </state>
       </provider>
     </entry>
