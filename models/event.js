@@ -87,7 +87,6 @@ module.exports = function(sequelize, DataTypes){
 												bets.length);
 											for (var i = 0; i < bets.length; i++) {
 												var bet = bets[i];
-
 												bet.getUser().success(function(user){
 													user.updateAttributes({
 														money : user.values.money +

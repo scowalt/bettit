@@ -338,7 +338,10 @@ describe('Database tests:', function(){
 				before(function(done){
 					db.Event.create(eventInfo).success(function(event){
 						db.Outcome.create(outcome1Info).success(function(outcome1){
+							outcome1Info.id = outcome1.values.id;
 							db.Outcome.create(outcome2Info).success(function(outcome2){
+								outcome2Info.id = outcome2.values.id;
+								eventInfo.id = event.values.id;
 								event.addOutcome(outcome1).success(function(){
 									event.addOutcome(outcome2).success(function(){
 										done();
@@ -357,6 +360,25 @@ describe('Database tests:', function(){
 						})
 					});
 				});
+
+				it('emitEvent() gives the proper output', function(done){
+					db.Event.find({where : eventInfo}).success(function(event){
+						event.emitEvent(function(data){
+							assert.equal(data.status, eventInfo.status);
+							assert.equal(data.winner, undefined);
+							assert.equal(data.title, eventInfo.title);
+							assert.equal(data.id, eventInfo.id);
+							assert.equal(data.status, eventInfo.status);
+							assert.equal(data.outcomes[0].title, outcome1Info.title);
+							assert.equal(data.outcomes[0].id, outcome1Info.id);
+							assert.equal(data.outcomes[0].order, outcome1Info.order);
+							assert.equal(data.outcomes[1].title, outcome2Info.title);
+							assert.equal(data.outcomes[1].id, outcome2Info.id);
+							assert.equal(data.outcomes[1].order, outcome2Info.order);
+							done();
+						});
+					});
+				})
 			});
 
 			describe('where the user moderates the thread', function(){
