@@ -1,6 +1,5 @@
 {
 	"name"         : "bettit",
-	"version"      : "0.0.0",
 	"dependencies" : {
 		"crypto"            : ">= 0.0.0",
 		"express"           : ">= 0.0.0",

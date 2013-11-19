@@ -77,8 +77,6 @@ module.exports = function(sequelize, DataTypes){
 								winner : outcome.values.id == outcomeID
 							}).success(function(){
 									if (outcome.values.id == outcomeID) {
-										colog.success('\toutcome ' + outcomeID +
-											' won!');
 										outcome.getBets().success(function(bets){
 											var user_paid = _.after(bets.length + 1,
 												function(){

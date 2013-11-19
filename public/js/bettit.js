@@ -54,6 +54,12 @@ $(document).ready(function(){
 			// set outcome's label
 			var label = $("<span>").text(outcome.title);
 
+			if (data.status == 'closed' && data.betOn == outcome.id)
+				label.attr('class', 'label');
+			if (data.status == 'closed' && data.winner == outcome.id)
+				label.attr('class', 'label label-success');
+
+
 			// add radio button (with label) to form
 			form.append($("<label>", {'class' : 'radio'}).append(radio).append(label));
 		}
