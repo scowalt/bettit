@@ -1,5 +1,6 @@
 var prefs = require('../config/prefs.js');
 var _ = require('underscore');
+var colog = require('colog');
 
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define("User", {
@@ -48,6 +49,8 @@ module.exports = function(sequelize, DataTypes){
 			 * @param callback (bool/int) False, or the ID bet on
 			 */
 			betOn : function(event_id, callback){
+				colog.info('\t' + this.values.username + ".betOn(" + event_id +
+					", callback)");
 				this.getBets().success(function(bets){
 					var finished = _.after(bets.length + 1, function(){
 						return callback(false);

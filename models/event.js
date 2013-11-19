@@ -64,7 +64,6 @@ module.exports = function(sequelize, DataTypes){
 				if (!outcomeID || !callback)
 					throw "declareWinner(" + outcomeID + ", " + callback +
 						") not called properly";
-				colog.info('declareWinner(' + outcomeID + ', ' + pot + ')');
 				this.getOutcomes().success(function(outcomes){
 					// after modifying all of the outcomes and users
 					var finished = _.after(outcomes.length, function(){
@@ -103,8 +102,6 @@ module.exports = function(sequelize, DataTypes){
 										})
 									}
 									else {
-										colog.info('\toutcome ' + outcome.values.id +
-											'didn\'t win');
 										finished();
 									}
 								})

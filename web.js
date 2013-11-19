@@ -136,14 +136,9 @@ sessionSockets.on('connection', function(err, socket, session){
 					var finished = _.after(len + 1,
 						function(){
 							event.emitEvent(function(data){
-								forEveryUserInRoom(thread_id, function(socket, user){
-									user.betOn(thread_id,
-										function(outcome_id){
-											data.betOn = outcome_id;
-											socket.emit('event_response',
-												data);
-										});
-								});
+								data.betOn = false;
+								io.sockets.in(thread_id).emit('event_response',
+									data);
 							})
 						});
 					db.Thread.find({where : {id : thread_id}}).success(function(thread){
