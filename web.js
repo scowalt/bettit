@@ -16,7 +16,7 @@ var colog = require('colog');
 /**
  * MODULE IMPORTS
  */
-var db = require('./models')('bettit', false);
+var db = require('./models')('bettit', true);
 var secrets = require('./config/secrets.js');
 var prefs = require('./config/prefs.js');
 
@@ -42,6 +42,7 @@ var sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
 db.sequelize.sync({ force : prefs.force_sync }).complete(function(err){
 	if (err)
 		throw err;
+	colog.info("Database sync completed");
 });
 
 
@@ -103,6 +104,7 @@ sessionSockets.on('connection', function(err, socket, session){
 	if (err) return; // TODO Handle this
 	var username = session.passport.user.name;
 	socket.on('ready', function(threadID){
+		colog.info('ready from ' + username);
 		socket.join(threadID);
 		db.User.find({where : {username : username}}).success(function(user){
 			if (!user) return; //TODO Handle this
@@ -111,7 +113,8 @@ sessionSockets.on('connection', function(err, socket, session){
 			});
 
 			db.Thread.findOrCreate({id : threadID}).success(function(thread){
-				if (!thread) { //TODO Handle this
+				if (!thread) {
+					colog.error("Couldn't find thread with ID " + threadID);
 					return;
 				}
 				thread.emitEvents(function(data){
