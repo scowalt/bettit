@@ -7,7 +7,7 @@ describe('Database tests:', function(){
 		db.sequelize.sync({force : true}).success(function(){
 			done();
 		}).error(function(error){
-				done(error);
+				throw error;
 			});
 	});
 
@@ -177,7 +177,7 @@ describe('Database tests:', function(){
 								assert.equal(event.title, events[0].values.title);
 								done();
 							}).error(function(error){
-									done(error);
+									throw error;
 								});
 						});
 					});
@@ -188,10 +188,10 @@ describe('Database tests:', function(){
 								assert.equal(t.id, thread.id);
 								done();
 							}).error(function(err){
-									done(err);
+									throw err;
 								});
 						}).error(function(err){
-								done(err);
+								throw err;
 							});
 					});
 
@@ -201,7 +201,7 @@ describe('Database tests:', function(){
 								done();
 							})
 						}).error(function(err){
-								done(err);
+								throw err;
 							});
 					});
 				});
@@ -240,7 +240,7 @@ describe('Database tests:', function(){
 							done();
 						})
 					}).error(function(err){
-							done(err);
+							throw err;
 						});
 				});
 
@@ -299,12 +299,14 @@ describe('Database tests:', function(){
 
 	describe('Given a user', function(){
 		var userInfo = {
-			username : 'testuser01'
+			username : 'testuser01',
+			money    : 500
 		};
 
 		before(function(done){
 			db.User.create(userInfo).success(function(user){
 				if (!user) return;
+				userInfo.id = user.values.id;
 				done();
 			})
 		});
@@ -378,12 +380,35 @@ describe('Database tests:', function(){
 							done();
 						});
 					});
+				});
+
+				describe('when the user bets on outcome 1', function(){
+					var amount = 50;
+
+					before(function(done){
+						db.User.find({where : userInfo}).success(function(user){
+							db.Outcome.find({where : outcome1Info}).success(function(outcome){
+								db.Bet.createBet(outcome, user, amount,
+									function(error){
+										if (error) throw error;
+										done();
+									});
+							});
+						});
+					});
+
+					it('the user has the correct amount of money', function(done){
+						db.User.find({where : {id : userInfo.id}}).success(function(user){
+							assert.equal(userInfo.money - amount, user.values.money);
+							done();
+						});
+					});
 				})
 			});
 
 			describe('where the user moderates the thread', function(){
 				before(function(done){
-					db.User.find({where : userInfo}).success(function(user){
+					db.User.find(userInfo.id).success(function(user){
 						db.Thread.find({where : threadInfo}).success(function(thread){
 							user.addThread(thread).success(function(){
 								done();
@@ -393,7 +418,7 @@ describe('Database tests:', function(){
 				});
 
 				it('the user appears as a moderator of the thread', function(done){
-					db.User.find({where : userInfo}).success(function(user){
+					db.User.find(userInfo.id).success(function(user){
 						user.getThreads().success(function(threads){
 							for (var i = 0; i < threads.length; i++) {
 								var thread = threads[i];

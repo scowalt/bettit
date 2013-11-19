@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes){
 			 * @param outcome required
 			 * @param user required
 			 * @param amount required
-			 * @param callback (err) Called after the bet is created, or err
+			 * @param callback (err)
 			 */
 			createBet : function(outcome, user, amount, callback){
 				var Bet = this;
