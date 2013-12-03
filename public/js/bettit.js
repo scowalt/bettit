@@ -204,7 +204,7 @@ $(document).ready(function(){
 			outcomeID : outcomeID
 		});
 
-	})
+	});
 });
 
 /**
