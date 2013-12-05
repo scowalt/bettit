@@ -370,29 +370,57 @@ app.get('/logout', function(req, res){
 /**
  * Thread route with thread title in url
  */
-app.get('/r/:subreddit/comments/:thread/', ensureAuthenticated, function(req, res){
+app.get('/r/:subreddit/comments/:thread', ensureAuthenticated, function(req, res){
 	threadFunction(req, res);
 });
 
 /**
  * Thread route without thread title in url
  */
-app.get('/r/:subreddit/comments/:thread/:title/', ensureAuthenticated,
+app.get('/r/:subreddit/comments/:thread/:title', ensureAuthenticated,
 	function(req, res){
 		threadFunction(req, res);
-	});
+	}
+);
+
+/**
+ * User page 
+ */
+app.get('/u/:username', function(req,res){
+	colog.info('Routing /u/' + req.params.username);
+	userFunction(req,res);
+});
+
+/**
+ * User page using /user/ 
+ */
+app.get('/user/:username', function(req, res){
+	colog.info('Routing /user/' + req.params.username);
+	userFunction(req,res);
+});
 
 /**
  * PRIVATE HELPERS
  */
+function userFunction(req,res){
+	db.User.find({where : {username: req.params.username}}).success(
+		function onSuccess(user){
+			res.render('user', {
+				user : user.values.username,
+				money : user.values.money
+			});
+		}
+	);
+}
+
 function threadFunction(req, res){
 	var thread_id = req.params.thread;
 	var username = req.session.passport.user.name;
 	db.User.find({where : {username : username}}).success(function(user){
 		if (!user) return; // TODO Handle
-		user.isModeratorOf(thread_id, function(bool){
+		user.isModeratorOf(thread_id, function onResult(bool){
 			res.render('thread', {
-				user     : req.user.name,
+				user	 : req.user.name,
 				mod      : bool,
 				threadID : thread_id
 			});
