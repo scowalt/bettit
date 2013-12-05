@@ -142,12 +142,12 @@ sessionSockets.on('connection', function(err, socket, session){
 								data.betOn = false;
 								io.sockets.in(thread_id).emit('event_response',
 									data);
-							})
+							});
 						});
 					db.Thread.find({where : {id : thread_id}}).success(function(thread){
 						thread.addEvent(event).success(function(){
 							finished();
-						})
+						});
 					});
 					for (var i = 0; i < len; i++) {
 						var outcome_title = data.outcomes[i];
@@ -187,7 +187,7 @@ sessionSockets.on('connection', function(err, socket, session){
 							socket.emit('event_response', data);
 						});
 					});
-				})
+				});
 			});
 		});
 	});
@@ -217,12 +217,12 @@ sessionSockets.on('connection', function(err, socket, session){
 														data);
 												});
 										});
-								})
-							})
-					})
+								});
+							});
+					});
 				});
 			});
-		})
+		});
 	});
 	socket.on('close', function(data){
 		colog.info('close recieved from ' + username);
@@ -253,7 +253,7 @@ sessionSockets.on('connection', function(err, socket, session){
 															data.betOn = outcomeID;
 															socket.emit('event_response',
 																data);
-														})
+														});
 												});
 										});
 									});
@@ -261,10 +261,10 @@ sessionSockets.on('connection', function(err, socket, session){
 							);
 						});
 					});
-				})
-			})
+				});
+			});
 		});
-	})
+	});
 });
 
 /**
@@ -397,7 +397,7 @@ function threadFunction(req, res){
 				threadID : thread_id
 			});
 		});
-	})
+	});
 }
 
 function parseThreadID(link){
