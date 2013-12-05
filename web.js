@@ -337,7 +337,7 @@ app.get('/auth/reddit', function(req, res, next){
  */
 app.get('/auth/reddit/callback', function(req, res, next){
 	// Check for origin via state token
-	if (req.query.state == req.session.state) {
+	// if (req.query.state == req.session.state) {
 		passport.authenticate('reddit', function(err, user, info){
 			if (!user) {
 				return res.redirect('/');
@@ -353,10 +353,10 @@ app.get('/auth/reddit/callback', function(req, res, next){
 				return res.redirect(req.session.redirect_to);
 			});
 		})(req, res, next);
-	}
-	else {
-		next(new Error(403));
-	}
+	// }
+	// else {
+		// next(new Error(403));
+	// }
 });
 
 /**
