@@ -14,9 +14,9 @@ var colog = require('colog');
 /**
  * MODULE IMPORTS
  */
-var db = require('./models')('bettit', false);
-var secrets = require('./config/secrets.js');
 var prefs = require('./config/prefs.js');
+var db = require('./models')('bettit', prefs.logging.mysql);
+var secrets = require('./config/secrets.js');
 var routes = require('./routes')(passport);
 
 /**
@@ -82,7 +82,7 @@ app.configure(function(){
 	app.use(express.static(__dirname + '/public'));
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'ejs');
-	// app.use(express.logger());
+	if (prefs.logging.express) app.use(express.logger());
 	app.use(express.favicon());
 	app.use(cookieParser);
 	app.use(express.session({

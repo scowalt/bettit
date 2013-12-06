@@ -24,3 +24,11 @@ exports.port = 8080;
  * Server url 
  */
 exports.server_url = 'http://bettit.us';
+
+/**
+ * Express logging preferences
+ */
+exports.logging = {
+	express : false,
+	mysql : false
+};
