@@ -1,10 +1,8 @@
 /**
  * LIBRARY IMPORTS
  */
-// https://github.com/Slotos/passport-reddit/blob/master/examples/login/app.js
 var express = require('express');
 var passport = require('passport');
-var crypto = require('crypto');
 var request = require('request');
 var SnuOwnd = require('snuownd');
 var RedditStrategy = require('passport-reddit').Strategy;
@@ -19,7 +17,7 @@ var colog = require('colog');
 var db = require('./models')('bettit', false);
 var secrets = require('./config/secrets.js');
 var prefs = require('./config/prefs.js');
-var routes = require('./routes');
+var routes = require('./routes')(passport);
 
 /**
  * CONSTANTS
@@ -322,61 +320,21 @@ function sendThreadInfo(thread_id, socket){
 /**
  * EXPRESS ROUTING
  */
-/**
- * Authentication route
- */
-app.get('/auth/reddit', function(req, res, next){
-	req.session.state = crypto.randomBytes(32).toString('hex');
-	passport.authenticate('reddit', {
-		state    : req.session.state,
-		duration : 'permanent'
-	})(req, res, next);
-});
+// authentication
+app.get('/auth/reddit', routes.auth.reddit);
+app.get('/auth/reddit/callback', routes.auth.redditCallback);
 
-/**
- * Authentication callback
- */
-app.get('/auth/reddit/callback', function(req, res, next){
-	// Check for origin via state token
-	// if (req.query.state == req.session.state) {
-		passport.authenticate('reddit', function(err, user, info){
-			if (!user) {
-				return res.redirect('/');
-			}
-			if (err) {
-				return next(new Error(403));
-			}
-			req.logIn(user, function(err){
-				if (err) {
-					return next(new Error(403));
-				}
-				// return where the user was before
-				return res.redirect(req.session.redirect_to);
-			});
-		})(req, res, next);
-	// }
-	// else {
-		// next(new Error(403));
-	// }
-});
-
-/**
- * Logout
- */
+// logout
 app.get('/logout', function(req, res){
 	req.logout();
 	res.redirect('/');
 });
 
-/**
- * Thread pages
- */
+// thread pages
 app.get('/r/:subreddit/comments/:thread', ensureAuthenticated, routes.thread);
 app.get('/r/:subreddit/comments/:thread/:title', ensureAuthenticated, routes.thread);
 
-/**
- * User pages
- */
+// user pages
 app.get('/u/:username', routes.user);
 app.get('/user/:username', routes.user);
 
