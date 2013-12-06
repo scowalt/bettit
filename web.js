@@ -369,49 +369,20 @@ app.get('/logout', function(req, res){
 });
 
 /**
- * Thread route with thread title in url
+ * Thread pages
  */
-app.get('/r/:subreddit/comments/:thread', ensureAuthenticated, function(req, res){
-	threadFunction(req, res);
-});
+app.get('/r/:subreddit/comments/:thread', ensureAuthenticated, routes.thread);
+app.get('/r/:subreddit/comments/:thread/:title', ensureAuthenticated, routes.thread);
 
 /**
- * Thread route without thread title in url
- */
-app.get('/r/:subreddit/comments/:thread/:title', ensureAuthenticated,
-	function(req, res){
-		threadFunction(req, res);
-	}
-);
-
-/**
- * User page 
+ * User pages
  */
 app.get('/u/:username', routes.user);
-
-/**
- * User page using /user/ 
- */
 app.get('/user/:username', routes.user);
 
 /**
  * PRIVATE HELPERS
  */
-function threadFunction(req, res){
-	var thread_id = req.params.thread;
-	var username = req.session.passport.user.name;
-	db.User.find({where : {username : username}}).success(function(user){
-		if (!user) return; // TODO Handle
-		user.isModeratorOf(thread_id, function onResult(bool){
-			res.render('thread', {
-				user	 : req.user.name,
-				mod      : bool,
-				threadID : thread_id
-			});
-		});
-	});
-}
-
 function parseThreadID(link){
 	var idx = link.indexOf('/comments/');
 	var ss = link.substring(idx + 10);
