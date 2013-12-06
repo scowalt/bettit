@@ -74,8 +74,7 @@ passport.use(new RedditStrategy({
 }));
 
 /**
- * Configure express
- * NOTE: The order of this configuration is VERY important
+ * Configure express NOTE: The order of this configuration is VERY important
  */
 app.configure(function(){
 	app.use(express.bodyParser());
@@ -106,7 +105,7 @@ sessionSockets.on('connection', function(err, socket, session){
 		colog.info('ready from ' + username);
 		socket.join(threadID);
 		db.User.find({where : {username : username}}).success(function(user){
-			if (!user) return; //TODO Handle this
+			if (!user) return; // TODO Handle this
 			socket.emit('money_response', {
 				money : user.values.money
 			});
@@ -166,16 +165,16 @@ sessionSockets.on('connection', function(err, socket, session){
 		var outcomeID = data.outcomeID;
 		var amount = data.amount ? data.amount : prefs.default_bet;
 		db.User.find({where : {username : username}}).success(function(user){
-			if (!user) return; //TODO Handle
+			if (!user) return; // TODO Handle
 			db.Outcome.find(outcomeID).success(function(outcome){
-				if (!outcome) return; //TODO Handle
+				if (!outcome) return; // TODO Handle
 				db.Bet.createBet(outcome, user, amount, function(err){
 					if (err) {
 						console.log("ERROR: " + err);
 						return;
 					}
 					db.User.find({where : {username : username}}).success(function(user){
-						if (!user) return; //TODO Handle
+						if (!user) return; // TODO Handle
 						socket.emit('money_response', {
 							money : user.values.money
 						});
@@ -193,11 +192,11 @@ sessionSockets.on('connection', function(err, socket, session){
 	socket.on('lock', function(data){
 		var eventID = data.eventID;
 		db.User.find({where : {username : username}}).success(function(user){
-			if (!user) return; //TODO Handle
+			if (!user) return; // TODO Handle
 			db.Event.find({where : {id : eventID}}).success(function(event){
 				if (!event) return; // TODO Handle
 				event.getThread().success(function(thread){
-					if (!thread) return; //TODO Handle
+					if (!thread) return; // TODO Handle
 					user.isModeratorOf(thread.id, function(bool){
 						if (!bool) {
 							// can't lock thread if not mod
@@ -233,7 +232,8 @@ sessionSockets.on('connection', function(err, socket, session){
 				event.getThread().success(function(thread){
 					if (!thread) return; // TODO Handle this
 					user.isModeratorOf(thread.id, function(bool){
-						if (!bool) return; // isn't moderator, can't close event
+						if (!bool) return; // isn't moderator, can't close
+											// event
 						event.calculatePot(function(pot){
 							event.declareWinner(data.outcomeID, pot,
 								function(error){
@@ -268,18 +268,20 @@ sessionSockets.on('connection', function(err, socket, session){
 
 /**
  * Calls callback on every user in a room
+ * 
  * @param roomID
- * @param callback (socket, user)
+ * @param callback
+ *            (socket, user)
  */
 function forEveryUserInRoom(roomID, callback){
 	io.sockets.clients(roomID)
 		.forEach(function(socket){
 			sessionSockets.getSession(socket,
 				function(err, session){
-					if (err) return; //TODO Handle
+					if (err) return; // TODO Handle
 					db.User.find({where : {username : session.passport.user.name}})
 						.success(function(user){
-							if (!user) return; //TODO Handle
+							if (!user) return; // TODO Handle
 							callback(socket, user);
 						});
 				});
@@ -289,7 +291,7 @@ function forEveryUserInRoom(roomID, callback){
 function sendThreadInfo(thread_id, socket){
 	var path = 'http://redd.it/' + thread_id;
 	request({uri : path}, function(error, response, body){
-		if (error) return; //TODO Handle
+		if (error) return; // TODO Handle
 		var path = 'http://reddit.com' + response.request.path + '.json';
 		request({ uri : path }, function(error, response, body){
 			if (error) throw error; // TODO Handle
