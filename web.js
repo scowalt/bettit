@@ -26,8 +26,8 @@ var routes = require('./routes');
  */
 var REDDIT_CONSUMER_KEY = secrets.reddit.consumer.key;
 var REDDIT_CONSUMER_SECRET = secrets.reddit.consumer.secret;
-var SERVER_URL = "http://bettit.us";
-var PORT = 8080;
+var SERVER_URL = prefs.server_url;
+var PORT = prefs.port;
 
 /**
  * SETUP

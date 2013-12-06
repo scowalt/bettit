@@ -14,3 +14,13 @@ exports.default_bet = 20;
  * WARNING: DON'T SET THIS TO TRUE EVER
  */
 exports.force_sync = false;
+
+/**
+ * Port the app will listen on 
+ */
+exports.port = 8080;
+
+/**
+ * Server url 
+ */
+exports.server_url = 'http://bettit.us';
