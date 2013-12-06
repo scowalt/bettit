@@ -19,6 +19,7 @@ var colog = require('colog');
 var db = require('./models')('bettit', true);
 var secrets = require('./config/secrets.js');
 var prefs = require('./config/prefs.js');
+var routes = require('./routes');
 
 /**
  * CONSTANTS
@@ -386,34 +387,16 @@ app.get('/r/:subreddit/comments/:thread/:title', ensureAuthenticated,
 /**
  * User page 
  */
-app.get('/u/:username', function(req,res){
-	colog.info('Routing /u/' + req.params.username);
-	userFunction(req,res);
-});
+app.get('/u/:username', routes.user);
 
 /**
  * User page using /user/ 
  */
-app.get('/user/:username', function(req, res){
-	colog.info('Routing /user/' + req.params.username);
-	userFunction(req,res);
-});
+app.get('/user/:username', routes.user);
 
 /**
  * PRIVATE HELPERS
  */
-function userFunction(req,res){
-	db.User.find({where : {username: req.params.username}}).success(
-		function onSuccess(user){
-			if (!user) return; // TODO Serve special page for user not found
-			res.render('user', {
-				user : user.values.username,
-				money : user.values.money
-			});
-		}
-	);
-}
-
 function threadFunction(req, res){
 	var thread_id = req.params.thread;
 	var username = req.session.passport.user.name;
