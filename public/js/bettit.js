@@ -171,7 +171,7 @@ $(document).ready(function(){
 		});
 		if (outcomeID) io.emit('bet', {
 			outcomeID : outcomeID
-		})
+		});
 	});
 
 	/**
@@ -184,7 +184,7 @@ $(document).ready(function(){
 		var eventID = formID.replace('event_', '').replace('_form', '');
 		io.emit('lock', {
 			eventID : eventID
-		})
+		});
 	});
 
 	/**
