@@ -16,7 +16,7 @@ var colog = require('colog');
 /**
  * MODULE IMPORTS
  */
-var db = require('./models')('bettit', true);
+var db = require('./models')('bettit', false);
 var secrets = require('./config/secrets.js');
 var prefs = require('./config/prefs.js');
 var routes = require('./routes');
