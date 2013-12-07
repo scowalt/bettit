@@ -18,6 +18,7 @@ var prefs = require('./config/prefs.js');
 var db = require('./models')('bettit', prefs.logging.mysql);
 var secrets = require('./config/secrets.js');
 var routes = require('./routes')(passport);
+var middleware = require('./middleware');
 
 /**
  * CONSTANTS
@@ -333,8 +334,8 @@ app.get('/logout', function(req, res){
 });
 
 // thread pages
-app.get('/r/:subreddit/comments/:thread', ensureAuthenticated, routes.thread);
-app.get('/r/:subreddit/comments/:thread/:title', ensureAuthenticated, routes.thread);
+app.get('/r/:subreddit/comments/:thread', middleware.ensureAuthenticated, routes.thread);
+app.get('/r/:subreddit/comments/:thread/:title', middleware.ensureAuthenticated, routes.thread);
 
 // user pages
 app.get('/u/:username', routes.user);
@@ -351,22 +352,4 @@ function parseThreadID(link){
 
 function parseSubreddit(link){
 	return link.substring(link.indexOf('/r/') + 3, link.indexOf('/comments/'));
-}
-
-/**
- * MIDDLEWARE
- */
-function ensureAuthenticated(req, res, next){
-	if (req.isAuthenticated()) {
-		db.User.findOrCreate({
-			username : req.user.name}).success(function(user){
-				next();
-			}).error(function(){
-				console.log("Error finding or adding user!");
-			});
-	}
-	else {
-		req.session.redirect_to = req.path;
-		res.redirect('/auth/reddit');
-	}
 }
