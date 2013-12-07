@@ -59,11 +59,11 @@ module.exports = function(sequelize, DataTypes){
 						bet.getOutcome().success(function(outcome){
 							outcome.getEvent().success(function(event){
 								if (event_id == event.values.id) {
-									colog.success('\t\tthis bet was for the event!');
+									// this bet was for the event
 									return callback(outcome.values.id);
 								}
 								else {
-									colog.info('\t\tthis bet wasn\'t for the event');
+									// this bet wasn't for the event
 									finished();
 								}
 							});
