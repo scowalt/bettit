@@ -247,7 +247,7 @@ sessionSockets.on('connection', function(err, socket, session){
 				if (!event) return; // TODO Handle this
 				event.getThread().success(function(thread){
 					if (!thread) return; // TODO Handle this
-					user.isModeratorOf(thread.id, function(bool){
+					user.isModeratorOf(thread.values.redditID, function(bool){
 						if (!bool) return; // isn't moderator, can't close
 											// event
 						event.calculatePot(function(pot){

@@ -13,7 +13,7 @@ exports.default_bet = 20;
  * If true, tables will be dropped every server restart.
  * WARNING: DON'T SET THIS TO TRUE EVER
  */
-exports.force_sync = true;
+exports.force_sync = false;
 
 /**
  * Port the app will listen on 
