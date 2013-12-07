@@ -5,7 +5,6 @@ var express = require('express');
 var passport = require('passport');
 var RedditStrategy = require('passport-reddit').Strategy;
 var RedisStore = require('connect-redis')(express);
-var _ = require('underscore');
 var SessionSockets = require('session.socket.io');
 var colog = require('colog');
 var force = require('express-force-domain');
@@ -110,40 +109,7 @@ sessionSockets.on('connection', function(err, socket, session){
 		return socketHandlers.ready(socket, session, threadRedditID);
 	});
 	socket.on('add_event', function(data){
-		colog.info("add_event recieved from " + username);
-		var threadRedditID = data.threadID;
-		db.User.find({where : {username : username}}).success(function(user){
-			if (!user) return;
-			user.isModeratorOf(threadRedditID, function(bool){
-				if (!bool) return;
-				db.Event.create({title : data.title}).success(function(event){
-					var len = data.outcomes.length;
-					var finished = _.after(len + 1,
-						function onEventCreation(){
-							event.emitEvent(function(data){
-								data.betOn = false;
-								io.sockets.in(threadRedditID).emit('event_response',
-									data);
-							});
-						});
-					db.Thread.find({where : {redditID : threadRedditID}}).success(function(thread){
-						colog.info("adding event " + event.id + " to thread " + thread.redditID);
-						thread.addEvent(event).success(function(){
-							finished();
-						});
-					});
-					for (var i = 0; i < len; i++) {
-						var outcome_title = data.outcomes[i];
-						db.Outcome.create({title : outcome_title, order : i})
-							.success(function(outcome){
-								event.addOutcome(outcome).success(function(){
-									finished();
-								});
-							});
-					}
-				});
-			});
-		});
+		return socketHandlers.addEvent(io, socket, session, data);
 	});
 	socket.on('bet', function(data){
 		colog.info('bet recieved from ' + username);
