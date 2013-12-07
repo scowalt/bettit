@@ -3,8 +3,6 @@
  */
 var express = require('express');
 var passport = require('passport');
-var request = require('request');
-var SnuOwnd = require('snuownd');
 var RedditStrategy = require('passport-reddit').Strategy;
 var RedisStore = require('connect-redis')(express);
 var _ = require('underscore');
@@ -20,6 +18,7 @@ var db = require('./models')('bettit', prefs.logging.mysql);
 var secrets = require('./config/secrets.js');
 var routes = require('./routes')(passport);
 var middleware = require('./middleware');
+var socketHandlers = require('./sockets');
 
 /**
  * CONSTANTS
@@ -43,7 +42,7 @@ var sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
 db.sequelize.sync({ force : prefs.force_sync }).complete(function(err){
 	if (err)
 		throw err;
-	colog.info("Database sync completed");
+	colog.info('Database sync completed');
 });
 
 
@@ -102,31 +101,13 @@ app.configure(function(){
  * SOCKET.IO ROUTING
  */
 sessionSockets.on('connection', function(err, socket, session){
-	if (err) return; // TODO Handle this
+	if (err) {
+		colog.error('Error on socket connection');
+		return; // TODO Handle this
+	}
 	var username = session.passport.user.name;
 	socket.on('ready', function onReady(threadRedditID){
-		colog.info('ready from ' + username + ' at page ' + threadRedditID);
-		socket.join(threadRedditID);
-		db.User.find({where : {username : username}}).success(function(user){
-			if (!user) return; // TODO Handle this
-			socket.emit('money_response', {
-				money : user.values.money
-			});
-
-			db.Thread.findOrCreate({redditID : threadRedditID}).success(function(thread){
-				if (!thread) {
-					colog.error("Couldn't find thread with ID " + threadRedditID);
-					return;
-				}
-				thread.emitEvents(function(data){
-					user.betOn(data.id, function(outcome_id){
-						data.betOn = outcome_id;
-						socket.emit('event_response', data);
-					});
-				});
-			});
-		});
-		sendThreadInfo(threadRedditID, socket);
+		return socketHandlers.ready(socket, session, threadRedditID);
 	});
 	socket.on('add_event', function(data){
 		colog.info("add_event recieved from " + username);
@@ -302,43 +283,6 @@ function forEveryUserInRoom(roomID, callback){
 						});
 				});
 		});
-}
-
-function sendThreadInfo(thread_id, socket){
-	var path = 'http://redd.it/' + thread_id;
-	request({uri : path}, function(error, response, body){
-		if (error) {
-			colog.error("Error loading info from reddit");
-			return; // TODO Handle
-		}
-		var path = 'http://reddit.com' + response.request.path + '.json';
-		request({ uri : path }, function(error, response, body){
-			if (error) {
-				colog.error("Error loading info from reddit");
-				return; // TODO Handle
-			}
-			var json = JSON.parse(body);
-			var post = json[0]['data']['children'][0]['data'];
-			var title = post['title'];
-			// TODO Handle different content types
-			var content = post['is_self']
-				? SnuOwnd.getParser().render(post['selftext'])
-				: post['url'];
-			var author = post['author'];
-
-			socket.emit('thread_info_response', {
-				title   : title,
-				content : content
-			});
-
-			db.User.findOrCreate({username : author}).success(function(user){
-				db.Thread.findOrCreate({redditID : thread_id}).success(function(thread){
-					// TODO Don't add if duplicate
-					thread.addUser(user).success(function(){});
-				});
-			});
-		});
-	});
 }
 
 /**
