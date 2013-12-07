@@ -53,20 +53,23 @@ $(document).ready(function(){
 				input.attr('checked', true);
 
 			// set outcome's label
-			var label = $("<span>", {
-				'class' : 'radio inline control-label',
+			var labelContainer = $("<span>", {
+				'class' : 'radio',
 				'for' : 'outcome_' + outcome.id
-			}).text(outcome.title);
+			});
 
-			if (data.status == 'closed' && data.betOn == outcome.id)
-				label.addClass('label');
-			if (data.status == 'closed' && data.winner == outcome.id)
-				label.addClass('label-success');
+			var label = $("<span>").text(outcome.title);
 			
+			if (data.status == 'closed' && data.betOn == outcome.id)
+				label.addClass('label label-default');
+			if (data.status == 'closed' && data.winner == outcome.id)
+				label.addClass('label label-success');
+			
+			labelContainer.append(label);
 			
 			var radio = $("<label>", { 'class' : 'radio inline' })
 			radio.append(input);
-			radio.append(label);
+			radio.append(labelContainer);
 
 			var row = $("<div>", { 'class' : 'controls-row' });
 			row.append(radio);
