@@ -28,7 +28,7 @@ describe('Database tests:', function(){
 
 				describe('when set as the moderater of a thread', function(){
 					var thread = {
-						id : 'asdf12'
+						redditID : 'asdf12'
 					};
 
 					before(function(done){
@@ -59,7 +59,7 @@ describe('Database tests:', function(){
 							db.User.find({
 								where : user
 							}).success(function(u){
-									u.isModeratorOf(thread.id, function(bool){
+									u.isModeratorOf(thread.redditID, function(bool){
 										assert.equal(bool, true);
 										done();
 									})
@@ -138,7 +138,7 @@ describe('Database tests:', function(){
 	describe('A thread', function(){
 		describe('with valid information', function(){
 			var thread = {
-				id : 'atqr2e'
+				redditID : 'atqr2e'
 			};
 
 			it('cannot be found before being added to the database', function(done){
@@ -185,7 +185,7 @@ describe('Database tests:', function(){
 					it('thread should appear as event\'s owner', function(done){
 						db.Event.find(event.id).success(function(e){
 							e.getThread().success(function(t){
-								assert.equal(t.id, thread.id);
+								assert.equal(t.values.redditID, thread.redditID);
 								done();
 							}).error(function(err){
 									throw err;
@@ -211,7 +211,7 @@ describe('Database tests:', function(){
 						db.Thread.find({
 							where : thread
 						}).success(function(info){
-								assert.equal(info.id, thread.id);
+								assert.equal(info.values.redditID, thread.redditID);
 								done();
 							});
 					});
@@ -313,7 +313,7 @@ describe('Database tests:', function(){
 
 		describe('and a thread', function(){
 			var threadInfo = {
-				id : 'qwerty2'
+				redditID : 'qwerty2'
 			};
 
 			before(function(done){
@@ -422,7 +422,7 @@ describe('Database tests:', function(){
 						user.getThreads().success(function(threads){
 							for (var i = 0; i < threads.length; i++) {
 								var thread = threads[i];
-								if (thread.values.id === threadInfo.id)
+								if (thread.values.redditID === threadInfo.redditID)
 									done()
 							}
 						});
