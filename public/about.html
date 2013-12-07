@@ -3,19 +3,19 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Bettit - <%= user %></title>
+		<title>Bettit</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="">
 		<meta name="author" content="">
 		<link rel="icon" type="image/png" href="/favicon.ico">
 
 		<!-- Bootstrap styles -->
+		<link href="/css/bootstrap.min.css" rel="stylesheet">
 		<style>
 			body {
 				padding-top: 60px; /* make the container go to the bottom of the topbar */
 			}
 		</style>
-		<link href="/css/bootstrap.min.css" rel="stylesheet">
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -23,6 +23,7 @@
 		<![endif]-->
 	</head>
 	<body>
+		<!-- NAV BAR -->
 		<!-- NAV BAR -->
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
@@ -40,7 +41,7 @@
 						<li>
 							<a href="/">Home</a>
 						</li>
-						<li>
+						<li class="active">
 							<a href="/about.html">About</a>
 						</li>
 					</ul>
@@ -48,18 +49,35 @@
 			</div>
 		</div>
 
-
-		<!-- CONTENT -->
 		<div class="container">
+			<!-- Details -->
 			<div class="row">
 				<div class="col-xs-12">
-					<b>Username:</b> <%= user %>
-					<br/>
-					<b>Money:</b> <%= money %>
+					<h1 id="howto">How to use</h1>
+					<h2>As the poster of a thread</h2>
+					<ol class="list-group">
+						<li class="list-group-item">1) Navigate to your thread page on reddit.com</li>
+						<li class="list-group-item">2) Replace the "reddit.com" domain with "bettit.us" to be brought to your thread's bettit page</li>
+						<li class="list-group-item">3) Click the "Add Event" button</li>
+					</ol>
+					Once an event is locked, no further bets can be placed. When an event is closed, payouts go to those who selected the correct outcome.
+					<h2>As a standard user</h2>
+					<ol class="list-group">
+						<li class="list-group-item">1) Navigate to a thread page on reddit.com</li>
+						<li class="list-group-item">2) Replace the "reddit.com" domain with "bettit.us" to be brought to your thread's bettit page</li>
+						<li class="list-group-item">3) Bet on any existing event!</li>
+					</ol>
 				</div>
 			</div>
-		</div>
 
+			<!-- Footer -->
+			<hr>
+			<footer>
+				<p>
+					© Scott Walters 2013
+				</p>
+			</footer>
+		</div>
 		<!-- BOOTSTRAP JAVASCRIPT -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
