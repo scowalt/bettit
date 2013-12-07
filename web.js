@@ -104,7 +104,6 @@ sessionSockets.on('connection', function(err, socket, session){
 		colog.error('Error on socket connection');
 		return; // TODO Handle this
 	}
-	var username = session.passport.user.name;
 	socket.on('ready', function onReady(threadRedditID){
 		return socketHandlers.ready(socket, session, threadRedditID);
 	});
@@ -142,16 +141,3 @@ app.get('/r/:subreddit/comments/:thread/:title', middleware.ensureAuthenticated,
 // user pages
 app.get('/u/:username', routes.user);
 app.get('/user/:username', routes.user);
-
-/**
- * PRIVATE HELPERS
- */
-function parseThreadID(link){
-	var idx = link.indexOf('/comments/');
-	var ss = link.substring(idx + 10);
-	return ss.substring(0, ss.indexOf('/'));
-}
-
-function parseSubreddit(link){
-	return link.substring(link.indexOf('/r/') + 3, link.indexOf('/comments/'));
-}
