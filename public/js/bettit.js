@@ -60,8 +60,8 @@ $(document).ready(function(){
 
 			var label = $("<span>").text(outcome.title);
 			
-			if (data.status == 'closed' && data.betOn == outcome.id)
-				label.addClass('label label-default');
+			if (data.status == 'closed' && data.betOn == outcome.id && data.winner !== outcome.id)
+				label.addClass('label label-danger');
 			if (data.status == 'closed' && data.winner == outcome.id)
 				label.addClass('label label-success');
 			
@@ -95,7 +95,7 @@ $(document).ready(function(){
 		// put form inside of div
 		var html = $("<div>", {
 			'id'    : "event_" + data.id,
-			'class' : 'well well-small'
+			'class' : 'well well-sm'
 		}).append($('<h4>').text(data.title)).append(form);
 
 		// replace event if it's already on the page

@@ -307,10 +307,16 @@ function forEveryUserInRoom(roomID, callback){
 function sendThreadInfo(thread_id, socket){
 	var path = 'http://redd.it/' + thread_id;
 	request({uri : path}, function(error, response, body){
-		if (error) return; // TODO Handle
+		if (error) {
+			colog.error("Error loading info from reddit");
+			return; // TODO Handle
+		}
 		var path = 'http://reddit.com' + response.request.path + '.json';
 		request({ uri : path }, function(error, response, body){
-			if (error) throw error; // TODO Handle
+			if (error) {
+				colog.error("Error loading info from reddit");
+				return; // TODO Handle
+			}
 			var json = JSON.parse(body);
 			var post = json[0]['data']['children'][0]['data'];
 			var title = post['title'];
