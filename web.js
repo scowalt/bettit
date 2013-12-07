@@ -10,6 +10,7 @@ var RedisStore = require('connect-redis')(express);
 var _ = require('underscore');
 var SessionSockets = require('session.socket.io');
 var colog = require('colog');
+var force = require('express-force-domain');
 
 /**
  * MODULE IMPORTS
@@ -93,6 +94,7 @@ app.configure(function(){
 	}));
 	app.use(passport.initialize());
 	app.use(passport.session());
+	app.use(force(prefs.server_url));
 	app.use(app.router);
 });
 
