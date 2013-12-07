@@ -5,7 +5,7 @@ module.exports = {
 		var username = session.passport.user.name;
 		colog.info('close recieved from ' + username);
 		var eventID = data.eventID;
-		db.User.find({where : {username : username}}).success(function(user){
+		db.User.find({where : {username : username}}).success(function onUser(user){
 			if (!user) return; // TODO Handle this
 			db.Event.find({where : {id : eventID}}).success(function(event){
 				if (!event) return; // TODO Handle this
