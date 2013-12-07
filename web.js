@@ -34,7 +34,7 @@ var PORT = prefs.port;
  */
 var app = express();
 var io = require('socket.io').listen(app.listen(PORT));
-io.set('log level', 1); // don't debug log socket.io
+io.set('log level', prefs.logging.socket);
 var sessionStore = new RedisStore;
 var cookieParser = express.cookieParser(secrets.secret);
 var sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
