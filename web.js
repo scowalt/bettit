@@ -104,18 +104,18 @@ app.configure(function(){
 sessionSockets.on('connection', function(err, socket, session){
 	if (err) return; // TODO Handle this
 	var username = session.passport.user.name;
-	socket.on('ready', function(threadID){
-		colog.info('ready from ' + username);
-		socket.join(threadID);
+	socket.on('ready', function onReady(threadRedditID){
+		colog.info('ready from ' + username + ' at page ' + threadRedditID);
+		socket.join(threadRedditID);
 		db.User.find({where : {username : username}}).success(function(user){
 			if (!user) return; // TODO Handle this
 			socket.emit('money_response', {
 				money : user.values.money
 			});
 
-			db.Thread.findOrCreate({id : threadID}).success(function(thread){
+			db.Thread.findOrCreate({redditID : threadRedditID}).success(function(thread){
 				if (!thread) {
-					colog.error("Couldn't find thread with ID " + threadID);
+					colog.error("Couldn't find thread with ID " + threadRedditID);
 					return;
 				}
 				thread.emitEvents(function(data){
@@ -126,26 +126,27 @@ sessionSockets.on('connection', function(err, socket, session){
 				});
 			});
 		});
-		sendThreadInfo(threadID, socket);
+		sendThreadInfo(threadRedditID, socket);
 	});
 	socket.on('add_event', function(data){
 		colog.info("add_event recieved from " + username);
-		var thread_id = data.threadID;
+		var threadRedditID = data.threadID;
 		db.User.find({where : {username : username}}).success(function(user){
 			if (!user) return;
-			user.isModeratorOf(thread_id, function(bool){
+			user.isModeratorOf(threadRedditID, function(bool){
 				if (!bool) return;
 				db.Event.create({title : data.title}).success(function(event){
 					var len = data.outcomes.length;
 					var finished = _.after(len + 1,
-						function(){
+						function onEventCreation(){
 							event.emitEvent(function(data){
 								data.betOn = false;
-								io.sockets.in(thread_id).emit('event_response',
+								io.sockets.in(threadRedditID).emit('event_response',
 									data);
 							});
 						});
-					db.Thread.find({where : {id : thread_id}}).success(function(thread){
+					db.Thread.find({where : {redditID : threadRedditID}}).success(function(thread){
+						colog.info("adding event " + event.id + " to thread " + thread.redditID);
 						thread.addEvent(event).success(function(){
 							finished();
 						});
@@ -192,23 +193,35 @@ sessionSockets.on('connection', function(err, socket, session){
 			});
 		});
 	});
-	socket.on('lock', function(data){
+	socket.on('lock', function onLock(data){
 		var eventID = data.eventID;
+		colog.info('lock recieved from ' + username + ' for event ' + eventID);
 		db.User.find({where : {username : username}}).success(function(user){
-			if (!user) return; // TODO Handle
+			if (!user) {
+				colog.error("Couldn't find user with name " + username);
+				return; // TODO Handle
+			}
 			db.Event.find({where : {id : eventID}}).success(function(event){
-				if (!event) return; // TODO Handle
-				event.getThread().success(function(thread){
-					if (!thread) return; // TODO Handle
-					user.isModeratorOf(thread.id, function(bool){
+				if (!event) {
+					colog.error("Couldn't find event with id " + eventID);
+					return; // TODO Handle
+				}
+				event.getThread().success(function gotThread(thread){
+					if (!thread){
+						colog.error("Couldn't find thread of event " + eventID);
+						return; // TODO Handle
+					}
+					colog.info('event ' + eventID + ' is in thread ' + thread.redditID);
+					user.isModeratorOf(thread.redditID, function(bool){
 						if (!bool) {
-							// can't lock thread if not mod
+							colog.error(username + ' is not a mod of thread ' + thread.redditID);
 							return;
 						}
 						event.updateAttributes({status : 'locked'})
-							.success(function(){
+							.success(function onUpdatedLocked(){
+								colog.success("locked event " + eventID);
 								event.emitEvent(function(data){
-									forEveryUserInRoom(thread.id,
+									forEveryUserInRoom(thread.redditID,
 										function(socket, user){
 											user.betOn(event.id,
 												function(outcome_id){
@@ -225,7 +238,7 @@ sessionSockets.on('connection', function(err, socket, session){
 			});
 		});
 	});
-	socket.on('close', function(data){
+	socket.on('close', function onClose(data){
 		colog.info('close recieved from ' + username);
 		var eventID = data.eventID;
 		db.User.find({where : {username : username}}).success(function(user){
@@ -245,7 +258,7 @@ sessionSockets.on('connection', function(err, socket, session){
 									event.status = 'closed';
 									event.save().success(function(){
 										event.emitEvent(function(data){
-											forEveryUserInRoom(thread.values.id,
+											forEveryUserInRoom(thread.values.redditID,
 												function(socket, user){
 													socket.emit('money_response', {
 														money : user.values.money
@@ -313,7 +326,7 @@ function sendThreadInfo(thread_id, socket){
 			});
 
 			db.User.findOrCreate({username : author}).success(function(user){
-				db.Thread.findOrCreate({id : thread_id}).success(function(thread){
+				db.Thread.findOrCreate({redditID : thread_id}).success(function(thread){
 					// TODO Don't add if duplicate
 					thread.addUser(user).success(function(){});
 				});

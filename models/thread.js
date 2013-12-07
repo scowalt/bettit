@@ -1,11 +1,20 @@
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define("Thread", {
 		id : {
-			type       : DataTypes.STRING,
+			type       : DataTypes.BIGINT.UNSIGNED,
 			allowNull  : false,
+			autoIncrement : true,
 			primaryKey : true,
-			comment    : "Taken from reddit",
+			comment    : "Given by sequelize",
 			notEmpty   : true
+		},
+		redditID : {
+			type : DataTypes.STRING,
+			allowNull : false,
+			primaryKey : false,
+			comment : "Given by reddit",
+			notEmpty : true,
+			unique : true
 		}
 	}, {
 		instanceMethods : {

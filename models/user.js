@@ -28,16 +28,18 @@ module.exports = function(sequelize, DataTypes){
 		instanceMethods : {
 			/**
 			 * Does this user moderated thread with id thread_id
-			 * @param thread_id String
+			 * @param thread_id Reddit ID
 			 * @param callback (bool)
 			 */
 			isModeratorOf : function(thread_id, callback){
+				colog.question("\tis " + this.values.username + ' a mod of ' + thread_id);
 				this.getThreads().success(function(threads){
 					for (var i = 0; i < threads.length; i++) {
 						var thread = threads[i];
-						if (thread.id === thread_id)
+						if (thread.redditID === thread_id)
 							return callback(true);
 					}
+					
 					return callback(false);
 				});
 			},

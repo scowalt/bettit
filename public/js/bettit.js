@@ -23,12 +23,13 @@ $(document).ready(function(){
 		$("#thread_title").text(data.title);
 		$("#thread_content").html(data.content);
 	});
-	io.on('event_response', function(data){
+	io.on('event_response', function onEventResponse(data){
 		console.log(data);
 		// base form
 		var form = $("<form>", {
 			'id'    : "event_" + data.id + "_form",
-			'class' : 'event_form'
+			'class' : 'event_form',
+			'role' : 'form'
 		});
 
 		// append outcomes to form
@@ -36,7 +37,7 @@ $(document).ready(function(){
 			var outcome = data.outcomes[i];
 
 			// create radio button
-			var radio = $("<input>", {
+			var input = $("<input>", {
 				'type'  : 'radio',
 				'name'  : 'event_' + data.id + '_radios',
 				'id'    : 'outcome_' + outcome.id,
@@ -47,21 +48,31 @@ $(document).ready(function(){
 			if ((data.status == 'closed') ||
 				((data.betOn !== false) && (data.status == 'open')) ||
 				((data.status == 'locked') && (!(window.mod))))
-				radio.attr('disabled', true);
+				input.attr('disabled', true);
 			if (data.betOn == outcome.id && !(window.mod && data.status == 'locked'))
-				radio.attr('checked', true);
+				input.attr('checked', true);
 
 			// set outcome's label
-			var label = $("<span>").text(outcome.title);
+			var label = $("<span>", {
+				'class' : 'radio inline control-label',
+				'for' : 'outcome_' + outcome.id
+			}).text(outcome.title);
 
 			if (data.status == 'closed' && data.betOn == outcome.id)
-				label.attr('class', 'label');
+				label.addClass('label');
 			if (data.status == 'closed' && data.winner == outcome.id)
-				label.attr('class', 'label label-success');
+				label.addClass('label-success');
+			
+			
+			var radio = $("<label>", { 'class' : 'radio inline' })
+			radio.append(input);
+			radio.append(label);
 
-
+			var row = $("<div>", { 'class' : 'controls-row' });
+			row.append(radio);
+			
 			// add radio button (with label) to form
-			form.append($("<label>", {'class' : 'radio'}).append(radio).append(label));
+			form.append(row);
 		}
 
 		// append buttons to form
@@ -82,7 +93,7 @@ $(document).ready(function(){
 		var html = $("<div>", {
 			'id'    : "event_" + data.id,
 			'class' : 'well well-small'
-		}).append($('<h5>').text(data.title)).append(form);
+		}).append($('<h4>').text(data.title)).append(form);
 
 		// replace event if it's already on the page
 		if ($('#event_' + data.id).length)
@@ -96,23 +107,30 @@ $(document).ready(function(){
 	 * Handles creating the add event form
 	 */
 	$(document).on("click", "#add_event_button", function(){
-		var event_title_html = $("<input>", {
+		var event_title = $("<input>", {
 			'id'          : 'add_event_title',
 			'class'       : 'input-block-level',
 			'type'        : 'text',
 			'placeholder' : 'Event title'
 		}).attr('required', 'required');
-		var submit_button_html = $("<input>", {
+		
+		var submit_button = $("<input>", {
 			'type'  : 'submit',
 			'class' : 'btn btn-primary',
 			'value' : 'Add Event'
 		});
 
+		var form = $('<form>', {
+			'role' : 'form',
+			'id' : 'add_event_form'
+		});
+		
+		form.append(event_title).append(outcome_html)
+			.append(outcome_html.clone().val(''))
+			.append(submit_button);
+		
 		$("#add_event_span").html($("<div>",
-			{'class' : 'well well-small'}).append($("<form>",
-				{'id' : 'add_event_form'}).append(event_title_html)
-				.append(outcome_html).append(outcome_html.clone().val(''))
-				.append(submit_button_html)));
+			{'class' : 'well well-small'}).append(form));
 	});
 
 	/**
@@ -179,6 +197,7 @@ $(document).ready(function(){
 	 */
 	$(document).on("click", "._lock", function(event){
 		event.preventDefault();
+		console.log("Lock clicked");
 		var $form = $(this).parent('form');
 		var formID = $form.attr('id');
 		var eventID = formID.replace('event_', '').replace('_form', '');
