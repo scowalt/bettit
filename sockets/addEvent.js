@@ -2,6 +2,9 @@ var colog = require('colog');
 var _ = require('underscore');
 
 module.exports = function onAddEvent(io, socket, session, data){
+	if (data.outcomes.length < 2)
+		return; // can't add event with less than 2 outcomes
+	
 	var username = session.passport.user.name;
 	colog.info("add_event recieved from " + username);
 	var threadRedditID = data.threadID;

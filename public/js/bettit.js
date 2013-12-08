@@ -180,13 +180,17 @@ $(document).ready(function(){
 		event.preventDefault();
 		var $add_event_title = $("#add_event_title");
 		var eventTitle = $add_event_title.val();
-		$add_event_title.val('');
 		var $outcomes = $('.add_event_outcome');
 		var outcomes = [];
 		$outcomes.each(function(){
 			var value = $(this).val();
-			$(this).val('');
 			if (value !== '') outcomes.push(value);
+		});
+		if (outcomes.length < 2)
+			return; // need at least 2 outcomes
+		$add_event_title.val('');
+		$outcomes.each(function(){
+			$(this).val('');
 		});
 		io.emit('add_event', {
 			threadID : window.threadID,
