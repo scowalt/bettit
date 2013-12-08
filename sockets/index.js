@@ -3,11 +3,13 @@ var addEvent = require(__dirname + '/addEvent');
 var bet = require(__dirname + '/bet');
 var close = require(__dirname + '/closeLock').close;
 var lock = require(__dirname + '/closeLock').lock;
+var deleteHandler = require(__dirname + '/delete');
 
 module.exports = {
 	addEvent : addEvent,
 	bet : bet,
 	close : close,
+	delete : deleteHandler,
 	lock : lock,
 	ready : ready
 };

@@ -25,9 +25,18 @@ $(document).ready(function(){
 	});
 	io.on('event_response', function onEventResponse(data){
 		console.log(data);
+		
+		var formID = "event_" + data.id + "_form";
+		
+		// if deleting an event
+		if (data.status === 'deleted'){
+			$("#" + formID).parent().remove();
+			return;
+		}
+		
 		// base form
 		var form = $("<form>", {
-			'id'    : "event_" + data.id + "_form",
+			'id'    : formID,
 			'class' : 'event_form',
 			'role' : 'form'
 		});
@@ -78,18 +87,27 @@ $(document).ready(function(){
 			form.append(row);
 		}
 
-		// append buttons to form
+		// append bet button
 		if (data.status === 'open' && data.betOn === false)
 			form.append($("<input>", {
 				'type'  : 'submit',
 				'class' : "btn btn-primary _bet",
 				'value' : 'Bet §20'
 			}));
+		
+		// lock button
 		if (window.mod && data.status === 'open') form.append($("<input>", {
 			'type' : "submit", 'class' : "btn btn-warning _lock", 'value' : 'Lock'
 		}));
+		
+		// close button
 		if (window.mod && data.status === 'locked') form.append($("<input>", {
-			'type' : 'submit', 'class' : 'btn btn-danger _close', 'value' : 'Close'
+			'type' : 'submit', 'class' : 'btn btn-warning _close', 'value' : 'Close'
+		}));
+		
+		// delete button
+		if (window.mod && data.status !== 'closed') form.append($("<input>", {
+			'type' : 'submit', 'class' : 'btn btn-danger _delete', 'value' : 'DELETE'
 		}));
 
 		// put form inside of div
@@ -227,6 +245,17 @@ $(document).ready(function(){
 		});
 
 	});
+	
+	/**
+	 * When an existing event is deleted
+	 */
+	$(document).on("click", "._delete", function(event){
+		event.preventDefault();
+		var $form = $(this).parent('form');
+		var formID = $form.attr('id');
+		var eventID = formID.replace('event_', '').replace('_form', '');
+		io.emit('delete', eventID);
+	})
 });
 
 /**

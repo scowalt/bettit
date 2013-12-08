@@ -26,6 +26,7 @@ module.exports = function(sequelize, DataTypes){
 			/**
 			 * Wraps the event and its outcomes up into a nice JSON packet,
 			 * which is passed to the callback.
+			 * 
 			 * @param callback
 			 */
 			emitEvent : function(callback){
@@ -56,9 +57,13 @@ module.exports = function(sequelize, DataTypes){
 
 			/**
 			 * Set the winner of the event and modify users with their payouts.
-			 * NOTE: THIS WILL NOT CLOSE THE EVENT (you have to do that yourself)
-			 * @param outcomeID Which outcome won
-			 * @param callback (error)
+			 * NOTE: THIS WILL NOT CLOSE THE EVENT (you have to do that
+			 * yourself)
+			 * 
+			 * @param outcomeID
+			 *            Which outcome won
+			 * @param callback
+			 *            (error)
 			 */
 			declareWinner : function(outcomeID, pot, callback){
 				if (!outcomeID || !callback)
@@ -109,7 +114,9 @@ module.exports = function(sequelize, DataTypes){
 
 			/**
 			 * How much money has been bet on this event?
-			 * @param callback (pot)
+			 * 
+			 * @param callback
+			 *            (pot)
 			 */
 			calculatePot : function(callback){
 				if (!callback)
@@ -123,7 +130,7 @@ module.exports = function(sequelize, DataTypes){
 					for (var i = 0; i < outcomes.length; i++) {
 						var outcome = outcomes[i];
 						outcome.getBets().success(function(bets){
-							//once all of the bets for this outcome are done
+							// once all of the bets for this outcome are done
 							var bet_finished = _.after(bets.length + 1, function(){
 								outcome_finished();
 							});
@@ -136,6 +143,57 @@ module.exports = function(sequelize, DataTypes){
 						});
 					}
 				});
+			},
+			
+			/**
+			 * Returns money to users who bet on the event, deletes all bets 
+			 * and outcomes. This method has no effect on closed events. 
+			 * THIS DOES NOT DELETE THE EVENT (needs a better name)
+			 * 
+			 * @param callback
+			 *            (error)
+			 */
+			deleteEvent : function(callback){
+				if (this.values.status === 'closed'){
+					colog.error("Cannot delete closed event");
+					return callback("event is closed");
+				}
+				this.getOutcomes().success(function(outcomes){
+					if (!outcomes){
+						return callback("no outcomes");
+					}
+					var outcomeFinished = _.after(outcomes.length, function afterOutcomes(){
+						return callback(null);
+					})
+					for(var i = 0; i < outcomes.length; i++){
+						var outcome = outcomes[i];
+						outcome.getBets().success(function onBets(bets){
+							var betFinished = _.after(bets.length+1, function afterBets(){
+								outcome.destroy().success(function onDestroy(){
+									outcomeFinished();
+								})
+							});
+							betFinished();
+							for (var b = 0; b < bets.length; b++){
+								var bet = bets[b];
+								(function (bet){bet.getUser().success(function onUser(user){
+									// give user their bet money back
+									if (!user){
+										colog.error("User of bet doesn't exist (for some reason)");
+									} else {
+										user.updateAttributes({
+											money : user.values.money + bet.values.amount
+										}).success(function onUpdate(){
+											bet.destroy().success(function onDestroy(){
+												betFinished();
+											});
+										});
+									}
+								})})(bet);
+							}
+						})
+					}
+				})
 			}
 		}
 	});

@@ -125,6 +125,9 @@ sessionSockets.on('connection', function(err, socket, session) {
 	socket.on('close', function onClose(data) {
 		return socketHandlers.close(io, sessionSockets, socket, session, data);
 	});
+	socket.on('delete', function onDelete(data){
+		return socketHandlers.delete(io, sessionSockets, socket, session, data);
+	})
 });
 
 /**
