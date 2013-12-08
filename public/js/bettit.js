@@ -76,6 +76,11 @@ $(document).ready(function(){
 			
 			labelContainer.append(label);
 			
+			// add badge
+			labelContainer.append($("<span>", {
+				'class' : 'badge'
+			}).text(outcome.bets));
+			
 			var radio = $("<label>", { 'class' : 'radio inline' })
 			radio.append(input);
 			radio.append(labelContainer);

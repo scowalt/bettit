@@ -37,21 +37,31 @@ module.exports = function(sequelize, DataTypes){
 				};
 				this.getOutcomes().success(function(outcomes){
 					var outcomeInfos = [];
-					for (var i = 0; i < outcomes.length; i++) {
-						var outcome = outcomes[i]
-						outcomeInfos.push(
-							{title    : outcome.values.title,
-								id    : outcome.values.id,
-								order : outcome.values.order});
-						if (data.status == 'closed' &&
-							outcome.values.winner === true)
-							data.winner = outcome.values.id;
-					}
-					outcomeInfos.sort(function(o1, o2){
-						return o1.order - o2.order;
+					var outcomeFinished = _.after(outcomes.length, function outcomesDone(){
+						outcomeInfos.sort(function(o1, o2){
+							return o1.order - o2.order;
+						})
+						data.outcomes = outcomeInfos;
+						callback(data);
 					})
-					data.outcomes = outcomeInfos;
-					callback(data);
+					for (var i = 0; i < outcomes.length; i++) {
+						var _outcome = outcomes[i]
+						addOutcome(_outcome);
+						
+						function addOutcome(outcome){
+							outcome.getBets().success(function(bets){
+								outcomeInfos.push({
+									title    : outcome.values.title,
+									id    : outcome.values.id,
+									order : outcome.values.order,
+									bets  : bets.length});
+								if (data.status == 'closed' &&
+									outcome.values.winner === true)
+									data.winner = outcome.values.id;
+								outcomeFinished();
+							})
+						}						
+					}
 				});
 			},
 
@@ -176,20 +186,22 @@ module.exports = function(sequelize, DataTypes){
 							betFinished();
 							for (var b = 0; b < bets.length; b++){
 								var bet = bets[b];
-								(function (bet){bet.getUser().success(function onUser(user){
-									// give user their bet money back
-									if (!user){
-										colog.error("User of bet doesn't exist (for some reason)");
-									} else {
-										user.updateAttributes({
-											money : user.values.money + bet.values.amount
-										}).success(function onUpdate(){
-											bet.destroy().success(function onDestroy(){
-												betFinished();
+								(function (bet){
+									bet.getUser().success(function onUser(user){
+										// give user their bet money back
+										if (!user){
+											colog.error("User of bet doesn't exist (for some reason)");
+										} else {
+											user.updateAttributes({
+												money : user.values.money + bet.values.amount
+											}).success(function onUpdate(){
+												bet.destroy().success(function onDestroy(){
+													betFinished();
+												});
 											});
-										});
-									}
-								})})(bet);
+										}
+									})
+								})(bet);
 							}
 						})
 					}
