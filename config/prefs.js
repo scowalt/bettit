@@ -29,7 +29,7 @@ exports.server_url = 'http://bettit.us';
  * Logging
  */
 exports.logging = {
-	express : false,
+	express : true,
 	mysql : false,
 	socket : 1
 };

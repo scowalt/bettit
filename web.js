@@ -113,7 +113,7 @@ sessionSockets.on('connection', function(err, socket, session) {
 	socket.on('delete', function onDelete(data) {
 		return socketHandlers.delete(io, sessionSockets, socket, session, data);
 	});
-	socket.on('top_threads', function(){
+	socket.on('top_threads', function() {
 		return socketHandlers.topThreads(socket);
 	});
 });
