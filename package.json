@@ -17,6 +17,7 @@
 		"session.socket.io": ">= 0.0.0",
 		"socket.io": ">= 0.0.0",
 		"colog": ">= 0.0.0",
-		"express-force-domain": ">= 0.0.0"
+		"express-force-domain": ">= 0.0.0",
+		"async" : ">= 0.0.0"
 	}
 }
