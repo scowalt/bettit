@@ -1,6 +1,4 @@
-/**
- * LIBRARY IMPORTS
- */
+// LIBRARY IMPORTS
 var express = require('express');
 var passport = require('passport');
 var RedditStrategy = require('passport-reddit').Strategy;
@@ -9,9 +7,7 @@ var SessionSockets = require('session.socket.io');
 var colog = require('colog');
 var force = require('express-force-domain');
 
-/**
- * MODULE IMPORTS
- */
+// MODULE IMPORTS
 var prefs = require('./config/prefs.js');
 var db = require('./models')('bettit', prefs.logging.mysql);
 var secrets = require('./config/secrets.js');
@@ -19,17 +15,13 @@ var routes = require('./routes')(passport);
 var middleware = require('./middleware');
 var socketHandlers = require('./sockets');
 
-/**
- * CONSTANTS
- */
+// CONSTANTS
 var REDDIT_CONSUMER_KEY = secrets.reddit.consumer.key;
 var REDDIT_CONSUMER_SECRET = secrets.reddit.consumer.secret;
 var SERVER_URL = prefs.server_url;
 var PORT = prefs.port;
 
-/**
- * SETUP
- */
+// SETUP
 var app = express();
 var io = require('socket.io').listen(app.listen(PORT));
 io.set('log level', prefs.logging.socket);
@@ -39,16 +31,14 @@ var sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
 
 // sync server
 db.sequelize.sync({
-	force : prefs.force_sync
+	force: prefs.force_sync
 }).complete(function(err) {
 	if (err)
 		throw err;
 	colog.info('Database sync completed');
 });
 
-/**
- * Passport serialization
- */
+// passport serialization
 passport.serializeUser(function(user, done) {
 	done(null, user);
 });
@@ -57,18 +47,16 @@ passport.deserializeUser(function(obj, done) {
 	done(null, obj);
 });
 
-/**
- * Define authentication strategy
- */
+// authentication strategy
 passport.use(new RedditStrategy({
-	clientID : REDDIT_CONSUMER_KEY,
-	clientSecret : REDDIT_CONSUMER_SECRET,
-	callbackURL : SERVER_URL + "/auth/reddit/callback"
+	clientID: REDDIT_CONSUMER_KEY,
+	clientSecret: REDDIT_CONSUMER_SECRET,
+	callbackURL: SERVER_URL + "/auth/reddit/callback"
 }, function(accessToken, refreshToken, profile, done) {
 	process.nextTick(function() {
 		// add user to database when authenticated
 		db.User.findOrCreate({
-			username : profile.name
+			username: profile.name
 		}).success(function(user) {
 			return done(null, profile);
 		});
@@ -76,9 +64,8 @@ passport.use(new RedditStrategy({
 	});
 }));
 
-/**
- * Configure express NOTE: The order of this configuration is VERY important
- */
+// configuring express
+// NOTE: The order of these functions is EXTREMELY important
 app.configure(function() {
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
@@ -90,10 +77,10 @@ app.configure(function() {
 	app.use(express.favicon());
 	app.use(cookieParser);
 	app.use(express.session({
-		store : sessionStore,
-		secret : secrets.secret,
-		cookie : {
-			maxAge : 5 * 365 * 24 * 60 * 60 * 1000
+		store: sessionStore,
+		secret: secrets.secret,
+		cookie: {
+			maxAge: 5 * 365 * 24 * 60 * 60 * 1000
 		}
 	}));
 	app.use(passport.initialize());
@@ -102,9 +89,7 @@ app.configure(function() {
 	app.use(app.router);
 });
 
-/**
- * SOCKET.IO ROUTING
- */
+// SOCKET.IO ROUTING
 sessionSockets.on('connection', function(err, socket, session) {
 	if (err) {
 		colog.error('Error on socket connection');
@@ -125,14 +110,12 @@ sessionSockets.on('connection', function(err, socket, session) {
 	socket.on('close', function onClose(data) {
 		return socketHandlers.close(io, sessionSockets, socket, session, data);
 	});
-	socket.on('delete', function onDelete(data){
+	socket.on('delete', function onDelete(data) {
 		return socketHandlers.delete(io, sessionSockets, socket, session, data);
 	})
 });
 
-/**
- * EXPRESS ROUTING
- */
+// EXPRESS ROUTING
 // authentication
 app.get('/auth/reddit', routes.auth.reddit);
 app.get('/auth/reddit/callback', routes.auth.redditCallback);
@@ -145,9 +128,9 @@ app.get('/logout', function(req, res) {
 
 // thread pages
 app.get('/r/:subreddit/comments/:thread', middleware.ensureAuthenticated,
-		routes.thread);
+	routes.thread);
 app.get('/r/:subreddit/comments/:thread/:title',
-		middleware.ensureAuthenticated, routes.thread);
+	middleware.ensureAuthenticated, routes.thread);
 
 // user pages
 app.get('/u/:username', routes.user);
