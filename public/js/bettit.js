@@ -121,11 +121,18 @@ $(document).ready(function() {
 			'value': 'DELETE'
 		}));
 
+
+		var $eventTitleBar = $("<div>", {'class':'row'});
+		var $title = $("<div>", {'class':'col-xs-10'}).append($("<h4>").text(data.title));
+		var $status = $("<div>", {'class':'col-xs-2'}).text(data.status);
+
+		$eventTitleBar.append($title).append($status);
+
 		// put form inside of div
 		var html = $("<div>", {
 			'id': "event_" + data.id,
 			'class': 'well well-sm'
-		}).append($('<h4>').text(data.title)).append(form);
+		}).append($eventTitleBar).append(form);
 
 		// replace event if it's already on the page
 		if ($('#event_' + data.id).length)
