@@ -131,6 +131,7 @@ app.get('/r/:subreddit/comments/:thread', middleware.ensureAuthenticated,
 	routes.thread);
 app.get('/r/:subreddit/comments/:thread/:title',
 	middleware.ensureAuthenticated, routes.thread);
+app.get('/t/:thread', middleware.ensureAuthenticated, routes.thread);
 
 // user pages
 app.get('/u/:username', routes.user);
