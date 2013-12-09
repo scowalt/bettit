@@ -15,6 +15,13 @@ module.exports = function(sequelize, DataTypes) {
 			comment: "Given by reddit",
 			notEmpty: true,
 			unique: true
+		},
+		title: {
+			type: DataTypes.STRING(300),
+			allowNull : true,
+			primaryKey: false,
+			unique: false,
+			defaultValue: null
 		}
 	}, {
 		instanceMethods: {
