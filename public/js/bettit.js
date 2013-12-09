@@ -67,7 +67,7 @@ $(document).ready(function() {
 				'for': 'outcome_' + outcome.id
 			});
 
-			var label = $("<span>").text(outcome.title);
+			var label = $("<span>", {'class': 'outcome_text'}).text(outcome.title);
 
 			if (data.status == 'closed' && data.betOn == outcome.id && data.winner !== outcome.id)
 				label.addClass('label label-danger');
