@@ -55,6 +55,7 @@ function sendThreadInfo(thread_id, socket) {
 			var json = JSON.parse(body);
 			var post = json[0]['data']['children'][0]['data'];
 			var title = post['title'];
+			var subreddit = post['subreddit'];
 			// TODO Handle different content types
 			var content = post['is_self'] ? SnuOwnd.getParser().render(
 				post['selftext']) : post['url'];
@@ -72,7 +73,8 @@ function sendThreadInfo(thread_id, socket) {
 			}).success(function gotThread(thread) {
 				if (thread.values.title === null) {
 					thread.updateAttributes({
-						title: title
+						title: title,
+						subreddit: subreddit
 					}).success(function threadUpdated() {})
 				}
 			});

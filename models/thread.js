@@ -22,6 +22,13 @@ module.exports = function(sequelize, DataTypes) {
 			primaryKey: false,
 			unique: false,
 			defaultValue: null
+		},
+		subreddit: {
+			type: DataTypes.STRING(300),
+			allowNull : true,
+			primaryKey: false,
+			unique: false,
+			defaultValue: null
 		}
 	}, {
 		instanceMethods: {
