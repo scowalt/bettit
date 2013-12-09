@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Bettit</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		<link rel="icon" type="image/png" href="/favicon.ico">
+<head>
+	<meta charset="utf-8">
+	<title>Bettit</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" type="image/png" href="/favicon.ico">
 
-		<!-- Bootstrap styles -->
-		<link href="/css/bootstrap.min.css" rel="stylesheet">
-		<style>
-			body {
-				padding-top: 60px; /* make the container go to the bottom of the topbar */
-			}
-		</style>
+	<!-- Bootstrap styles -->
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		body {
+			padding-top: 60px; /* make the container go to the bottom of the topbar */
+		}
+	</style>
 
-		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
 		<script src="/js/html5shiv.js"></script>
 		<![endif]-->
@@ -59,6 +59,15 @@
 		</div>
 
 		<div class="container">
+			<!-- Top threads -->
+			<div class="row">
+				<div class="col-xs-12">
+					<h2>Active Threads</h2>
+					<ul class="list-group" id="top_threads">
+					</ul>
+				</div>
+			</div>
+
 			<!-- Details -->
 			<div class="row">
 				<div class="col-xs-6">
@@ -70,24 +79,28 @@
 					<h2>About</h2>
 					<p>Details about the creation of bettit</p>
 					<p><a class="btn btn-default" href="about.html#about" role="button">Learn more</a>
+					</div>
 				</div>
+
+				<!-- Footer -->
+				<hr>
+				<footer>
+					<p>
+						&copy; Scott Walters 2013
+					</p>
+				</footer>
 			</div>
+			<!-- BOOTSTRAP JAVASCRIPT -->
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+			<script src="/js/bootstrap.min.js"></script>
 
-			<!-- Footer -->
-			<hr>
-			<footer>
-				<p>
-					&copy; Scott Walters 2013
-				</p>
-			</footer>
-		</div>
-		<!-- BOOTSTRAP JAVASCRIPT -->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
+			<!-- BETTIT JAVASCRIPT -->
+			<script src="/socket.io/socket.io.js"></script>
+			<script src="/js/index.js"></script>
 
-		<!-- Google Analytics Code -->
-		<script>
-			( function(b, o, i, l, e, r) {
+			<!-- Google Analytics Code -->
+			<script>
+				( function(b, o, i, l, e, r) {
 					b.GoogleAnalyticsObject = l;
 					b[l] || (b[l] = function() {
 						(b[l].q = b[l].q || []).push(arguments);
@@ -98,8 +111,8 @@
 					e.src = '//www.google-analytics.com/analytics.js';
 					r.parentNode.insertBefore(e, r)
 				}(window, document, 'script', 'ga'));
-			ga('create', 'UA-45375037-1');
-			ga('send', 'pageview');
-		</script>
-	</body>
+				ga('create', 'UA-45375037-1');
+				ga('send', 'pageview');
+			</script>
+		</body>
 </html>

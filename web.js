@@ -92,7 +92,7 @@ app.configure(function() {
 // SOCKET.IO ROUTING
 sessionSockets.on('connection', function(err, socket, session) {
 	if (err) {
-		colog.error('Error on socket connection');
+		colog.error(err);
 		return; // TODO Handle this
 	}
 	socket.on('ready', function onReady(threadRedditID) {
@@ -112,7 +112,10 @@ sessionSockets.on('connection', function(err, socket, session) {
 	});
 	socket.on('delete', function onDelete(data) {
 		return socketHandlers.delete(io, sessionSockets, socket, session, data);
-	})
+	});
+	socket.on('top_threads', function(){
+		return socketHandlers.topThreads(socket);
+	});
 });
 
 // EXPRESS ROUTING

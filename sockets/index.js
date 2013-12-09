@@ -4,6 +4,7 @@ var bet = require(__dirname + '/bet');
 var close = require(__dirname + '/closeLock').close;
 var lock = require(__dirname + '/closeLock').lock;
 var deleteHandler = require(__dirname + '/delete');
+var topThreads = require(__dirname + '/topThreads');
 
 module.exports = {
 	addEvent : addEvent,
@@ -11,5 +12,6 @@ module.exports = {
 	close : close,
 	delete : deleteHandler,
 	lock : lock,
-	ready : ready
+	ready : ready,
+	topThreads: topThreads
 };
