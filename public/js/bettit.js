@@ -84,14 +84,12 @@ $(document).ready(function() {
 			var radio = $("<label>", {
 				'class': 'radio inline'
 			})
+
 			radio.append(input);
 			radio.append(labelContainer);
 
-			var row = $("<div>");
-			row.append(radio);
-
 			// add radio button (with label) to form
-			form.append(row);
+			form.append(radio);
 		}
 
 		// append bet button
