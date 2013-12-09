@@ -136,15 +136,29 @@ $(document).ready(function() {
 	});
 
 	/**
+	 * HTML for the outcome inputs in the add_event_form
+	 * @type {*|jQuery|HTMLElement}
+	 */
+	var outcome_html = $("<input>", {
+		'class': 'form-control add_event_outcome',
+		'type': 'text',
+		'placeholder': 'Outcome'
+	});
+
+	var $add_event_span = $("#add_event_span");
+
+	/**
 	 * Handles creating the add event form
 	 */
-	$(document).on("click", "#add_event_button", function() {
-		var event_title = $("<input>", {
+	$(document).on("click", "#add_event_button", function onClick() {
+		var event_title = $("<div>", {
+			'class': 'form-group col-xs-12'
+		}).append($("<input>", {
 			'id': 'add_event_title',
-			'class': 'input-block-level',
+			'class': 'form-control',
 			'type': 'text',
 			'placeholder': 'Event title'
-		}).attr('required', 'required');
+		}).attr('required', 'required'));
 
 		var submit_button = $("<input>", {
 			'type': 'submit',
@@ -153,12 +167,19 @@ $(document).ready(function() {
 		});
 
 		var form = $('<form>', {
+			'class': 'form-horizontal',
 			'role': 'form',
 			'id': 'add_event_form'
 		});
 
-		form.append(event_title).append(outcome_html)
-			.append(outcome_html.clone().val(''))
+		var outcomeContainer = $('<div>', {
+			'class': 'form-group col-xs-12',
+			'id': 'outcome-input-container'
+		});
+
+		outcomeContainer.append(outcome_html).append(outcome_html.clone().val(''));
+
+		form.append(event_title).append(outcomeContainer)
 			.append(submit_button);
 
 		$("#add_event_span").html($("<div>", {
@@ -167,22 +188,10 @@ $(document).ready(function() {
 	});
 
 	/**
-	 * HTML for the outcome inputs in the add_event_form
-	 * @type {*|jQuery|HTMLElement}
-	 */
-	var outcome_html = $("<input>", {
-		'class': 'input-block-level add_event_outcome',
-		'type': 'text',
-		'placeholder': 'Outcome'
-	});
-
-	var $add_event_span = $("#add_event_span");
-
-	/**
 	 * When a mod types into the last outcome input
 	 */
-	$add_event_span.on("keypress", ".add_event_outcome:last", function onLastOutcomeTyped() {
-		$(this).after(outcome_html.clone().val(''));
+	$(document).on("keypress", ".add_event_outcome:last", function onLastOutcomeTyped() {
+		$(this).parent().append(outcome_html.clone().val(''));
 	});
 
 	/**
