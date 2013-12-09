@@ -7,7 +7,8 @@ module.exports = function(socket) {
 		threads.forEach(function(thread) {
 			data.push({
 				'title': thread.title,
-				'redditID': thread.redditID
+				'redditID': thread.redditID,
+				'subreddit': thread.subreddit
 			});
 		});
 		return socket.emit('top_threads_response', data);
