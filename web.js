@@ -93,7 +93,6 @@ app.configure(function() {
 sessionSockets.on('connection', function(err, socket, session) {
 	if (err) {
 		colog.error(err);
-		return; // TODO Handle this
 	}
 	socket.on('ready', function onReady(threadRedditID) {
 		return socketHandlers.ready(socket, session, threadRedditID);
