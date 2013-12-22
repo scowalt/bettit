@@ -2,3 +2,4 @@
 /meta
 /.svn
 /sftp-config.json
+*.sublime-workspace
